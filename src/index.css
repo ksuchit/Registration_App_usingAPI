@@ -1,13 +1,51 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.header{
+  max-height: 150px;
+  background-color: rgb(1, 1, 10);
+  color: aliceblue;
+  display: flex;
+  justify-content: space-between;
+  position: sticky;
+  top: 0%;
+  z-index: 1;
+ 
 }
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.h-img{
+  height: 50px;
+  width: 50px;
+}
+.h-nav NavLink{
+  margin: 10px;
+ 
+}
+.registration{
+  margin: 2% auto;
+  padding: 2%;
+  max-width: fit-content;
+  box-shadow: 11px 12px 13px 12px rgb(105, 104, 104);
+}
+.loginPage{
+  margin: 2% auto;
+  box-shadow: 11px 12px 13px 12px rgb(105, 104, 104);
+}
+.btn{
+  border: none;
+  color: white;
+}
+.profile-img{
+  
+  border-radius: 50%;
+  border: 1px solid rgb(1, 1, 10);
+}
+.my-profile{
+ 
+  padding: 4%;
+  margin: 2% auto;
+  box-shadow: 11px 12px 13px 12px rgb(105, 104, 104);
+  max-width: fit-content;
+}
+.changePwd{
+  padding: 2%;
+  margin: 2% auto;
+  box-shadow: 11px 12px 13px 12px rgb(105, 104, 104);
+  max-width: fit-content;
 }
