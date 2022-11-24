@@ -33,7 +33,7 @@ export default function ChangePassword(){
             <p>please enter registered Email id</p>
             <label>Email</label>
             <input type="email" placeholder="Enter Email"
-                onChange={(e) => setEmail(e.target.value)}
+             onChange={(e) => setEmail(e.target.value)}
             />
             <label>Password</label>
              <input type="text" placeholder="password"
