@@ -7,11 +7,13 @@ import {ImProfile} from 'react-icons/im'
 import { MdWork } from 'react-icons/md'
 import {BsFillKeyFill} from 'react-icons/bs'
 import {CgLogOff} from 'react-icons/cg'
+import changePassword from "../CompanyDetails/ChangePassword";
 
 export default function DropDown() {
   
   const [live,setIsLive]=useContext(loginContext)
-  const [user]=useState(JSON.parse(localStorage.getItem('userName')) || "")
+  const [user] = useState(JSON.parse(localStorage.getItem('userName')) || "")
+  const[show,setShow]=useState(false)
   const logOutClicked = () =>
     {
         setIsLive(null)
@@ -19,7 +21,11 @@ export default function DropDown() {
         if(live)
         toast.success("Successfully LogOut !");
   }
-  
+  const changePasswordBtn = () => {
+    console.log("chnage password")
+    setShow(true)
+  }
+
   return (
     <>
      
@@ -36,13 +42,17 @@ export default function DropDown() {
         <Dropdown.Menu variant="dark" align={{ lg: 'end' }}>
           <Dropdown.Item href="/my-profile" ><ImProfile className="mx-2"/>Profile</Dropdown.Item>
           <Dropdown.Item href="/my-profile/companyInfo" ><MdWork className="mx-2"/>Company Info</Dropdown.Item>
-          <Dropdown.Item href="#/action-2"><BsFillKeyFill className="mx-2"/>Change Password</Dropdown.Item>
+          <Dropdown.Item onClick={changePasswordBtn}><BsFillKeyFill className="mx-2"/>Change Password</Dropdown.Item>
           <Dropdown.Item href="/auth/login" onClick={logOutClicked}><CgLogOff size={20} className="mx-2"/>Logout</Dropdown.Item>
           <Dropdown.Divider />
           <Dropdown.Item href="#/action-4">Separated link</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
 
+      <changePassword
+        show={show}
+        setShow={setShow}
+      />
     </>
   );
 }

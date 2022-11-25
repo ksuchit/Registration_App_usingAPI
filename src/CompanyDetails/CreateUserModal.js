@@ -21,13 +21,19 @@ export default function CreateUserModal(props) {
       console.log(data)
       CreateUserPost('/users',data)
                 .then((response) => {
-                    console.log(response)
-                      props.setUsers((prev)=>([...prev,data]))
+                  console.log(response)
+                  data._id = response.data._id;
+                  console.log(data)
+                  props.setUsers((prev) => ([...prev, data]))
+                  //it will automatically close modal after successfully registered
+                  props.onHide()
                 })
                 .catch((error) => {
                   console.log(error)
                   toast.error(error.response.data.message)
                 })
+      
+     
     }
   
   

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import { FaUserAlt } from "react-icons/fa";
 import { MdWork, MdEmail} from "react-icons/md";
-import { DeleteUser, getUsers, patch, secureGet, UpdateUserInfo } from "../Services/HttpService";
+import {  getUsers, secureGet } from "../Services/HttpService";
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
 import { ImProfile } from 'react-icons/im'
 import CreateUserModal from "./CreateUserModal";
@@ -16,16 +16,13 @@ export default function UpdateCompany() {
   const [editUserShow, setEditUserShow] = useState(false);
   const [editRoleShow, setEditRoleShow] = useState(false);
   const [deleteUserShow, setDeleteUserShow] = useState(false);
-  const [id, setId] = useState();
+  const [editUserDetails, setEditUserDetails] = useState({});
   const [modalShow, setModalShow] = useState(false);
   const [modalShowUpdate, setModalShowUpdate] = useState(false);
-    const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
-  const currentUser_Update = {
-            email: currentUser.email,
-            name:currentUser._org?.name
-  }
-    const [orgData,setOrgData]=useState({})
+  
+  const [orgData,setOrgData]=useState({})
     useEffect(() => {
         const fetchData = async () => {
             // axios get
@@ -34,21 +31,13 @@ export default function UpdateCompany() {
                     console.log(response.data);
                     setCurrentUser(response.data);
                     setOrgData(response.data?._org)
-        
+                    
                 })
                 .catch((err) => {
                     console.log(err);
                 });
         
               delete orgData._id;
-            //axios patch for update
-            await patch('/users/org', orgData)
-                .then((response) => {
-                    console.log(response)
-                })
-                .catch((error) => {
-                    console.log(error)
-                })
                   
             //axios getUsers for employees details
             await getUsers('/users')
@@ -62,27 +51,30 @@ export default function UpdateCompany() {
         };
         fetchData();
     }, [])
-    
+
+    const currentUser_Update = {
+      email: currentUser?.email,
+      name: currentUser._org?.name
+    }
   //edit user details like name,email
-  const editUser = (id) => {
+  const editUser = (user) => {
     console.log(users)
-    console.log(id)
-    setId(id)
+    console.log(user)
+    setEditUserDetails(user)
     setEditUserShow(true)
-    // UpdateUserInfo('/users/:userId',data)
   } 
 
   //edit user role 
-  const editRole = (id) => {
-    console.log(id)
-    setId(id)
+  const editRole = (user) => {
+    console.log(user)
+    setEditUserDetails(user)
     setEditRoleShow(true)
   }
 
   //delete user
-  const deleteUser = (id) => {
-    console.log(id)
-    setId(id)
+  const deleteUser = (user) => {
+    console.log(user)
+    setEditUserDetails(user)
     setDeleteUserShow(true)
   }
   return (
@@ -123,7 +115,7 @@ export default function UpdateCompany() {
         
         <CreateUserModal
           show={modalShow}
-          onHide={() => setModalShow(false)}
+          onHide={()=>setModalShow(false)}
           setUsers={setUsers}
         />
         <UpdateProfileModal
@@ -135,17 +127,21 @@ export default function UpdateCompany() {
         <EditUser
           show={editUserShow}  
           setShow={setEditUserShow}
-          id={id}
+          editUser={editUserDetails}
+          setEditUser={setEditUserDetails}
+          setUsers={setUsers}
         />
         <EditRole
           show={editRoleShow}
           setShow={setEditRoleShow}
-          id={id}
+          editUser={editUserDetails}
+          setUsers={setUsers}
         />
         <DeleteUserModal
           show={deleteUserShow}
           setShow={setDeleteUserShow}
-          id={id}
+          editUser={editUserDetails}
+          setUsers={setUsers}
         />
       </div>
       <div className="usersData">
@@ -167,12 +163,12 @@ export default function UpdateCompany() {
                   <td>{i + 1}</td>
                   <td>{user.name}</td>
                   <td>{user.role}
-                    <AiFillEdit size={25} onClick={ ()=>editRole(user._id)} /></td>
+                    <AiFillEdit size={25} onClick={ ()=>editRole(user)} /></td>
                   <td>{user.email}</td>
                   <td><AiFillEdit size={25} className='mx-2'
-                        onClick={()=>editUser(user._id)}
+                        onClick={()=>editUser(user)}
                   />
-                          <AiFillDelete size={25}  onClick={()=>deleteUser(user._id)} /></td>
+                          <AiFillDelete size={25}  onClick={()=>deleteUser(user)} /></td>
                 </tr>
               );
             })}

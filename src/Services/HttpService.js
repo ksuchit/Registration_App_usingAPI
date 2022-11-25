@@ -38,3 +38,7 @@ export function UpdateUserRole(url, data) {
 export function DeleteUser(url) {
     return(axiosInstance.delete(`${url}`))
 }
+
+export function Change_Password(url, data) {
+    return(axiosInstance.post(`${url}`,data))
+}

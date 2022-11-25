@@ -2,22 +2,54 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { Form } from 'semantic-ui-react';
 import { UpdateUserInfo } from '../Services/HttpService';
 
 export default function EditUser(props) {
     const {
         register,
-        handleSubmit,
-      } = useForm();
+      handleSubmit,
+      resetField,
+    } = useForm({
+      defaultValues: {
+        name: props.editUser?.name,
+        email: props.editUser?.email,
+        password:""
+      }
+      });
    
-    const onSubmit = (data) => {
-        console.log(data)
-        UpdateUserInfo(`/users/${props.id}`,data)
-    }
+  const handleClick = () => {
+    resetField('name');
+    resetField('email');
+    resetField('password')
+  }
   
+    const onSubmit = (data) => {
+      console.log(data)
+      UpdateUserInfo(`/users/${props.editUser._id}`, data)
+        .then((response) => {
+          console.log(response)
+          props.setUsers((prev) => prev.map((item) => {
+            if (item._id === props.editUser._id)
+            {
+              item.name = data.name
+              item.email=data.email
+            }
+            return item;
+          }))
+          //when user is successfully updated it will close modal automatically
+          props.setShow(false)
+        })
+        .catch((error) => {
+          console.log(error)
+          toast.error(error.response.data.message)
+        })
+        
+    }
+
   return (
-      <Modal show={props.show} onHide={()=>props.setShow(false)}>
+      <Modal show={props.show}  onHide={()=>props.setShow(false)} onExit={handleClick}>
        
           <Modal.Body>
               <div>
@@ -26,14 +58,14 @@ export default function EditUser(props) {
                   <Form onSubmit={handleSubmit(onSubmit)} className="reg-form  h-auto p-2">
                     <Form.Field className="d-flex flex-column p-1">
                         <label>Full Name</label>
-                        <input type="text" placeholder="Enter Full Name"
+                        <input type="text" defaultValue={props.editUser?.name}
                         className="p-2"
                         {...register("name")}
                         />
                     </Form.Field>
                     <Form.Field className="d-flex flex-column p-1">
                         <label>Company Email</label>
-                        <input type="text" placeholder="Enter Company Email"
+                        <input type="text" defaultValue={props.editUser?.email}
                         className="p-2"
                         { ...register("email")}                    
                         />
@@ -57,7 +89,8 @@ export default function EditUser(props) {
           </Button>
           <Button variant="primary" onClick={()=>props.setShow(false)}>
             Save Changes
-          </Button>
+        </Button>
+        
         </Modal.Footer>
       </Modal>
   );

@@ -11,7 +11,7 @@ import Loader from "./Loader/Loader";
 import PublicRouting from "./Auth/PublicRouting";
 import ProtectedRouting from "./Auth/ProtectedRouting";
 import getToken from "./Services/TokenService";
-import UpdateCompany from "./Components/UpdateCompany";
+import UpdateCompany from "./CompanyDetails/UpdateCompany";
 const loginContext = createContext();
 function App() {
 
