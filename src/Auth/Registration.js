@@ -4,11 +4,12 @@ import {useForm} from "react-hook-form"
 import { NavLink, useNavigate } from "react-router-dom";
 import securePost from "../Services/HttpService";
 import toast from "react-hot-toast";
+import { GoogleReCaptcha, GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 
 export default function Registration() {
     const navigate = useNavigate();
     const [isEmailRegistered, setIsEmailRegistered] = useState(false);
-
+    const [captchaToken, setCaptchaToken] = useState();
     const {
         register,
         watch,
@@ -18,9 +19,10 @@ export default function Registration() {
    
     const onSubmit = (data) => {
         delete data.Rpassword;
-
+        delete data.checkBox;
+        data.captcha = captchaToken;
         //axios post
-        securePost("/auth/register?captcha=false",data)
+        securePost("/auth/register",data)
             .then((response) => {
                 console.log(response)
                 toast.success('Successfully Registered')
@@ -62,9 +64,13 @@ export default function Registration() {
                 { errors.company && <p style={{color: "red"}}>company name is Required</p>}
                 <Form.Field className="d-flex flex-column p-1">
                     <label>Email</label>
-                    <input type="text" placeholder="Enter Email"
+                    <input type="text" placeholder="Enter Email" 
                     className="p-2"
-                    {...register("email",{required:true , pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i })}
+                        {...register("email",
+                            {
+                                required: true, pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                                onChange:()=> setIsEmailRegistered(false)
+                            })}
                     />
                 </Form.Field>
                 {errors.email && <p style={{ color: "red" }}>email is Required</p>}
@@ -84,7 +90,7 @@ export default function Registration() {
                     <input type="password" placeholder="Enter Password"
                     className="p-2"
                         {...register("Rpassword", {
-                             minLength: 4,
+                             minLength: 8,
                             validate: (val) => {
                                 if (watch('password') !== val) {
                                     return "Your passwords do no match";
@@ -93,8 +99,24 @@ export default function Registration() {
                         })}
                     />
                 </Form.Field>
-                {errors.Rpassword && <p style={{color: "red"}}>Your passwords do no match</p>}
+                {errors.Rpassword && <p style={{ color: "red" }}>Your passwords do no match</p>}
                 
+                {/* captcha */}
+                <Form.Field className="p-1">
+                <div className="form-check">
+                <input className="form-check-input" type="checkbox" value="" id="defaultCheck1"
+                    {...register('checkBox',{required:true})}          
+                />
+                <label className="form-check-label" for="defaultCheck1">
+                    Keep me Logged In
+                </label>
+                </div>
+                    
+                <GoogleReCaptchaProvider reCaptchaKey="6LevmbQZAAAAAMSCjcpJmuCr4eIgmjxEI7bvbmRI">
+                    <GoogleReCaptcha onVerify={(token)=> setCaptchaToken(token)} />
+                </GoogleReCaptchaProvider>
+                </Form.Field>
+                {errors.checkBox?.type === 'required' && <p style={{color: "red"}}>checkBox must selected </p>}
                 <Button type="submit" className="m-1 p-2" style={{backgroundColor:"rgb(1, 1, 10)",color:"white"}}>Submit</Button>
             </Form>
             <NavLink style={{ textDecoration: 'none' }} to='/auth/login' >Already have an account? </NavLink>

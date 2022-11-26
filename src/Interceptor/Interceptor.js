@@ -1,5 +1,6 @@
 import axios from "axios";
 import toast from "react-hot-toast";
+import setLoader from "../Services/LoaderService";
 import getToken, { removeToken } from "../Services/TokenService";
 
 const axiosInstance = axios.create({
@@ -13,7 +14,7 @@ const axiosInstance = axios.create({
 
     request.headers['Authorization'] = `Bearer ${getToken()}`;
     console.log(request)
-    // setProgress(true)
+    // setLoader(true)
     return request;
   },
     ((err) => {
@@ -24,12 +25,12 @@ const axiosInstance = axios.create({
   axiosInstance.interceptors.response.use(
     (response) => {
       console.log(response)
-      // setProgress(false)
+      // setLoader(false)
       return response;
     },
     ((err) => {
       console.log(err)
-      // setProgress(false)
+      // setLoader(false)
       if (err.response.request.status === 401) {
         removeToken();
         toast.success('LogOut Due to Token Expired')

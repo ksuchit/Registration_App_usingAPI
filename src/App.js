@@ -12,10 +12,12 @@ import PublicRouting from "./Auth/PublicRouting";
 import ProtectedRouting from "./Auth/ProtectedRouting";
 import getToken from "./Services/TokenService";
 import UpdateCompany from "./CompanyDetails/UpdateCompany";
+import { getLoader } from "./Services/LoaderService";
+import ChangePasswordModal from "./CompanyDetails/ChangePasswordModal";
 const loginContext = createContext();
 function App() {
 
-//  const [progress, setProgress] = useState(false);
+  //  const [progress, setProgress] = useState(false || getLoader());
   console.log(getToken())
   const [live, setIsLive] = useState(getToken() || null);
 
@@ -41,6 +43,7 @@ function App() {
             <Route path="/" element={<Navigate to={"/my-profile"} />} />
               <Route path="/auth/changePassword" element={<ChangePassword />} />
               <Route path="/my-profile/companyInfo" element={<UpdateCompany />} />
+              <Route path="/auth/change-password" element={< ChangePasswordModal />} />
           </Route>
 
           <Route path="*" element={<NotFound />} />
