@@ -14,6 +14,7 @@ import getToken from "./Services/TokenService";
 import UpdateCompany from "./CompanyDetails/UpdateCompany";
 import { getLoader } from "./Services/LoaderService";
 import ChangePasswordModal from "./CompanyDetails/ChangePasswordModal";
+import ForgetPasswordModal from "./Auth/ForgetPasswordModal";
 const loginContext = createContext();
 function App() {
 
@@ -35,13 +36,13 @@ function App() {
           <Route element={<PublicRouting />}>
             <Route path="/auth/login" element={<Login />} />
             <Route path="/auth/registration" element={<Registration />} />
+            <Route path="/auth/forgot-password" element={<ForgetPasswordModal />} />
           </Route>
 
           {/* ProtectedRouting */}
           <Route element={<ProtectedRouting />}>
             <Route path="/my-profile" element={<MyProfile />} />
             <Route path="/" element={<Navigate to={"/my-profile"} />} />
-              <Route path="/auth/changePassword" element={<ChangePassword />} />
               <Route path="/my-profile/companyInfo" element={<UpdateCompany />} />
               <Route path="/auth/change-password" element={< ChangePasswordModal />} />
           </Route>

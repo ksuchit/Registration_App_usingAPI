@@ -1,6 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Button, Form } from 'semantic-ui-react';
+import { Change_Password } from '../Services/HttpService';
 
 export default function ChangePasswordModal() {
 
@@ -12,7 +13,15 @@ export default function ChangePasswordModal() {
   } = useForm();
 
   const onSubmit = (data) => {
+    delete data.confirm_password;
     console.log(data)
+    Change_Password('/auth/change-password',data)
+    .then((response)=>{
+      console.log(response)
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
   }
 
   return (
@@ -37,7 +46,7 @@ export default function ChangePasswordModal() {
         {errors.new_password?.type === 'minLength' && <p style={{ color: 'red' }}>minimum 8 charachters needed</p>}
 
         <Form.Field className="d-flex flex-column p-1">
-            <label>Confirm Password</label>
+            <label>Confirm_Password</label>
             <input type='password' placeholder='Confirm Password'
               {...register('confirm_password',
                 {

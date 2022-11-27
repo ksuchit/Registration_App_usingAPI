@@ -1,20 +1,20 @@
 import React, {  useContext, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import  { setToken } from "../Services/TokenService";
-import securePost from "../Services/HttpService";
+import securePost  from "../Services/HttpService";
 import toast from "react-hot-toast";
 import { Button, Form } from "semantic-ui-react";
 import { useForm } from "react-hook-form";
 import { loginContext } from "../App";
 import { GoogleReCaptcha, GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
+import ForgetPasswordModal from "./ForgetPasswordModal";
 
 
 export default function Login() {
     const [,setIsLive] = useContext(loginContext);
     const navigate = useNavigate();
-    const[emailOrPasswordIsWrong,setEmailOrPasswordIsWrong]=useState(false);
     const [captchaToken, setCaptchaToken] = useState();
-
+    
     const {
         register,
         handleSubmit,
@@ -25,6 +25,7 @@ export default function Login() {
     const onSubmit = (data) => {
         delete data.checkBox
         data.captcha = captchaToken;
+        console.log(data)
         //axios post
         securePost("/auth/login",data)
             .then((response) => {
@@ -41,15 +42,11 @@ export default function Login() {
                 console.log(err);
                 toast.error(err.response.data.message);
                 setToken(null)
-                if (err.response.data.message === 'Incorrect email or password')
-                setEmailOrPasswordIsWrong(true)
+               
             }
         )
     }
     
-    const changePwd=()=>{
-        navigate('/auth/changePassword')
-    }
     return (
         <div className="loginPage w-25 h-auto p-2">
             <h1>Login</h1>
@@ -78,7 +75,7 @@ export default function Login() {
                 <input className="form-check-input" type="checkbox" value="" id="defaultCheck1"
                     {...register("checkBox",{required:true})}            
                 />
-                <label className="form-check-label" for="defaultCheck1">
+                <label className="form-check-label">
                     Keep me Logged In
                 </label>
                 </div>
@@ -87,15 +84,12 @@ export default function Login() {
                 </GoogleReCaptchaProvider>
                 </Form.Field>
                 {errors.checkBox?.type === 'required' && <p style={{ color: "red" }}>captcha must selected</p>}
-                <Button type="submit" className="m-1 p-2" style={{backgroundColor:"rgb(1, 1, 10)",color:"white"}}>Submit</Button>
-                {
-                    emailOrPasswordIsWrong ? <Button onClick={changePwd}>forget password</Button> : ""
-                    
-                }
-            <p>Not a member? <NavLink style={{ textDecoration: 'none' }} to='/auth/registration' >Register</NavLink></p>
-                
+                <div className="d-flex flex-column">
+                    <NavLink  style={{textDecoration:'none'}} to='/auth/forgot-password' ><button className=" mx-1 btn btn-sm btn-primary float-right">forgot password</button></NavLink>
+                    <Button type="submit" className="m-1 my-2 p-2" style={{backgroundColor:"rgb(1, 1, 10)",color:"white"}}>Submit</Button>
+                    <p className="mx-1">Not a member? <NavLink style={{ textDecoration: 'none' }} to='/auth/registration' >Register</NavLink></p>
+                </div>
             </Form>
-            
         </div>
     )
 }

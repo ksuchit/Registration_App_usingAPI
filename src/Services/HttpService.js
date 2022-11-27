@@ -42,3 +42,11 @@ export function DeleteUser(url) {
 export function Change_Password(url, data) {
     return(axiosInstance.post(`${url}`,data))
 }
+
+export function ForgotPassword(url,data){
+    return(axiosInstance.post(`${url}`,data))
+}
+
+export function EmailVerification(url,captcha){
+    return(axiosInstance.post(`${url}`,captcha))
+}

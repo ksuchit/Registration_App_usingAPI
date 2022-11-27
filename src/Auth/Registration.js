@@ -107,7 +107,7 @@ export default function Registration() {
                 <input className="form-check-input" type="checkbox" value="" id="defaultCheck1"
                     {...register('checkBox',{required:true})}          
                 />
-                <label className="form-check-label" for="defaultCheck1">
+                <label className="form-check-label" >
                     Keep me Logged In
                 </label>
                 </div>
