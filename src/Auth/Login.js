@@ -9,12 +9,25 @@ import { loginContext } from "../App";
 import {FcGoogle} from 'react-icons/fc'
 import {BsLinkedin} from 'react-icons/bs'
 import {BsGithub} from 'react-icons/bs'
+import GoogleLogin from "react-google-login";
 
 export default function Login() {
     const [, setIsLive] = useContext(loginContext);
     const navigate = useNavigate();
     const [captchaToken, setCaptchaToken] = useState();
     
+    // *************************************************************
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [url, setUrl] = useState("");
+
+    const responseGoogle = response => {
+    console.log(response);
+    setName(response.profileObj?.name);
+    setEmail(response.profileObj?.email);
+    setUrl(response.profileObj?.imageUrl);
+};
+    // ***************************************************************
     const {
         register,
         handleSubmit,
@@ -111,6 +124,19 @@ export default function Login() {
                 <NavLink to='https://in.linkedin.com/?src=go-pa&trk=sem-ga_campid.14650114788_asid.127961666300_crid.601257986830_kw.linkedin%20log%20in_d.c_tid.kwd-310359770384_n.g_mt.e_geo.9062088&mcid=6844056167778418689&cid=&gclid=Cj0KCQiA1ZGcBhCoARIsAGQ0kkr2iaiQL42rVDQKQDahBw6MtzcsIBuGZknCk8CIT0W4QJ3MoJ8neTIaAg2rEALw_wcB&gclsrc=aw.ds'>
                     <BsLinkedin size={30} className='m-2' /></NavLink>
                 <NavLink to='https://github.com/login'><BsGithub size={35} className='m-2' /></NavLink>
+            </div>
+            <div>
+                <h1>Login with Google</h1>
+                <h2>Welcome: {name}</h2>
+                <h2>Email: {email}</h2>
+                <img src={url} alt={name} />
+                <GoogleLogin
+                    clientId="976464159587-7ioht18706jl85pjgr4g6qr7mus0sm7n.apps.googleusercontent.com"
+                    buttonText="Login"
+                    onSuccess={responseGoogle}
+                    onFailure={responseGoogle}
+                    cookiePolicy={"single_host_origin"}
+                />
             </div>
         </div>
     )
