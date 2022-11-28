@@ -4,7 +4,6 @@ import {useForm} from "react-hook-form"
 import { NavLink, useNavigate } from "react-router-dom";
 import securePost from "../Services/HttpService";
 import toast from "react-hot-toast";
-import { GoogleReCaptcha, GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 
 export default function Registration() {
     const navigate = useNavigate();
@@ -112,9 +111,7 @@ export default function Registration() {
                 </label>
                 </div>
                     
-                <GoogleReCaptchaProvider reCaptchaKey="6LevmbQZAAAAAMSCjcpJmuCr4eIgmjxEI7bvbmRI">
-                    <GoogleReCaptcha onVerify={(token)=> setCaptchaToken(token)} />
-                </GoogleReCaptchaProvider>
+                
                 </Form.Field>
                 {errors.checkBox?.type === 'required' && <p style={{color: "red"}}>checkBox must selected </p>}
                 <Button type="submit" className="m-1 p-2" style={{backgroundColor:"rgb(1, 1, 10)",color:"white"}}>Submit</Button>

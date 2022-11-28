@@ -47,6 +47,6 @@ export function ForgotPassword(url,data){
     return(axiosInstance.post(`${url}`,data))
 }
 
-export function EmailVerification(url,captcha){
-    return(axiosInstance.post(`${url}`,captcha))
+export function EmailVerification(url){
+    return(axiosInstance.post(`${url}`))
 }
