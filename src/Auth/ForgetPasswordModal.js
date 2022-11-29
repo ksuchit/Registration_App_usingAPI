@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { EmailVerification, ForgotPassword } from "../Services/HttpService";
+import { Modal } from "react-bootstrap";
+import { ForgotPassword } from "../Services/HttpService";
 
 export default function ForgetPasswordModal(props) {
 
   const [captchaToken, setCaptchaToken] = useState();
   const [email, setEmail] = useState("");
+
   const getCaptcha = () => {
     window.grecaptcha.ready(function () {
       window.grecaptcha.execute('6LevmbQZAAAAAMSCjcpJmuCr4eIgmjxEI7bvbmRI', { action: 'submit' })
@@ -25,7 +27,7 @@ export default function ForgetPasswordModal(props) {
   // forget password method is called
     ForgotPassword('/auth/forgot-password', data)
       .then((response) => {
-        console.log(response)
+        console.log(response) 
       })
       .catch((error) => {
         console.log(error)
@@ -33,14 +35,7 @@ export default function ForgetPasswordModal(props) {
       })
     
     
-    //Emailverification method is called
-      // EmailVerification('/auth/send-verification-email',{captcha:captchaToken})
-      // .then((response)=>{
-      //   console.log(response)
-      // })
-      // .catch((error)=>{
-      //   console.log(error)
-      // }) 
+   
   }
    
   const onVerify = () => {
@@ -49,10 +44,19 @@ export default function ForgetPasswordModal(props) {
 
   return (
     <div>
-        <label>email</label>
-        <input type='email' onChange={(e) => setEmail(e.target.value)} />
-        <button onClick={onVerify}>Verify</button><br></br>
-        <button onClick={onSubmit}>Submit</button>
+      <Modal show={props.show}  >
+        <Modal.Body>
+          <label>email</label>
+          <input type='email' onChange={(e) => setEmail(e.target.value)} />
+          <button onClick={onVerify}>Verify</button><br></br>
+          <button onClick={onSubmit}>Submit</button>
+        </Modal.Body>
+        <Modal.Footer>
+          <button className="btn btn-primary" onClick={()=>props.setShow(false)}>Close</button>
+        </Modal.Footer>
+      </Modal>
+        
+      
     </div>
 
   );

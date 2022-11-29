@@ -5,11 +5,12 @@ import { FaUserAlt } from "react-icons/fa";
 import { AiFillCloseCircle } from "react-icons/ai";
 import toast from "react-hot-toast";
 import { loginContext } from "../App";
-import { secureGet } from "../Services/HttpService";
+import { EmailVerification, secureGet } from "../Services/HttpService";
 
 export default function MyProfile(props) {
   const [ ,setIsLive] = useContext(loginContext);
   const [data, setData] = useState({});
+  
   
   useEffect(() => {
     
@@ -29,6 +30,19 @@ export default function MyProfile(props) {
   }, []);
   console.log(data, "dataMyprofile");
  
+  const verifyEmail = () => {
+    console.log("email verification")
+
+    EmailVerification('/auth/send-verification-email?captcha=false')
+      .then((response) => {
+        console.log(response)
+        toast.success('check your email')
+      })
+      .catch((error) => {
+        console.log(error)
+    })
+  }
+
   return (
     <div >
     <div className="d-flex flex-column my-profile">
@@ -50,11 +64,12 @@ export default function MyProfile(props) {
               </span>
               )                
               }
-            { (data.isEmailVerified=== false && (
+            { (data.isEmailVerified=== false && (<>
               <span className="bg-danger p-1 px-4 rounded text-white d-flex justify-content-center ">
                 Not Verified <AiFillCloseCircle className="mx-2 my-1" />
               </span>
-            ))}
+              <button onClick={verifyEmail}>Verify</button>
+              </>))}
           </>
           <div className="m-2">
             <div className="d-flex">

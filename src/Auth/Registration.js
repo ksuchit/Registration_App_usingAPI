@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { Button, Form } from "semantic-ui-react";
 import {useForm} from "react-hook-form"
 import { NavLink, useNavigate } from "react-router-dom";
-import securePost from "../Services/HttpService";
+import securePost, { EmailVerification } from "../Services/HttpService";
 import toast from "react-hot-toast";
+import axios from "axios";
 
 export default function Registration() {
     const navigate = useNavigate();
@@ -14,7 +15,18 @@ export default function Registration() {
         watch,
         handleSubmit,
         formState: { errors },
-      } = useForm();
+    } = useForm();
+    
+    const getCaptcha = () => {
+        
+        window.grecaptcha.ready(function() {
+        window.grecaptcha.execute('6LevmbQZAAAAAMSCjcpJmuCr4eIgmjxEI7bvbmRI', { action: 'submit' })
+                .then(function (token) {
+                    console.log(token)
+                    setCaptchaToken(token);
+            });
+          });
+    }
    
     const onSubmit = (data) => {
         delete data.Rpassword;
@@ -25,6 +37,8 @@ export default function Registration() {
             .then((response) => {
                 console.log(response)
                 toast.success('Successfully Registered')
+                console.log(response.data?.token)
+                // callEmailVerification(response.data?.token);
                 navigate('/auth/login');
             }
         )
@@ -40,6 +54,25 @@ export default function Registration() {
         console.log(data)
 
     }
+
+    const callEmailVerification = (token) => {
+        //  Emailverification method is called
+        axios.post('https://shop-api.ngminds.com/auth/send-verification-email?captcha=false',
+        {
+            headers: {
+                'Authorization': `Bearer${token}`
+            }
+        })
+    .then((response)=>{
+        console.log(response)
+    })
+    .catch((error)=>{
+        console.log(error)
+        getCaptcha();
+    })
+
+    }
+
     return (
         <div className="registration ">
             <Form onSubmit={handleSubmit(onSubmit)} className="reg-form  h-auto p-2">
@@ -103,7 +136,8 @@ export default function Registration() {
                 {/* captcha */}
                 <Form.Field className="p-1">
                 <div className="form-check">
-                <input className="form-check-input" type="checkbox" value="" id="defaultCheck1"
+                        <input className="form-check-input" type="checkbox" value="" id="defaultCheck1"
+                        onClick={getCaptcha}
                     {...register('checkBox',{required:true})}          
                 />
                 <label className="form-check-label" >

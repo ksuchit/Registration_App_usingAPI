@@ -1,27 +1,36 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 import { Button, Form } from 'semantic-ui-react';
 import { Change_Password } from '../Services/HttpService';
 
 export default function ChangePasswordModal() {
 
+  const navigate = useNavigate();
   const {
     register,
     watch,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
   const onSubmit = (data) => {
     delete data.confirm_password;
     console.log(data)
-    Change_Password('/auth/change-password',data)
+    Change_Password('/users/auth/change-password',data)
     .then((response)=>{
       console.log(response)
+      reset();
+      toast.success('Password Changed Successfully')
+      navigate('/my-profile')
+
     })
     .catch((error)=>{
       console.log(error)
     })
+
   }
 
   return (

@@ -9,12 +9,13 @@ import { loginContext } from "../App";
 import {FcGoogle} from 'react-icons/fc'
 import {BsLinkedin} from 'react-icons/bs'
 import {BsGithub} from 'react-icons/bs'
+import ForgetPasswordModal from "./ForgetPasswordModal";
 
 export default function Login() {
     const [, setIsLive] = useContext(loginContext);
     const navigate = useNavigate();
     const [captchaToken, setCaptchaToken] = useState();
-    
+    const [show, setShow] = useState(false);
     const {
         register,
         handleSubmit,
@@ -32,7 +33,6 @@ export default function Login() {
           });
     }
    
-    
     console.log(captchaToken)
     localStorage.setItem('captchaToken',JSON.stringify(captchaToken))
 
@@ -61,7 +61,10 @@ export default function Login() {
             }
         )
     }
-    
+    const forgotPass = () => {
+        console.log("forget")
+        setShow(true)
+    }
   
     return (
         <div className="loginPage w-25 h-auto p-2">
@@ -100,7 +103,8 @@ export default function Login() {
                 </Form.Field>
                 {errors.checkBox?.type === 'required' && <p style={{ color: "red" }}>captcha must selected</p>}
                 <div className="d-flex flex-column">
-                    <NavLink  style={{textDecoration:'none'}} to='/auth/forgot-password' ><button className=" mx-1 btn btn-sm btn-primary float-right">forgot password</button></NavLink>
+                    <button type="button" onClick={forgotPass}>forget Password</button>
+                    {/* <NavLink style={{ textDecoration: 'none' }} to='/auth/forgot-password' ><button className=" mx-1 btn btn-sm btn-primary float-right">forgot password</button></NavLink> */}
                     <Button type="submit" className="m-1 my-2 p-2" style={{backgroundColor:"rgb(1, 1, 10)",color:"white"}}>Submit</Button>
                     <p className="mx-1">Not a member? <NavLink style={{ textDecoration: 'none' }} to='/auth/registration' >Register</NavLink></p>
                 </div>
@@ -112,6 +116,13 @@ export default function Login() {
                     <BsLinkedin size={30} className='m-2' /></NavLink>
                 <NavLink to='https://github.com/login'><BsGithub size={35} className='m-2' /></NavLink>
             </div>
+            <div>
+                <ForgetPasswordModal
+                    show={show}
+                    setShow={setShow}
+                />
+            </div>
+
         </div>
     )
 }

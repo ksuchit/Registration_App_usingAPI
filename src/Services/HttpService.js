@@ -50,3 +50,11 @@ export function ForgotPassword(url,data){
 export function EmailVerification(url){
     return(axiosInstance.post(`${url}`))
 }
+
+export function VerifyAccount(url) {
+    return(axiosInstance.post(`${url}`))
+}
+
+export function ResetPassword(url, data) {
+    return(axiosInstance.post(`${url}`,data))
+}
