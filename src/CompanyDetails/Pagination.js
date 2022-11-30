@@ -43,16 +43,14 @@ export default function Pagination(props) {
                 {props.pageNum===1 ? "" :
                 <button className="btn btn-secondary mx-2"
                     onClick={onPrevious}>Previous</button>}
-                {props.pageNum}
+                {props.pageNum === 1 && props.users.length < (props.itemsPerPage * props.pageNum)
+                ? "" : props.pageNum}
 
                 {props.users.length < (props.itemsPerPage * props.pageNum) ? "" :
                     <button className="btn btn-secondary mx-2"
                         onClick={onNext}>Next</button>
                 }
-                <div>
-                    {props.pageNum === 1 && props.users.length < (props.itemsPerPage * props.pageNum)
-                        ? <p style={{color:'red'}}><br></br>there is only one page</p> : ""}
-                </div>
+                
             </div>
         </div>
     )

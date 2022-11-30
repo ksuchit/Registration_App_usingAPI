@@ -30,6 +30,7 @@ export default function UpdateCompany() {
   const [pageNum, setPageNum] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(4)
   
+  
     useEffect(() => {
         const fetchData = async () => {
             // axios get
@@ -55,6 +56,7 @@ export default function UpdateCompany() {
                     console.log(error)
                 })
           
+           
             //axios getUsers for employees details
             await getUsers(`/users?&limit=${itemsPerPage}&page=${pageNum}`)
                 .then((response) => {
@@ -187,11 +189,11 @@ export default function UpdateCompany() {
         <CreateUserModal
           show={modalShow}
           onHide={()=>setModalShow(false)}
-          setUsers={setUsers}
+          setFullUsers={setFullUsers}
         />
         <UpdateProfileModal
           show={modalShowUpdate}
-          onHide={() => setModalShowUpdate(false)}
+          setShow={setModalShowUpdate}
           currentUser_Update={currentUser_Update}
           setCurrentUser={setCurrentUser}
         />

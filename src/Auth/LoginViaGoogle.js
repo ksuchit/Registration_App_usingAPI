@@ -20,7 +20,7 @@ export default function LoginViaGoogle() {
                 buttonText="Login"
                 onSuccess={onSuccess}
                 onFailure={onFailure}
-                cookiePolicy={'http://localhost:3000/'}
+                // cookiePolicy={'http://localhost:3000/'}  
                 isSignedIn={true}
             />
 

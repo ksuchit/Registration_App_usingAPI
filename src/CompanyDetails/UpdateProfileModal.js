@@ -20,7 +20,8 @@ export default function UpdateProfileModal(props) {
         
         .then((response) => {
             console.log(response)
-            props.setCurrentUser()
+            props.setCurrentUser(response.data)
+            props.setShow(false)
         })
         .catch((error) => {
             console.log(error)
@@ -29,7 +30,7 @@ export default function UpdateProfileModal(props) {
   }
 
   return (
-      <Modal show={props.show} onHide={props.onHide}>
+      <Modal show={props.show} onHide={()=>props.setShow(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Update Company Details</Modal.Title>
         </Modal.Header>

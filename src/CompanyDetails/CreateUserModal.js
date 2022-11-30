@@ -24,9 +24,10 @@ export default function CreateUserModal(props) {
                   console.log(response)
                   data._id = response.data._id;
                   console.log(data)
-                  props.setUsers((prev) => ([...prev, data]))
+                  props.setFullUsers((prev) => ([...prev, data]))
                   //it will automatically close modal after successfully registered
                   props.onHide()
+                  toast.success('User Created Successfully')
                 })
                 .catch((error) => {
                   console.log(error)
