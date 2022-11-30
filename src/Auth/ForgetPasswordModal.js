@@ -44,12 +44,22 @@ export default function ForgetPasswordModal(props) {
 
   return (
     <div>
-      <Modal show={props.show}  >
+      <Modal show={props.show} centered >
+        <Modal.Header>
+          <h6>Enter valid email id so that we will send verification email to your mail id</h6>
+        </Modal.Header>
         <Modal.Body>
-          <label>email</label>
-          <input type='email' onChange={(e) => setEmail(e.target.value)} />
-          <button onClick={onVerify}>Verify</button><br></br>
-          <button onClick={onSubmit}>Submit</button>
+          <div className="mx-5">
+            <label>email</label>
+            <div>
+              <input type='email' onChange={(e) => setEmail(e.target.value)} />
+              <button onClick={onVerify} className="mx-2 btn btn-success" >Verify</button>
+            </div>
+         
+            <button onClick={onSubmit}
+            className='btn btn-primary'
+              style={{ backgroundColor: "rgb(1, 1, 10)", color: "white" }} >Submit</button>
+          </div>
         </Modal.Body>
         <Modal.Footer>
           <button className="btn btn-primary" onClick={()=>props.setShow(false)}>Close</button>

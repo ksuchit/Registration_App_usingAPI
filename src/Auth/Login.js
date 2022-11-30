@@ -10,6 +10,7 @@ import {FcGoogle} from 'react-icons/fc'
 import {BsLinkedin} from 'react-icons/bs'
 import {BsGithub} from 'react-icons/bs'
 import ForgetPasswordModal from "./ForgetPasswordModal";
+import LoginViaGoogle from "./LoginViaGoogle";
 
 export default function Login() {
     const [, setIsLive] = useContext(loginContext);
@@ -102,8 +103,9 @@ export default function Login() {
                 
                 </Form.Field>
                 {errors.checkBox?.type === 'required' && <p style={{ color: "red" }}>captcha must selected</p>}
+                
+                <button type="button" className="m-1 btn btn-sm btn-secondary float-right" onClick={forgotPass}>forget Password</button>
                 <div className="d-flex flex-column">
-                    <button type="button" onClick={forgotPass}>forget Password</button>
                     {/* <NavLink style={{ textDecoration: 'none' }} to='/auth/forgot-password' ><button className=" mx-1 btn btn-sm btn-primary float-right">forgot password</button></NavLink> */}
                     <Button type="submit" className="m-1 my-2 p-2" style={{backgroundColor:"rgb(1, 1, 10)",color:"white"}}>Submit</Button>
                     <p className="mx-1">Not a member? <NavLink style={{ textDecoration: 'none' }} to='/auth/registration' >Register</NavLink></p>
@@ -121,6 +123,9 @@ export default function Login() {
                     show={show}
                     setShow={setShow}
                 />
+            </div>
+            <div>
+                <LoginViaGoogle />
             </div>
 
         </div>

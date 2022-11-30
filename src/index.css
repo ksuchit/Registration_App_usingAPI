@@ -49,3 +49,6 @@
   box-shadow: 11px 12px 13px 12px rgb(105, 104, 104);
   max-width: fit-content;
 }
+.searchByRole{
+  margin-left: 40%;
+}
