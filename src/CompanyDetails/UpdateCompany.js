@@ -10,9 +10,7 @@ import UpdateProfileModal from "./UpdateProfileModal";
 import EditUser from "./EditUser";
 import EditRole from "./EditRole";
 import DeleteUserModal from "./DeleteUserModal";
-import PaginatedItems from "./Pagination";
 import Pagination from "./Pagination";
-import { clear } from "@testing-library/user-event/dist/clear";
 
 export default function UpdateCompany() {
     
@@ -29,7 +27,20 @@ export default function UpdateCompany() {
   const [orgData, setOrgData] = useState({})
   const [pageNum, setPageNum] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(4)
-  
+  const [userRole, setUserRole] = useState('');
+
+
+  useEffect(() => {
+       //axios getFull employeesss details
+       getUsers(`/users`)
+       .then((response) => {
+           console.log(response)
+           setFullUsers(response.data.results)
+       })
+       .catch((error) => {
+           console.log(error)
+       })
+  }, [users.length])
   
     useEffect(() => {
         const fetchData = async () => {
@@ -39,36 +50,37 @@ export default function UpdateCompany() {
                     console.log(response.data);
                     setCurrentUser(response.data);
                     setOrgData(response.data?._org)
-                    
+
                 })
                 .catch((err) => {
                     console.log(err);
                 });
         
-              delete orgData._id;
-          //axios getFull employeesss details
-          getUsers(`/users`)
+        delete orgData._id;
+         
+            userRole ?
+              //axios getUsers for employees details
+              await getUsers(`/users?&role=${userRole}&limit=${itemsPerPage}&page=${pageNum}`)
                 .then((response) => {
-                    console.log(response)
-                    setFullUsers(response.data.results)
+                  console.log(response)
+                  setUsers(response.data.results)
                 })
                 .catch((error) => {
-                    console.log(error)
+                  console.log(error)
+                })
+              :
+              await getUsers(`/users?&limit=${itemsPerPage}&page=${pageNum}`)
+                .then((response) => {
+                  console.log(response)
+                  setUsers(response.data.results)
+                })
+                .catch((error) => {
+                  console.log(error)
                 })
           
-           
-            //axios getUsers for employees details
-            await getUsers(`/users?&limit=${itemsPerPage}&page=${pageNum}`)
-                .then((response) => {
-                    console.log(response)
-                    setUsers(response.data.results)
-                })
-                .catch((error) => {
-                    console.log(error)
-                })
         };
         fetchData();
-    }, [itemsPerPage,pageNum])
+    }, [itemsPerPage,pageNum,userRole])
 
     const currentUser_Update = {
       email: currentUser?.email,
@@ -76,7 +88,6 @@ export default function UpdateCompany() {
     }
   //edit user details like name,email
   const editUser = (user) => {
-    console.log(users)
     console.log(user)
     setEditUserDetails(user)
     setEditUserShow(true)
@@ -100,36 +111,40 @@ export default function UpdateCompany() {
   const roleSelectedByUser = (e) => {
     console.log(e.target.value)
     const role=(e.target.value)
-    if (role === 'showAll')
-    {
-      getUsers(`/users?&limit=${itemsPerPage}`)
-                  .then((response) => {
-                      console.log(response)
-                      setUsers(response.data.results)
-                  })
-                  .catch((error) => {
-                      console.log(error)
-                  })
-    }
-    else {
+    setUserRole(role)
+    console.log(userRole)
+    // if (role === 'showAll')
+    // {
+    //   getUsers(`/users?&limit=${itemsPerPage}`)
+    //               .then((response) => {
+    //                   console.log(response)
+    //                   setUsers(response.data.results)
+    //               })
+    //               .catch((error) => {
+    //                   console.log(error)
+    //               })
+    // }
+    // else {
       
-      getUsers(`/users?&role=${role}&limit=${itemsPerPage}`)
-                  .then((response) => {
-                      console.log(response)
-                      setUsers(response.data.results)
-                  })
-                  .catch((error) => {
-                      console.log(error)
-                  })
+    //   getUsers(`/users?&role=${role}&limit=${itemsPerPage}`)
+    //               .then((response) => {
+    //                   console.log(response)
+    //                   setUsers(response.data.results)
+    //               })
+    //               .catch((error) => {
+    //                   console.log(error)
+    //               })
       
-    }
+    // }
     // e.target.value = 'select Role'
   }
 
   const [userName, setUserName] = useState("");
 
   const userSearchByName = () => {
+
     console.log(userName)
+    console.log(fullUsers)
     console.log(fullUsers.filter((item) => { return (item.name.includes(userName)) }))
     const filteredUserNames = fullUsers.filter((item) => { return (item.name.includes(userName)) });
 
@@ -145,7 +160,6 @@ export default function UpdateCompany() {
     //                     console.log(error)
     //                 })
     // })
-
   }
 
   return (
@@ -236,8 +250,7 @@ export default function UpdateCompany() {
               <th>Role
                 <label className="searchByRole">Search By-</label>
                 <select onChange={roleSelectedByUser}>
-                  <option value='showAll'>select Role(none)</option>
-                  <option value='showAll'>Show All</option>
+                  <option value=''>Show All</option>
                   <option value='admin'>Admin</option>
                   <option value='user'>User</option>
                 </select>
@@ -251,7 +264,8 @@ export default function UpdateCompany() {
             {users.length>0 ? users.map((user, i) => {
               return (
                 <tr key={i}>
-                  <td>{i + 1}</td>
+                   {/* ex.  (4 *(1-1)+i+1) */}
+                  <td>{(itemsPerPage * (pageNum -1) )+ i + 1}</td>   
                   <td>{user.name}</td>
                   <td>{user.role}
                     <AiFillEdit size={25} onClick={ ()=>editRole(user)} /></td>
@@ -272,8 +286,8 @@ export default function UpdateCompany() {
             setItemsPerPage={setItemsPerPage}
             pageNum={pageNum}
             setPageNum={setPageNum}
+            fullUsers={fullUsers}
             users={users}
-            setUsers={setUsers}
           />
         </div>
         {/* <div className="col-1"></div> */}

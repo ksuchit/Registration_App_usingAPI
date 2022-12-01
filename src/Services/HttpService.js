@@ -58,3 +58,7 @@ export function VerifyAccount(url) {
 export function ResetPassword(url, data) {
     return(axiosInstance.post(`${url}`,data))
 }
+
+export function SocialLogin(url, data) {
+    return(axiosInstance.post(`${url}`,data))
+}

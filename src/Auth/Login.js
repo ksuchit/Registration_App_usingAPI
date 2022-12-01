@@ -39,10 +39,10 @@ export default function Login() {
 
     const onSubmit = (data) => {
         delete data.checkBox
-        data.captcha = captchaToken;
+        // data.captcha = captchaToken;
         console.log(data)
         //axios post
-        securePost("/auth/login",data)
+        securePost("/auth/login?captcha=false",data)
             .then((response) => {
                 console.log(response)
                 toast.success("Successfully Login !");
