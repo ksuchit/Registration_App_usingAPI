@@ -261,8 +261,11 @@ export default function UpdateCompany() {
           </thead>
 
           <tbody>
-            {users.length>0 ? users.map((user, i) => {
-              return (
+            {
+              users.length>0 ? 
+                (currentUser.role==='admin') ? 
+                 users.map((user, i) => {
+                  return (
                 <tr key={i}>
                    {/* ex.  (4 *(1-1)+i+1) */}
                   <td>{(itemsPerPage * (pageNum -1) )+ i + 1}</td>   
@@ -274,9 +277,19 @@ export default function UpdateCompany() {
                         onClick={()=>editUser(user)}
                   />
                           <AiFillDelete size={25}  onClick={()=>deleteUser(user)} /></td>
-                </tr>
-              );
-            })
+                </tr>)})
+                
+                : 
+                users.map((user, i) => {
+                  return (  
+                <tr key={i}>
+                   {/* ex.  (4 *(1-1)+i+1) */}
+                  <td>{(itemsPerPage * (pageNum -1) )+ i + 1}</td>   
+                  <td>{user.name}</td>
+                  <td>{user.role}</td>
+                  <td>{user.email}</td>
+                </tr>)})
+              
           :"No data Found"
           }
           </tbody>
