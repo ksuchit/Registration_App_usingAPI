@@ -5,7 +5,7 @@ import Login from "./Auth/Login";
 import MyProfile from "./Components/MyProfile";
 import Registration from "./Auth/Registration";
 import NotFound from "./Components/NotFound";
-import ChangePassword from "./Auth/ChangePassword";
+import ChangePassword from "./Auth/AuthOperation/ChangePassword";
 import { Toaster } from "react-hot-toast";
 import Loader from "./Loader/Loader";
 import PublicRouting from "./Auth/PublicRouting";
@@ -14,8 +14,8 @@ import getToken from "./Services/TokenService";
 import UpdateCompany from "./CompanyDetails/UpdateCompany";
 import { getLoader } from "./Services/LoaderService";
 import ChangePasswordModal from "./CompanyDetails/ChangePasswordModal";
-import ResetPasswordModal from "./Auth/ResetPasswordModal";
-import VerifyEmail from "./Auth/VerifyEmail";
+import ResetPasswordModal from "./Auth/AuthOperation/ResetPasswordModal";
+import VerifyEmail from "./Auth/AuthOperation/VerifyEmail";
 const loginContext = createContext();
 function App() {
 

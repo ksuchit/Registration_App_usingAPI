@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { UpdateUserRole } from "../Services/HttpService";
+import { UpdateUserRole } from "../../Services/HttpService";
 
 export default function EditRole(props) {
   
@@ -28,9 +28,7 @@ export default function EditRole(props) {
 
   return (
     <Modal show={props.show} onHide={() => props.setShow(false)}>
-      <Modal.Header closeButton>
-        <Modal.Title><h1  style={{alignItems:'center'}}>Edit Role</h1></Modal.Title>
-      </Modal.Header>
+      <h1  className="my-2" style={{textAlign:'center'}}>Edit Role</h1>
       <div className="registration">
         <div className="p-5">
           {props.editUser.role === 'admin' ?

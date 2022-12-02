@@ -6,11 +6,9 @@ import toast from "react-hot-toast";
 import { Button, Form } from "semantic-ui-react";
 import { useForm } from "react-hook-form";
 import { loginContext } from "../App";
-import {FcGoogle} from 'react-icons/fc'
-import {BsLinkedin} from 'react-icons/bs'
-import {BsGithub} from 'react-icons/bs'
-import ForgetPasswordModal from "./ForgetPasswordModal";
-import LoginViaGoogle from "./LoginViaGoogle";
+import ForgetPasswordModal from "./AuthOperation/ForgetPasswordModal";
+import LoginViaGoogle from "./SocialLogin/LoginViaGoogle";
+import LoginViaFacebook from "./SocialLogin/LoginViaFacebook";
 
 export default function Login() {
     const [, setIsLive] = useContext(loginContext);
@@ -39,16 +37,16 @@ export default function Login() {
 
     const onSubmit = (data) => {
         delete data.checkBox
-        // data.captcha = captchaToken;
+        data.captcha = captchaToken;
         console.log(data)
         //axios post
-        securePost("/auth/login?captcha=false",data)
+        securePost("/auth/login",data)
             .then((response) => {
                 console.log(response)
                 toast.success("Successfully Login !");
                 //set to localStorage
                 setToken(response.data.token)
-                localStorage.setItem('userName', JSON.stringify(data.email))
+                localStorage.setItem('userName', JSON.stringify(response.data.user?.name))
                 setIsLive(response.data.token)
                 navigate('/my-profile')
             }
@@ -111,21 +109,15 @@ export default function Login() {
                     <p className="mx-1">Not a member? <NavLink style={{ textDecoration: 'none' }} to='/auth/registration' >Register</NavLink></p>
                 </div>
             </Form>
-            <div className="p-1">
-                <NavLink to='https://accounts.google.com/signin/v2/challenge/pwd?rart=ANgoxcdbbNxH1nYXChBQ7n_DhSet9sRm1XXzUFTdrodQQJThJv3oPCktvjFuZq-YDK8WsXHW_gXYeU7G-XB1iBPG0qMJAeBgcA&TL=ADFpJfPKW-hzwAGpLtv3pl4oTpyv-P64Yzte0beTkmC8V9Z0ePTBQMyECB8bOlqN&flowName=GlifWebSignIn&cid=1&flowEntry=ServiceLogin'>
-                    <FcGoogle size={30} className='m-2' /></NavLink>
-                <NavLink to='https://in.linkedin.com/?src=go-pa&trk=sem-ga_campid.14650114788_asid.127961666300_crid.601257986830_kw.linkedin%20log%20in_d.c_tid.kwd-310359770384_n.g_mt.e_geo.9062088&mcid=6844056167778418689&cid=&gclid=Cj0KCQiA1ZGcBhCoARIsAGQ0kkr2iaiQL42rVDQKQDahBw6MtzcsIBuGZknCk8CIT0W4QJ3MoJ8neTIaAg2rEALw_wcB&gclsrc=aw.ds'>
-                    <BsLinkedin size={30} className='m-2' /></NavLink>
-                <NavLink to='https://github.com/login'><BsGithub size={35} className='m-2' /></NavLink>
-            </div>
             <div>
                 <ForgetPasswordModal
                     show={show}
                     setShow={setShow}
                 />
             </div>
-            <div>
+            <div className="py-2">
                 <LoginViaGoogle />
+                <LoginViaFacebook />
             </div>
 
         </div>

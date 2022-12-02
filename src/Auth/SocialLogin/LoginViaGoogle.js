@@ -1,10 +1,17 @@
 import { GoogleLogin } from "@react-oauth/google";
-import React, { useEffect, useState } from "react";
-import { SocialLogin } from "../Services/HttpService";
+import React, { useContext, useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { loginContext } from "../../App";
+import { SocialLogin } from "../../Services/HttpService";
+import { setToken } from "../../Services/TokenService";
 
 // const clientId = '976464159587-o17tlgqossa884u4otgp4qfd2balbv4m.apps.googleusercontent.com'
 
 export default function LoginViaGoogle() {
+    const navigate = useNavigate();
+    const [, setIsLive] = useContext(loginContext);
+
     const [captchaToken, setCaptchaToken] = useState();
     // useEffect(() => {
     //     window.grecaptcha.ready(function() {
@@ -19,15 +26,22 @@ export default function LoginViaGoogle() {
     const onSuccess = (res) => {
         console.log('[Login success] currentUser:',res);
         const data = {
-            token: res.clientId,
+            token: res.credential,
             // captcha:captchaToken
         }
         SocialLogin('/auth/login/google?captcha=false', data)
-            .then((res) => {
-            console.log(res)
+            .then((response) => {
+                console.log(res)
+                toast.success("Successfully Login !");
+                // set to localStorage
+                setToken(response.data.token)
+                localStorage.setItem('userName', JSON.stringify(response.data.user?.name))
+                setIsLive(response.data.token)
+                navigate('/my-profile')
             })
             .catch((error) => {
-            console.log(error)
+                console.log(error)
+                toast.error(error.response.data?.message)
         })
     }
 

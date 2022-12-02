@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Modal } from "react-bootstrap";
-import { ForgotPassword } from "../Services/HttpService";
+import { ForgotPassword } from "../../Services/HttpService";
 
 export default function ForgetPasswordModal(props) {
 

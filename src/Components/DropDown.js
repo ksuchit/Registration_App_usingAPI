@@ -11,7 +11,7 @@ import {CgLogOff} from 'react-icons/cg'
 export default function DropDown() {
   
   const [live,setIsLive]=useContext(loginContext)
-  const [user] = useState(JSON.parse(localStorage.getItem('userName')) || "")
+  const [user] = useState(JSON.parse(localStorage.getItem('userName')) || "Suchit")
 
   const logOutClicked = () =>
     {
@@ -37,9 +37,8 @@ export default function DropDown() {
           <Dropdown.Item href="/my-profile" ><ImProfile className="mx-2"/>Profile</Dropdown.Item>
           <Dropdown.Item href="/my-profile/companyInfo" ><MdWork className="mx-2"/>Company Info</Dropdown.Item>
           <Dropdown.Item href="/auth/change-password" ><BsFillKeyFill className="mx-2"/>Change Password</Dropdown.Item>
-          <Dropdown.Item href="/auth/login" onClick={logOutClicked}><CgLogOff size={20} className="mx-2"/>Logout</Dropdown.Item>
           <Dropdown.Divider />
-          <Dropdown.Item href="#/action-4">Separated link</Dropdown.Item>
+          <Dropdown.Item href="/auth/login" onClick={logOutClicked}><CgLogOff size={20} className="mx-2"/>Logout</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
 

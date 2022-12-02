@@ -5,11 +5,11 @@ import { MdWork, MdEmail} from "react-icons/md";
 import {  getUsers, secureGet } from "../Services/HttpService";
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
 import { ImProfile } from 'react-icons/im'
-import CreateUserModal from "./CreateUserModal";
-import UpdateProfileModal from "./UpdateProfileModal";
-import EditUser from "./EditUser";
-import EditRole from "./EditRole";
-import DeleteUserModal from "./DeleteUserModal";
+import CreateUserModal from "./CRUD/CreateUserModal";
+import UpdateProfileModal from "./CRUD/UpdateProfileModal";
+import EditUser from "./CRUD/EditUser";
+import EditRole from "./CRUD/EditRole";
+import DeleteUserModal from "./CRUD/DeleteUserModal";
 import Pagination from "./Pagination";
 
 export default function UpdateCompany() {
@@ -28,19 +28,20 @@ export default function UpdateCompany() {
   const [pageNum, setPageNum] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(4)
   const [userRole, setUserRole] = useState('');
-
+  const [sortBy, setSortBy] = useState();
+  const [totalUsers, setTotalUsers] = useState();
 
   useEffect(() => {
        //axios getFull employeesss details
        getUsers(`/users`)
        .then((response) => {
-           console.log(response)
-           setFullUsers(response.data.results)
+         console.log(response.data?.totalResults)
+          setTotalUsers(response.data?.totalResults)
        })
        .catch((error) => {
            console.log(error)
        })
-  }, [users.length])
+  },[])
   
     useEffect(() => {
         const fetchData = async () => {
@@ -60,7 +61,7 @@ export default function UpdateCompany() {
          
             userRole ?
               //axios getUsers for employees details
-              await getUsers(`/users?&role=${userRole}&limit=${itemsPerPage}&page=${pageNum}`)
+              await getUsers(`/users?&role=${userRole}&limit=${itemsPerPage}&page=${pageNum}&sortBy=${sortBy}`)
                 .then((response) => {
                   console.log(response)
                   setUsers(response.data.results)
@@ -69,7 +70,7 @@ export default function UpdateCompany() {
                   console.log(error)
                 })
               :
-              await getUsers(`/users?&limit=${itemsPerPage}&page=${pageNum}`)
+              await getUsers(`/users?&limit=${itemsPerPage}&page=${pageNum}&sortBy=${sortBy}`)
                 .then((response) => {
                   console.log(response)
                   setUsers(response.data.results)
@@ -80,7 +81,7 @@ export default function UpdateCompany() {
           
         };
         fetchData();
-    }, [itemsPerPage,pageNum,userRole])
+    }, [itemsPerPage,pageNum,userRole,sortBy])
 
     const currentUser_Update = {
       email: currentUser?.email,
@@ -142,24 +143,42 @@ export default function UpdateCompany() {
   const [userName, setUserName] = useState("");
 
   const userSearchByName = () => {
-
+    
     console.log(userName)
-    console.log(fullUsers)
-    console.log(fullUsers.filter((item) => { return (item.name.includes(userName)) }))
-    const filteredUserNames = fullUsers.filter((item) => { return (item.name.includes(userName)) });
+    
+    getUsers(`/users`)
 
-    setUsers(filteredUserNames)
-    // filteredUserNames.map((data) => {
 
-    //   getUsers(`/users?&name=${data.name}`)
-    //                 .then((response) => {
-    //                     console.log(response)
-    //                     setUsers(response.data.results)
-    //                 })
-    //                 .catch((error) => {
-    //                     console.log(error)
-    //                 })
+    // getUsers(`/users?&limit=${totalUsers}`)
+    //    .then((response) => {
+    //      console.log(response)
+         
+    //      console.log(response.data.results.filter((item) => { return (item.name.includes(userName)) }))
+    //      const filteredUserNames = response.data.results.filter((item) => { return (item.name.includes(userName)) });
+         
+    //     setFullUsers(filteredUserNames)
+    //     setUsers(filteredUserNames)
+    //    })
+    //    .catch((error) => {
+    //        console.log(error)
+    //    })
+   
+  }
+
+  const callSortBy = (e) => {
+    console.log(e.target.value)
+    const sortBy = e.target.value;
+    setSortBy(sortBy)
+    
+    // getUsers(`/users?&sortBy=${sortBy}`)
+    //   .then((res) => {
+    //     console.log(res)
+    //     setUsers(res.data?.results)
+    //   })
+    //   .catch((err) => {
+    //   console.log(err)
     // })
+
   }
 
   return (
@@ -192,10 +211,12 @@ export default function UpdateCompany() {
                   <MdWork size={23} />
                   <h5>{currentUser._org?.name}</h5>
                 </div>
-              <div>
-                <button className="btn btn-secondary mx-1" onClick={() => setModalShow(true)}>Create User</button>
-                <button className="btn btn-secondary mx-1" onClick={() => setModalShowUpdate(true)}>Update Profile</button>
-              </div>
+              {currentUser.role === 'admin' ?
+                <div>
+                  <button className="btn btn-secondary mx-1" onClick={() => setModalShow(true)}>Create User</button>
+                  <button className="btn btn-secondary mx-1" onClick={() => setModalShowUpdate(true)}>Update Profile</button>
+                </div>
+              : ""}
               </div>
           </div>
       <div>
@@ -238,10 +259,23 @@ export default function UpdateCompany() {
       <div className="usersData">
         {/* <div className="col-1"></div> */}
         {/* <div className="col-10"> */}
-          <div className="my-2">
+      <div className="d-flex justify-content-between">
+        {/* **********Search*********** */}
+        <div className="my-2">
             <input className="mx-2" type='text' placeholder="Search By Name..."  onChange={(e)=>setUserName(e.target.value)}/>
             <button className="btn btn-success" onClick={userSearchByName}>Search</button>
-          </div>
+        </div>
+        {/* ***********Sort By*********** */}
+        <div className="mx-5">
+          <lable className='fw-bolder'>Sort By-</lable>
+          <select onChange={callSortBy}>
+            <option value={''}>Default</option>
+            <option value={'name'}>Name</option>  
+            <option value={'role'}>Role</option>  
+            <option value={'email'}>Email</option>  
+          </select>
+        </div>
+      </div>
         <Table striped bordered hover>
           <thead>
             <tr>
@@ -290,7 +324,7 @@ export default function UpdateCompany() {
                   <td>{user.email}</td>
                 </tr>)})
               
-          :"No data Found"
+          :<p className="fw-bolder" style={{color:'red',textAlign:'center'}}>No data Found</p>
           }
           </tbody>
           </Table>
@@ -299,8 +333,9 @@ export default function UpdateCompany() {
             setItemsPerPage={setItemsPerPage}
             pageNum={pageNum}
             setPageNum={setPageNum}
-            fullUsers={fullUsers}
             users={users}
+          totalUsers={totalUsers}
+          fullUsers={fullUsers}
           />
         </div>
         {/* <div className="col-1"></div> */}

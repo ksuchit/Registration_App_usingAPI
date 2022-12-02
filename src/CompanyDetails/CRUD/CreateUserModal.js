@@ -3,8 +3,8 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { Form } from "semantic-ui-react";
 import {useForm} from "react-hook-form"
-import { CreateUserPost } from "../Services/HttpService";
 import toast from "react-hot-toast";
+import { CreateUserPost } from "../../Services/HttpService";
 
 
 export default function CreateUserModal(props) {

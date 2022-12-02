@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { VerifyAccount } from "../Services/HttpService";
+import { VerifyAccount } from "../../Services/HttpService";
 
 
 export default function VerifyEmail() {

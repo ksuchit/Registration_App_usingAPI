@@ -1,6 +1,6 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
-import { DeleteUser } from '../Services/HttpService';
+import { DeleteUser } from '../../Services/HttpService';
 
 export default function DeleteUserModal(props) {
 
@@ -28,11 +28,12 @@ export default function DeleteUserModal(props) {
       <Modal.Body>
         <div>
         <h1 style={{textAlign:'center'}} >Delete User</h1>
-        <p>Are you sure you want to delete your account?</p>
+          <p>Are you sure you want to delete account of..<p style={{color:'red'}}>{props.editUser?.name}</p> </p>
+          
         </div>
         <div>
           <button className='btn btn-secondary' onClick={()=> props.setShow(false)}>Cancel</button>
-          <button className='btn btn-danger' onClick={deleteUser}>Delete</button>
+          <button className='btn btn-danger mx-2' onClick={deleteUser}>Delete</button>
         </div>
         </Modal.Body>
       </Modal>

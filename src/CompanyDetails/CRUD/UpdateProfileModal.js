@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Form } from 'semantic-ui-react';
-import { UpdateCompanyInfo } from '../Services/HttpService';
+import { UpdateCompanyInfo } from '../../Services/HttpService';
 
 export default function UpdateProfileModal(props) {
 

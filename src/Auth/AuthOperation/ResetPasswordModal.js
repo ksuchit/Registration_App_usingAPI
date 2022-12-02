@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button, Form } from "semantic-ui-react";
-import { ResetPassword } from "../Services/HttpService";
+import { ResetPassword } from "../../Services/HttpService";
 
 export default function ResetPasswordModal() {
     const navigate = useNavigate();
