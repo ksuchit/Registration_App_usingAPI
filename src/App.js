@@ -5,7 +5,6 @@ import Login from "./Auth/Login";
 import MyProfile from "./Components/MyProfile";
 import Registration from "./Auth/Registration";
 import NotFound from "./Components/NotFound";
-import ChangePassword from "./Auth/AuthOperation/ChangePassword";
 import { Toaster } from "react-hot-toast";
 import Loader from "./Loader/Loader";
 import PublicRouting from "./Auth/PublicRouting";
@@ -16,13 +15,14 @@ import { getLoader } from "./Services/LoaderService";
 import ChangePasswordModal from "./CompanyDetails/ChangePasswordModal";
 import ResetPasswordModal from "./Auth/AuthOperation/ResetPasswordModal";
 import VerifyEmail from "./Auth/AuthOperation/VerifyEmail";
+import MapRouting from "./MapRouting";
 const loginContext = createContext();
 function App() {
 
   //  const [progress, setProgress] = useState(false || getLoader());
   console.log(getToken())
   const [live, setIsLive] = useState(getToken() || null);
-
+  const routesData = MapRouting();
   
   
   return (
@@ -42,11 +42,14 @@ function App() {
 
           {/* ProtectedRouting */}
           <Route element={<ProtectedRouting />}>
-            <Route path="/my-profile" element={<MyProfile />} />
+              {routesData.map((item,i) => {
+                return <Route path={item.path} element={item.element} key={i}/>
+            })}
+            {/* <Route path="/my-profile" element={<MyProfile />} />
             <Route path="/" element={<Navigate to={"/my-profile"} />} />
-              <Route path="/my-profile/companyInfo" element={<UpdateCompany />} />
-              <Route path="/auth/change-password" element={< ChangePasswordModal />} />
-              <Route path="/auth/verify-email" element={<VerifyEmail /> } />
+            <Route path="/my-profile/companyInfo" element={<UpdateCompany />} />
+            <Route path="/auth/change-password" element={< ChangePasswordModal />} />
+            <Route path="/auth/verify-email" element={<VerifyEmail /> } /> */}
           </Route>
 
           <Route path="*" element={<NotFound />} />

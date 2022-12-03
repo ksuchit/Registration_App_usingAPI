@@ -24,7 +24,7 @@ export default function ResetPasswordModal() {
       ResetPassword(`/auth/reset-password?token=${token}`, data)
           .then((response) => {
               console.log(response)
-              toast.success('Successfully Changed')
+              toast.success('Successfully Changed Password')
               navigate('/auth/login')
           })
           .catch((error) => {

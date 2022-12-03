@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Modal } from "react-bootstrap";
+import toast from "react-hot-toast";
 import { ForgotPassword } from "../../Services/HttpService";
 
 export default function ForgetPasswordModal(props) {
@@ -23,14 +24,16 @@ export default function ForgetPasswordModal(props) {
       captcha: captchaToken
     }
     console.log(data)
-
   // forget password method is called
     ForgotPassword('/auth/forgot-password', data)
       .then((response) => {
         console.log(response) 
+        toast.success(`E-mail sent to sally.bogisich@ethereal.email`)
+        props.setShow(false)
       })
       .catch((error) => {
         console.log(error)
+        toast.error(error.response.data?.message)
         getCaptcha();
       })
     
@@ -62,7 +65,8 @@ export default function ForgetPasswordModal(props) {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <button className="btn btn-primary" onClick={()=>props.setShow(false)}>Close</button>
+          <button className="btn btn-primary" onClick={() => props.setShow(false)}>Close</button>
+         
         </Modal.Footer>
       </Modal>
         

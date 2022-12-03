@@ -14,7 +14,7 @@ export default function VerifyEmail() {
         VerifyAccount(`/auth/verify-email?token=${token}`)
             .then((response) => {
                 console.log(response)
-                toast.success('Verified')
+                toast.success('Successfully Email Verified')
                 navigate('/my-profile')
             })
             .catch((error) => {
