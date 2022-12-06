@@ -2,16 +2,15 @@ import { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import { FaUserAlt } from "react-icons/fa";
 import { MdWork, MdEmail} from "react-icons/md";
-import {  getUsers, secureGet } from "../Services/HttpService";
+import {  getUsers, secureGet } from "../../Services/HttpService";
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
 import { ImProfile } from 'react-icons/im'
-import CreateUserModal from "./CRUD/CreateUserModal";
-import UpdateProfileModal from "./CRUD/UpdateProfileModal";
-import EditUser from "./CRUD/EditUser";
-import EditRole from "./CRUD/EditRole";
-import DeleteUserModal from "./CRUD/DeleteUserModal";
+import CreateUserModal from "../CRUD/CreateUserModal";
+import UpdateProfileModal from "../CRUD/UpdateProfileModal";
+import EditUser from "../CRUD/EditUser";
+import EditRole from "../CRUD/EditRole";
+import DeleteUserModal from "../CRUD/DeleteUserModal";
 import Pagination from "./Pagination";
-import UseReducer from "./UseReducer";
 
 export default function UpdateCompany() {
     
@@ -357,7 +356,6 @@ export default function UpdateCompany() {
           fullUsers={fullUsers}
           />
           </div>
-          <UseReducer />
         {/* <div className="col-1"></div> */}
       {/* </div> */}
     </div>

@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { Button, Form } from 'semantic-ui-react';
-import  Post  from '../Services/HttpService';
+import  Post  from '../../Services/HttpService';
 
 export default function ChangePasswordModal() {
 

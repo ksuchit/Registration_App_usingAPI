@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
+import { Prev } from 'react-bootstrap/esm/PageItem';
 import Modal from 'react-bootstrap/Modal';
 import { useForm } from 'react-hook-form';
 import { Form } from 'semantic-ui-react';
@@ -6,6 +8,7 @@ import Post from '../../Services/HttpService';
 
 export default function CreateNewProduct(props) {
 
+  const [selectedImage,setSelectedImage]=useState([])
     const {
         register,
       handleSubmit,
@@ -13,6 +16,8 @@ export default function CreateNewProduct(props) {
     } = useForm();
   
   const onSubmit = (data) => {
+    // data.images=selectedImage
+    // delete data.images
     console.log(data)
     console.log('suchit')
 
@@ -40,11 +45,28 @@ export default function CreateNewProduct(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
+
+      <h1>Upload and Display Image usign React Hook's</h1>
+      {selectedImage && (
+        selectedImage.map((item,i)=>{
+          <div key={i}>
+          <img alt="not fount" width={"150px"} src={item} />
+          <br />
+          <button onClick={()=>setSelectedImage(null)}>Remove</button>
+          </div>
+        })
+       
+      )}
+
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Form.Field className='d-flex flex-column'>
               <label>Select Image *</label>
             <input type='file'
-              {...register('images',{required:true})}
+             onChange={(event) => {
+              console.log(event.target.files[0])
+              setSelectedImage((prev)=>[...prev,URL.createObjectURL(event.target.files[0])])
+             }}
+              // {...register('images',{required:true})}
             />  
           </Form.Field>
           {errors.images && <p style={{color: "red"}}>Image is Required</p>}

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { getProducts } from "../../Services/HttpService"
 import CreateNewProduct from "./CreateNewProduct";
+import UploadAndDisplayImage from "./UploadAndDisplayImage";
 
 
 export default function Products() {
@@ -33,6 +34,8 @@ export default function Products() {
                 show={show}
                 setShow={setShow}
             />
+
+            <UploadAndDisplayImage />
         </div>
     )
 }

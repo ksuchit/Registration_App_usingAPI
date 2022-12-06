@@ -1,8 +1,8 @@
 import { Navigate } from "react-router-dom";
 import VerifyEmail from "./Auth/AuthOperation/VerifyEmail";
-import ChangePasswordModal from "./CompanyDetails/ChangePasswordModal";
+import ChangePasswordModal from "./CompanyDetails/CompanyPortal/ChangePasswordModal";
 import Products from "./CompanyDetails/Products/Products";
-import UpdateCompany from "./CompanyDetails/UpdateCompany";
+import UpdateCompany from "./CompanyDetails/CompanyPortal/UpdateCompany";
 import MyProfile from "./Components/MyProfile";
 
 export default function MapRouting() {

@@ -1,4 +1,4 @@
-import { getUsers } from "../Services/HttpService"
+import { getUsers } from "../../Services/HttpService"
 
 export default function Pagination(props) {
 
