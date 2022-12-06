@@ -1,10 +1,10 @@
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
 import { Button, Form } from "semantic-ui-react";
-import { ResetPassword } from "../../Services/HttpService";
+import Post  from "../../Services/HttpService";
 
-export default function ResetPasswordModal() {
+export default function PostModal() {
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
   const {
@@ -17,11 +17,11 @@ export default function ResetPasswordModal() {
 
     
     const onSubmit = (data) => {
-        delete data.confirm_password;
+      delete data.confirm_password;
       const token=searchParams.get('token')
       console.log(data);
 
-      ResetPassword(`/auth/reset-password?token=${token}`, data)
+      Post(`/auth/reset-password?token=${token}`, data)
           .then((response) => {
               console.log(response)
               toast.success('Successfully Changed Password')
@@ -70,7 +70,9 @@ export default function ResetPasswordModal() {
             <Button type="submit" className="my-3 btn btn-primary" style={{backgroundColor:"rgb(1, 1, 10)",color:"white"}}>
               Reset Password
             </Button>
-          </Form>
+      </Form>
+      <NavLink to='/auth/login' 
+        style={{ textDecoration: 'none', position: '' }}>Back</NavLink>
         </div>
         
   );

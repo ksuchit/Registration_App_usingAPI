@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import { Form } from "semantic-ui-react";
 import {useForm} from "react-hook-form"
 import toast from "react-hot-toast";
-import { CreateUserPost } from "../../Services/HttpService";
+import Post from "../../Services/HttpService";
 
 
 export default function CreateUserModal(props) {
@@ -20,7 +20,7 @@ export default function CreateUserModal(props) {
     const onSubmitCreateUser = (data) => {
       delete data.Rpassword;
       console.log(data)
-      CreateUserPost('/users',data)
+      Post('/users',data)
                 .then((response) => {
                   console.log(response)
                   data._id = response.data._id;

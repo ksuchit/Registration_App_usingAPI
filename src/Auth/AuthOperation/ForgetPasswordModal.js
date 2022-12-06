@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Modal } from "react-bootstrap";
 import toast from "react-hot-toast";
-import { ForgotPassword } from "../../Services/HttpService";
+import  Post from "../../Services/HttpService";
 
 export default function ForgetPasswordModal(props) {
 
@@ -25,7 +25,7 @@ export default function ForgetPasswordModal(props) {
     }
     console.log(data)
   // forget password method is called
-    ForgotPassword('/auth/forgot-password', data)
+    Post('/auth/forgot-password', data)
       .then((response) => {
         console.log(response) 
         toast.success(`E-mail sent to sally.bogisich@ethereal.email`)

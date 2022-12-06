@@ -1,7 +1,7 @@
 import React, {  useContext, useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import  { setToken } from "../Services/TokenService";
-import securePost  from "../Services/HttpService";
+import Post  from "../Services/HttpService";
 import toast from "react-hot-toast";
 import { Button, Form } from "semantic-ui-react";
 import { useForm } from "react-hook-form";
@@ -40,7 +40,7 @@ export default function Login() {
         data.captcha = captchaToken;
         console.log(data)
         //axios post
-        securePost("/auth/login",data)
+        Post("/auth/login",data)
             .then((response) => {
                 console.log(response)
                 toast.success("Successfully Login !");
@@ -115,6 +115,7 @@ export default function Login() {
                     setShow={setShow}
                 />
             </div>
+            
             <div className="py-2">
                 <LoginViaGoogle />
                 <LoginViaFacebook />

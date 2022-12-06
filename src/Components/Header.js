@@ -1,4 +1,5 @@
 import React, { useContext  } from "react";
+import { NavLink } from "react-router-dom";
 import { loginContext } from "../App";
 import OffCanvas from "./DropDown";
 
@@ -12,8 +13,16 @@ export default function Header() {
                    className="h-img" alt="logo" />
                 <h1 className="mx-2">Angular Minds</h1>
                 </div>
-            <div className="h-nav d-flex flex-row ">
-                {live ? <OffCanvas /> : ""}
+            <div className="h-nav d-flex flex-row">
+                {live ?
+                    <>
+                    <NavLink to='/products' style={{ textDecoration: 'none', color: 'white' }}
+                        className='my-auto mx-2'
+                        >Products
+                    </NavLink>
+                    <OffCanvas /> 
+                    </>
+                 : ""}
             </div>
         </div>
     )

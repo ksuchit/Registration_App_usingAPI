@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { Button, Form } from 'semantic-ui-react';
-import { Change_Password } from '../Services/HttpService';
+import  Post  from '../Services/HttpService';
 
 export default function ChangePasswordModal() {
 
@@ -19,7 +19,8 @@ export default function ChangePasswordModal() {
   const onSubmit = (data) => {
     delete data.confirm_password;
     console.log(data)
-    Change_Password('/users/auth/change-password',data)
+
+    Post('/users/auth/change-password',data)
     .then((response)=>{
       console.log(response)
       reset();

@@ -1,6 +1,7 @@
 import { Navigate } from "react-router-dom";
 import VerifyEmail from "./Auth/AuthOperation/VerifyEmail";
 import ChangePasswordModal from "./CompanyDetails/ChangePasswordModal";
+import Products from "./CompanyDetails/Products/Products";
 import UpdateCompany from "./CompanyDetails/UpdateCompany";
 import MyProfile from "./Components/MyProfile";
 
@@ -27,6 +28,10 @@ export default function MapRouting() {
         {
             path:"/auth/verify-email",
             element: <VerifyEmail /> 
+        },
+        {
+            path: "/products",
+            element: <Products />
         }
 
  ]

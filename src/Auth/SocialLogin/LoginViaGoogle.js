@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { loginContext } from "../../App";
-import { SocialLogin } from "../../Services/HttpService";
+import Post from "../../Services/HttpService";
 import { setToken } from "../../Services/TokenService";
 
 // const clientId = '976464159587-o17tlgqossa884u4otgp4qfd2balbv4m.apps.googleusercontent.com'
@@ -13,6 +13,7 @@ export default function LoginViaGoogle() {
     const [, setIsLive] = useContext(loginContext);
 
     const [captchaToken, setCaptchaToken] = useState();
+
     // useEffect(() => {
     //     window.grecaptcha.ready(function() {
     //         window.grecaptcha.execute('6LevmbQZAAAAAMSCjcpJmuCr4eIgmjxEI7bvbmRI', { action: 'submit' })
@@ -29,7 +30,7 @@ export default function LoginViaGoogle() {
             token: res.credential,
             // captcha:captchaToken
         }
-        SocialLogin('/auth/login/google?captcha=false', data)
+        Post('/auth/login/google?captcha=false', data)
             .then((response) => {
                 console.log(res)
                 toast.success("Successfully Login !");

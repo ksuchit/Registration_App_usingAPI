@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { UpdateUserRole } from "../../Services/HttpService";
+import { Patch } from "../../Services/HttpService";
 
 export default function EditRole(props) {
   
@@ -9,7 +9,7 @@ export default function EditRole(props) {
   
   const editRole = () => {
     console.log(role)
-    UpdateUserRole(`/users/role/${props.editUser._id}`,{role:role})
+    Patch(`/users/role/${props.editUser._id}`,{role:role})
       .then((response) => {
         console.log(response);
         props.setUsers((prev) => prev.map((item) => {

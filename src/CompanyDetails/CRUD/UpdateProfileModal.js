@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Form } from 'semantic-ui-react';
-import { UpdateCompanyInfo } from '../../Services/HttpService';
+import { Patch } from '../../Services/HttpService';
 
 export default function UpdateProfileModal(props) {
 
@@ -16,7 +16,7 @@ export default function UpdateProfileModal(props) {
   const onSubmit = (data) => {
     console.log(data)
 
-    UpdateCompanyInfo('/users/org',data)
+    Patch('/users/org',data)
         
         .then((response) => {
             console.log(response)

@@ -11,6 +11,7 @@ import EditUser from "./CRUD/EditUser";
 import EditRole from "./CRUD/EditRole";
 import DeleteUserModal from "./CRUD/DeleteUserModal";
 import Pagination from "./Pagination";
+import UseReducer from "./UseReducer";
 
 export default function UpdateCompany() {
     
@@ -30,6 +31,7 @@ export default function UpdateCompany() {
   const [userRole, setUserRole] = useState('');
   const [sortBy, setSortBy] = useState();
   const [totalUsers, setTotalUsers] = useState();
+  const [searchByName, setSearchByName] = useState('');
 
   useEffect(() => {
        //axios getFull employeesss details
@@ -79,9 +81,29 @@ export default function UpdateCompany() {
                   console.log(error)
                 })
           
+          userName ?
+          //axios getUsers for employees details
+          await getUsers(`/users?&name=${searchByName}&limit=${itemsPerPage}&page=${pageNum}&sortBy=${sortBy}`)
+            .then((response) => {
+              console.log(response)
+              setUsers(response.data.results)
+            })
+            .catch((error) => {
+              console.log(error)
+            })
+          :
+          await getUsers(`/users?&limit=${itemsPerPage}&page=${pageNum}&sortBy=${sortBy}`)
+            .then((response) => {
+              console.log(response)
+              setUsers(response.data.results)
+            })
+            .catch((error) => {
+              console.log(error)
+            })
+          
         };
         fetchData();
-    }, [itemsPerPage,pageNum,userRole,sortBy])
+    }, [itemsPerPage,pageNum,userRole,sortBy,searchByName])
 
     const currentUser_Update = {
       email: currentUser?.email,
@@ -144,11 +166,8 @@ export default function UpdateCompany() {
 
   const userSearchByName = () => {
     
-    console.log(userName)
-    
-    getUsers(`/users`)
-
-
+    setSearchByName(()=>userName)
+    console.log(searchByName)
     // getUsers(`/users?&limit=${totalUsers}`)
     //    .then((response) => {
     //      console.log(response)
@@ -337,7 +356,8 @@ export default function UpdateCompany() {
           totalUsers={totalUsers}
           fullUsers={fullUsers}
           />
-        </div>
+          </div>
+          <UseReducer />
         {/* <div className="col-1"></div> */}
       {/* </div> */}
     </div>

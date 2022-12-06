@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Form } from 'semantic-ui-react';
-import { UpdateUserInfo } from '../../Services/HttpService';
+import { Patch } from '../../Services/HttpService';
 
 export default function EditUser(props) {
     const {
@@ -27,7 +27,7 @@ export default function EditUser(props) {
   
     const onSubmit = (data) => {
       console.log(data)
-      UpdateUserInfo(`/users/${props.editUser._id}`, data)
+      Patch(`/users/${props.editUser._id}`, data)
         .then((response) => {
           console.log(response)
           props.setUsers((prev) => prev.map((item) => {

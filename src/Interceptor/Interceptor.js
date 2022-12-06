@@ -33,7 +33,7 @@ const axiosInstance = axios.create({
       // setLoader(false)
       if (err.response.request.status === 401) {
         removeToken();
-        toast.success('LogOut Due to Token Expired')
+        // toast.success('LogOut Due to Token Expired')
       }
       return Promise.reject(err)
     })

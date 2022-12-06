@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Form } from "semantic-ui-react";
 import {useForm} from "react-hook-form"
 import { NavLink, useNavigate } from "react-router-dom";
-import securePost, { EmailVerification } from "../Services/HttpService";
+import Post  from "../Services/HttpService";
 import toast from "react-hot-toast";
 import axios from "axios";
 
@@ -33,12 +33,12 @@ export default function Registration() {
         delete data.checkBox;
         data.captcha = captchaToken;
         //axios post
-        securePost("/auth/register",data)
+        Post("/auth/register",data)
             .then((response) => {
                 console.log(response)
                 toast.success('Successfully Registered')
                 console.log(response.data?.token)
-                // callEmailVerification(response.data?.token);
+                // callPost(response.data?.token);
                 navigate('/auth/login');
             }
         )
@@ -55,8 +55,8 @@ export default function Registration() {
 
     }
 
-    const callEmailVerification = (token) => {
-        //  Emailverification method is called
+    const callPost = (token) => {
+        //  Post method is called
         axios.post('https://shop-api.ngminds.com/auth/send-verification-email?captcha=false',
         {
             headers: {
