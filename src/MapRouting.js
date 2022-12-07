@@ -4,6 +4,7 @@ import ChangePasswordModal from "./CompanyDetails/CompanyPortal/ChangePasswordMo
 import Products from "./CompanyDetails/Products/Products";
 import UpdateCompany from "./CompanyDetails/CompanyPortal/UpdateCompany";
 import MyProfile from "./Components/MyProfile";
+import ProductDetails from "./CompanyDetails/Products/ProductDetails";
 
 export default function MapRouting() {
 
@@ -32,6 +33,10 @@ export default function MapRouting() {
         {
             path: "/products",
             element: <Products />
+        },
+        {
+            path: "/products/product-details",
+            element:<ProductDetails />
         }
 
  ]

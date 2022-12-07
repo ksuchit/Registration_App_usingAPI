@@ -29,5 +29,23 @@ export function VerifyAccount(url) {
 }
 
 export function getProducts(url) {
+    return (axiosInstance.get(`${url}`))
+}
+
+export function CreateProduct(url,formData) {
+    return (axiosInstance.post(`${url}`,formData,
+        {
+            headers: {
+                "Content-Type": "multipart/form-data"
+                }
+        }
+    ))
+}
+
+export function getProductDetails(url) {
     return(axiosInstance.get(`${url}`))
+}
+
+export function DeleteProduct(url) {
+    return(axiosInstance.delete(`${url}`))
 }

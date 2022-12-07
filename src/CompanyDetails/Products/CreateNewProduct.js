@@ -1,39 +1,75 @@
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import { Prev } from 'react-bootstrap/esm/PageItem';
 import Modal from 'react-bootstrap/Modal';
 import { useForm } from 'react-hook-form';
 import { Form } from 'semantic-ui-react';
-import Post from '../../Services/HttpService';
+import { CreateProduct } from '../../Services/HttpService';
+import {CiCircleRemove} from 'react-icons/ci'
+import axios from 'axios';
+import getToken from '../../Services/TokenService';
+import toast from 'react-hot-toast';
 
 export default function CreateNewProduct(props) {
 
-  const [selectedImage,setSelectedImage]=useState([])
+  const [selectedImage, setSelectedImage] = useState([]);
+  const [images, setImages] = useState([]);
+  const formData =new FormData();
     const {
         register,
       handleSubmit,
+      reset,
       formState: { errors },
     } = useForm();
   
   const onSubmit = (data) => {
-    // data.images=selectedImage
+    console.log(images)
+    // data.images=formData
     // delete data.images
-    console.log(data)
+    for (let i = 0; i < images.length; i++){
+      formData.append('images',images[i])
+    }
+
+    formData.append('name', data.name)
+    formData.append('description', data.description)
+    formData.append('price', data.price)
+    
+    console.log(formData)
     console.log('suchit')
 
-    Post('/products', data)
+    axios.post(`https://shop-api.ngminds.com/products`, formData,
+    {
+      headers: {
+        'Authorization' : `Bearer ${getToken()}`,
+          "Content-Type": "multipart/form-data"
+          }
+    }
+    )
       .then((response) => {
         console.log(response)
+        toast.success('Product Created Successfully')
+        props.setShow(false)
       })
       .catch((error) => {
         console.log(error)
+        toast.error(error.message)
       })
     
     
-    }
+  }
   
+  const removeImage = (imgUrl) => {
+    setSelectedImage((prev) => prev.filter((item,i) => i !== imgUrl))
+    setImages((prev)=> prev.filter((item,i)=> i!==imgUrl))
+  }
+  
+  const exitModal = () => {
+    reset();
+    setSelectedImage([])
+    setImages([])
+  }
+
   return (
-      <Modal {...props}
+      <Modal {...props} onExit={exitModal}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
@@ -46,29 +82,35 @@ export default function CreateNewProduct(props) {
       </Modal.Header>
       <Modal.Body>
 
-      <h1>Upload and Display Image usign React Hook's</h1>
+      <h5>Image Preview</h5>
       {selectedImage && (
         selectedImage.map((item,i)=>{
-          <div key={i}>
-          <img alt="not fount" width={"150px"} src={item} />
-          <br />
-          <button onClick={()=>setSelectedImage(null)}>Remove</button>
-          </div>
+          return(<div key={i}>
+          <img alt="not found" width={"50px"} src={item} />
+          <CiCircleRemove  onClick={()=>removeImage(i)} />
+          </div>)
         })
-       
+        
       )}
-
+      {selectedImage.length>0 &&  <p style={{color:'red'}}>Image selected:{selectedImage.length}</p> }
+      
+     
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Form.Field className='d-flex flex-column'>
               <label>Select Image *</label>
             <input type='file'
-             onChange={(event) => {
-              console.log(event.target.files[0])
-              setSelectedImage((prev)=>[...prev,URL.createObjectURL(event.target.files[0])])
+              multiple
+              onChange={(event) => {
+                console.log(event.target.files)
+                for (let i = 0; i < event.target.files.length; i++){
+                  setSelectedImage((prev) => [...prev, URL.createObjectURL(event.target.files[i])])
+                  setImages((prev)=>[...prev,event.target.files[i]])
+                  
+                }
              }}
               // {...register('images',{required:true})}
-            />  
-          </Form.Field>
+            /> 
+            </Form.Field>
           {errors.images && <p style={{color: "red"}}>Image is Required</p>}
           <Form.Field className='d-flex flex-column'>
               <labe>Name *</labe>
