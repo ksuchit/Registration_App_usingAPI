@@ -55,3 +55,14 @@
 .swal-title{
   color:red
 }
+.productImages{
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  gap: 3%;
+  padding-left: 1%;
+  padding-right: 1%;
+}
+.productCard{
+  border: 1px solid black;
+  padding: 5%;
+}
