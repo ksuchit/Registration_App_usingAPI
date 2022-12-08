@@ -1,0 +1,118 @@
+import axios from 'axios';
+import { useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import { CiCircleRemove } from 'react-icons/ci'
+import getToken from '../../Services/TokenService';
+
+export default function UpdateImageModal(props) {
+    console.log(props.data)
+    const [index, setIndex] = useState(0);
+    const [addImages, setAddImages] = useState([]);
+    const [deleteImages, setDeleteImages] = useState([]);
+
+    const formData = new FormData(); 
+
+    const imgClicked = (i) => {
+        setIndex(i)
+    }
+
+    const onUpdateImages = () => {
+        console.log('update images clicked')
+
+        for (let i = 0; i < addImages.length; i++){
+            formData.append('new_images',addImages[i])
+        }
+
+        axios.patch(`https://shop-api.ngminds.com/products/images/${props.data._id}`, formData, {
+            headers: {
+                'Authorization': `Bearer ${getToken()}`,
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+            .then((response) => {
+            console.log(response)
+            })
+            .catch((error) => {
+            console.log(error)
+        })
+
+    }
+
+    const onExitModal = () => {
+        setIndex(0)
+        setAddImages([])
+    }
+
+    const removePreviewImage = (index) => {
+        setAddImages((prev)=>prev.filter((item,i)=> i!==index))
+    }
+    console.log(addImages)
+  return (
+    <Modal {...props} size="lg" centered onExit={onExitModal}>
+      <Modal.Body>
+        <div >
+            <img src={props.data.images[index]?.url}
+                style={{width:'400px'}}
+                alt='1'
+            /> 
+            <CiCircleRemove
+                size={20}
+                style={{ backgroundColor: 'red' }}
+                // onClick={()=>removePreviousImages(index)}      
+            />
+            <p>{props.data.name}</p>
+        </div>
+        <div className='d-flex gap-3'>
+        {props.data.images.map((item, i) => {
+            return (
+                <div key={i}>
+                    <img src={item.url} alt={i} style={{width:'100px'}} onClick={()=>imgClicked(i)} />
+                </div>
+            )
+        })
+        }        
+
+        </div>
+        <div>
+                  <p style={{color:'red'}}>If you want to add Images Select from here:</p>
+                  <input type='file' multiple
+                      onChange={(event) => {
+                          console.log(event.target.files)
+                          for (let i = 0; i < event.target.files.length; i++){
+                              setAddImages((prev)=>[...prev,event.target.files[i]])
+                          }
+                          
+                    }}
+                  /> 
+              </div> 
+              <p style={{ color: 'red' }} className='my-2'>Preview of Images:{addImages.length} Selected</p>
+              <div className='d-flex gap-3 my-2'>
+                  {/* addImages contains images data not url so for preview we have to convert to url so we used here URL.createObjectURL function of js  */}
+                  {addImages.length > 0 && 
+                      addImages.map((item, i) => {
+                          return (
+                            <div key={i} className='d-flex'> 
+                                  <img src={URL.createObjectURL(item)} alt={i} style={{ width: '100px' }} />
+                                  <CiCircleRemove
+                                    onClick={()=>removePreviewImage(i)}
+                                  />
+                            </div>
+                        )
+                    })
+                  }
+              </div>     
+      </Modal.Body>
+        <Modal.Footer>
+        <Button onClick={onUpdateImages}>Update Images</Button>      
+        <Button onClick={()=>props.setShow(false)}>Close</Button>
+      </Modal.Footer>
+    </Modal>
+  );
+}
+
+
+     
+
+    
+  

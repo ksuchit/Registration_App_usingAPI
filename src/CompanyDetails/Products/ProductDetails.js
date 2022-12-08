@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import Swal from "sweetalert2";
 import { DeleteProduct, getProductDetails } from "../../Services/HttpService";
 import ImgCarousal from "./ImgCarousal";
+import UpdateImageModal from "./UpdateImageModal";
+import UpdateProductModal from "./UpdateProductModal";
 
 export default function ProductDetails() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [data, setData] = useState();
-    const navigate = useNavigate();
-  console.log(searchParams.get("productId"));
+  const navigate = useNavigate();
+  const [upShow, setUPShow] = useState();  //update product show
+  const [uiShow, setUIShow] = useState();  //update images show
 
   useEffect(() => {
     getProductDetails(`/products/${searchParams.get("productId")}`)
@@ -23,17 +27,51 @@ export default function ProductDetails() {
     const onDeleteProduct = () => {
         console.log('deleteProduct')
 
-        DeleteProduct(`/products/${searchParams.get("productId")}`)
+        const swalWithBootstrapButtons = Swal.mixin({
+          customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger'
+          },
+          buttonsStyling: false
+        })
+        
+        swalWithBootstrapButtons.fire({
+          title: 'Are you sure?',
+          html: `You won't be able to revert <p className="swal-title">${data.name} Products!</p>`,
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes, delete it!',
+          cancelButtonText: 'No, cancel!',
+          reverseButtons: true
+        }).then((result) => {
+          if (result.isConfirmed) {
+            DeleteProduct(`/products/${searchParams.get("productId")}`)
             .then((response) => {
-                console.log(response)
-                navigate('/products')
+              console.log(response)
+              swalWithBootstrapButtons.fire(
+                'Deleted!',
+                `Your <p style={{color:'red'}}>${data.name} Products</p> has been deleted.`,
+                'success'
+              )
+              navigate('/products')
             })
             .catch((error) => {
-            console.log(error)
+              console.log(error)
+            })
+            
+          } else if (
+            result.dismiss === Swal.DismissReason.cancel
+          ) {
+            swalWithBootstrapButtons.fire(
+              'Cancelled',
+              `<p style={{color:'red'}}>Your ${data.name} Products is safe :)</p>`,
+              'error'
+            )
+          }
         })
+          
     }
     
-  console.log(data);
   return (
     <div>
       <h1>productDetails</h1>
@@ -42,13 +80,29 @@ export default function ProductDetails() {
             data && <>
             <ImgCarousal imgData={data.images} />
             <p>{data.name}</p>
-              </>
+            
+            <div>
+              <UpdateProductModal
+                show={upShow}
+                setShow={setUPShow}
+                data={data}
+                setData={setData}
+              />
+               <UpdateImageModal
+                  show={uiShow}
+                  setShow={setUIShow}
+                  data={data}
+              />
+            </div>
+            </>
           }
 
         <div>
            <button onClick={onDeleteProduct}>Delete Product</button>   
-           <button >Update Product</button>   
-        </div>
+           <button onClick={()=>setUPShow(true)}>Update Product</button>
+           <button onClick={()=>setUIShow(true)}>Update Images</button>
+      </div>
+      
     </div>
   );
 }

@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useForm } from 'react-hook-form';
 import { Form } from 'semantic-ui-react';
-import { CreateProduct } from '../../Services/HttpService';
+import { getProducts } from '../../Services/HttpService';
 import {CiCircleRemove} from 'react-icons/ci'
 import axios from 'axios';
 import getToken from '../../Services/TokenService';
@@ -13,41 +13,42 @@ export default function CreateNewProduct(props) {
 
   const [selectedImage, setSelectedImage] = useState([]);
   const [images, setImages] = useState([]);
-  const formData =new FormData();
-    const {
-        register,
-      handleSubmit,
-      reset,
-      formState: { errors },
-    } = useForm();
+  const formData = new FormData();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
   
   const onSubmit = (data) => {
     console.log(images)
     // data.images=formData
     // delete data.images
-    for (let i = 0; i < images.length; i++){
-      formData.append('images',images[i])
+    for (let i = 0; i < images.length; i++) {
+      formData.append('images', images[i])
     }
 
     formData.append('name', data.name)
     formData.append('description', data.description)
     formData.append('price', data.price)
     
-    console.log(formData)
+    console.log(formData.getAll('images'))
     console.log('suchit')
 
     axios.post(`https://shop-api.ngminds.com/products`, formData,
-    {
-      headers: {
-        'Authorization' : `Bearer ${getToken()}`,
+      {
+        headers: {
+          'Authorization': `Bearer ${getToken()}`,
           "Content-Type": "multipart/form-data"
-          }
-    }
+        }
+      }
     )
       .then((response) => {
         console.log(response)
         toast.success('Product Created Successfully')
         props.setShow(false)
+        callGetProducts();    //so we dont need to refresh page to get new created product 
       })
       .catch((error) => {
         console.log(error)
@@ -57,9 +58,17 @@ export default function CreateNewProduct(props) {
     
   }
   
-  const removeImage = (imgUrl) => {
-    setSelectedImage((prev) => prev.filter((item,i) => i !== imgUrl))
-    setImages((prev)=> prev.filter((item,i)=> i!==imgUrl))
+  const callGetProducts = () => {
+    getProducts(`/products`)
+      .then((response) => {
+        props.setProducts(response.data.results);
+      })
+  }
+
+
+  const removeImage = (index) => {
+    setSelectedImage((prev) => prev.filter((item,i) => i !== index))
+    setImages((prev)=> prev.filter((item,i)=> i!==index))
   }
   
   const exitModal = () => {
@@ -75,7 +84,7 @@ export default function CreateNewProduct(props) {
       centered
       backdrop="static"
     >
-      <Modal.Header closeButton>
+      <Modal.Header >
         <Modal.Title id="contained-modal-title-vcenter">
             Create Product
         </Modal.Title>

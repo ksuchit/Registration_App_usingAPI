@@ -49,3 +49,7 @@ export function getProductDetails(url) {
 export function DeleteProduct(url) {
     return(axiosInstance.delete(`${url}`))
 }
+
+export function UpdateProduct(url, data) {
+    return(axiosInstance.patch(`${url}`,data))
+}
