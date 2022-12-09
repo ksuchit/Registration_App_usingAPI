@@ -4,10 +4,13 @@ import { getProducts } from "../../Services/HttpService";
 import CreateNewProduct from "./CreateNewProduct";
 import ImgCarousal from "./ImgCarousal";
 import Pagination from "./Pagination";
+import QuickViewModal from "./QuickViewModal";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
   const [show, setShow] = useState(false);
+  const [quickView, setQuickView] = useState(false);
+  const [id, setId] = useState();
   const navigate = useNavigate();
   
   const [pageNum, setPageNum] = useState(1);
@@ -41,24 +44,28 @@ export default function Products() {
     console.log("oncreate");
     setShow(true);
   };
-
-    const showProduct = (item) => {
-        console.log(item._id)
-        navigate(`/products/product-details?&productId=${item._id}`)
-  };
+  
+  const onQuickView = (id) => {
+    setQuickView(true)
+    console.log(id)
+    setId(id)
+  }
+  
   return (
-    <div>
+    <div className="productImages-container">
       <div className="d-flex justify-content-between">
         <div className="mx-2 my-2">
           <h1>Product List</h1>
         </div>
         <div className="mx-3 my-5">
+
           <lable className='fw-bolder'>SortBy-</lable>
           <select onChange={(e)=>setSortBy(e.target.value)}>
             <option value={''}>Default</option>
             <option value='name'>Name</option>
             <option value='price'>Price</option>
           </select>
+          
           <button onClick={onCreateProduct}
            className='mx-2 btn btn-secondary'>Create Product</button>
         </div>
@@ -73,8 +80,7 @@ export default function Products() {
               <p>Name={item.name}</p>
               <p>description={item.description}</p>
               <p>Price={item.price}</p>
-              <button className="btn btn-secondary">QUICK VIEW</button>
-              <button onClick={()=>showProduct(item)}>Show</button>
+              <button className="btn btn-secondary" onClick={() => onQuickView(item._id)}>QUICK VIEW</button>
             </div>
           );
         })
@@ -93,6 +99,15 @@ export default function Products() {
           products={products}
           itemPerPage={itemPerPage}
         />
+        {/* we added ternary because when we click on quickView it will call fun and set id its working but before 
+        that i think call goes to this modal  so we didn't get id in QuickModal so API not hitted   */}
+        {id ?
+          <QuickViewModal
+            show={quickView}
+            setShow={setQuickView}
+            id={id}
+          />
+          : ""}
       </div>
       <div>
         <lable className='fw-bolder'>Items Per Page-</lable>

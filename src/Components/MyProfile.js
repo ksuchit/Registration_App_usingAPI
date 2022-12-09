@@ -44,12 +44,12 @@ export default function MyProfile(props) {
   }
 
   return (
-    <div >
+    <div className="my-profile-container">
     <div className="d-flex flex-column my-profile">
         <>
-          <h2>MyProfile</h2>
-          <hr />
-          <div className="m-2 d-flex justify-content-center">
+          <h2 style={{color:'white',textAlign:'center'}}>MyProfile</h2>
+          <hr style={{color:'white'}} size='10'/>
+          <div className="d-flex justify-content-center">
               <img
                 src="https://static.vecteezy.com/system/resources/thumbnails/001/840/612/small/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg"
                 alt="menProfile-Logo"
@@ -71,7 +71,7 @@ export default function MyProfile(props) {
               <button onClick={verifyEmail}>Verify</button>
               </>))}
           </>
-          <div className="m-2">
+          <div className="p-2 my-2" style={{backgroundColor:'bisque',borderRadius:'2%'}}>
             <div className="d-flex">
               <h3>{data.name}</h3>
             </div>

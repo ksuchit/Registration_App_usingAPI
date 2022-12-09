@@ -66,6 +66,7 @@ export default function Login() {
     }
   
     return (
+        <div className="loginContainer">
         <div className="loginPage w-25 h-auto p-2">
             {/* <h2>Login</h2>
             <hr /> */}
@@ -121,6 +122,8 @@ export default function Login() {
                 <LoginViaFacebook />
             </div>
 
+            </div>
         </div>
+            
     )
 }

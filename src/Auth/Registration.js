@@ -74,12 +74,13 @@ export default function Registration() {
     }
 
     return (
+        <div className="registration-container">
         <div className="registration ">
             <Form onSubmit={handleSubmit(onSubmit)} className="reg-form  h-auto p-2">
                 <h2>Registration</h2>
                 <hr/>
                 <Form.Field className="d-flex flex-column p-1">
-                    <label>Full Name</label>
+                    <label className="fw-bolder">Full Name</label>
                     <input type="text" placeholder="Enter Full Name"
                     className="p-2"
                     {...register("name",{required:true})}
@@ -87,7 +88,7 @@ export default function Registration() {
                 </Form.Field>
                 { errors.name && <p style={{color: "red"}}>user name is Required</p>}
                 <Form.Field className="d-flex flex-column p-1">
-                    <label>Company Name</label>
+                    <label className="fw-bolder">Company Name</label>
                     <input type="text" placeholder="Enter Company Name"
                     className="p-2"
                     { ...register("company",{required:true})}                    
@@ -95,7 +96,7 @@ export default function Registration() {
                 </Form.Field>
                 { errors.company && <p style={{color: "red"}}>company name is Required</p>}
                 <Form.Field className="d-flex flex-column p-1">
-                    <label>Email</label>
+                    <label className="fw-bolder">Email</label>
                     <input type="text" placeholder="Enter Email" 
                     className="p-2"
                         {...register("email",
@@ -108,7 +109,7 @@ export default function Registration() {
                 {errors.email && <p style={{ color: "red" }}>email is Required</p>}
                 {isEmailRegistered ? <p style={{ color: "red" }}>user email is alredy exist</p> : ""}
                 <Form.Field className="d-flex flex-column p-1">
-                    <label>Password</label>
+                    <label className="fw-bolder">Password</label>
                     <input type="password" placeholder="Enter Password"
                     className="p-2"
                     {...register("password",{required:true , minLength:8 })}
@@ -118,7 +119,7 @@ export default function Registration() {
                 {errors.password?.type==='minLength' && <p style={{ color: "red" }}>minimum 8 charachters Required</p>}
                 
                 <Form.Field className="d-flex flex-column p-1">
-                    <label>Confirm Password</label>
+                    <label className="fw-bolder">Confirm Password</label>
                     <input type="password" placeholder="Enter Password"
                     className="p-2"
                         {...register("Rpassword", {
@@ -152,5 +153,6 @@ export default function Registration() {
             </Form>
             <NavLink style={{ textDecoration: 'none' }} to='/auth/login' >Already have an account? </NavLink>
         </div>
+    </div>
     )
 }

@@ -80,29 +80,29 @@ export default function UpdateCompany() {
                   console.log(error)
                 })
           
-          userName ?
-          //axios getUsers for employees details
-          await getUsers(`/users?&name=${searchByName}&limit=${itemsPerPage}&page=${pageNum}&sortBy=${sortBy}`)
-            .then((response) => {
-              console.log(response)
-              setUsers(response.data.results)
-            })
-            .catch((error) => {
-              console.log(error)
-            })
-          :
-          await getUsers(`/users?&limit=${itemsPerPage}&page=${pageNum}&sortBy=${sortBy}`)
-            .then((response) => {
-              console.log(response)
-              setUsers(response.data.results)
-            })
-            .catch((error) => {
-              console.log(error)
-            })
+        //   userName ?
+        //   //axios getUsers for employees details
+        //   await getUsers(`/users?&name=${searchByName}&limit=${itemsPerPage}&page=${pageNum}&sortBy=${sortBy}`)
+        //     .then((response) => {
+        //       console.log(response)
+        //       setUsers(response.data.results)
+        //     })
+        //     .catch((error) => {
+        //       console.log(error)
+        //     })
+        //   :
+        //   await getUsers(`/users?&limit=${itemsPerPage}&page=${pageNum}&sortBy=${sortBy}`)
+        //     .then((response) => {
+        //       console.log(response)
+        //       setUsers(response.data.results)
+        //     })
+        //     .catch((error) => {
+        //       console.log(error)
+        //     })
           
-        };
+         };
         fetchData();
-    }, [itemsPerPage,pageNum,userRole,sortBy,searchByName])
+    }, [itemsPerPage,pageNum,userRole,sortBy])
 
     const currentUser_Update = {
       email: currentUser?.email,

@@ -94,6 +94,7 @@ export default function ProductDetails() {
                   show={uiShow}
                   setShow={setUIShow}
                   data={data}
+                  setData={setData}
               />
             </div>
             </>

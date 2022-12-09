@@ -23,7 +23,11 @@ export default function UpdateImageModal(props) {
         for (let i = 0; i < addImages.length; i++){
             formData.append('new_images',addImages[i])
         }
-
+        for (let i = 0; i < deleteImages.length; i++){
+            formData.append('delete', deleteImages[i])
+        }
+        
+        console.log(deleteImages)
         axios.patch(`https://shop-api.ngminds.com/products/images/${props.data._id}`, formData, {
             headers: {
                 'Authorization': `Bearer ${getToken()}`,
@@ -31,12 +35,20 @@ export default function UpdateImageModal(props) {
             }
         })
             .then((response) => {
-            console.log(response)
+                console.log(response)
+                props.setData(response.data.images)
+                props.setShow(false)
             })
             .catch((error) => {
             console.log(error)
         })
 
+    }
+
+    const removePreviousImages = (index) => {
+        // props.data.images[index]._id
+        console.log(props.data.images[index].public_id)
+        setDeleteImages((prev)=>[...prev,props.data.images[index].public_id])
     }
 
     const onExitModal = () => {
@@ -49,17 +61,22 @@ export default function UpdateImageModal(props) {
     }
     console.log(addImages)
   return (
-    <Modal {...props} size="lg" centered onExit={onExitModal}>
+    <Modal {...props} size="lg" centered onExit={()=>onExitModal}>
       <Modal.Body>
-        <div >
+        <div>
+            <div>
             <img src={props.data.images[index]?.url}
                 style={{width:'400px'}}
                 alt='1'
-            /> 
+            />
+            {/* <div>
+                <button style={{position:'absolute'}}>Delete</button>              
+            </div> */}
+            </div>          
             <CiCircleRemove
                 size={20}
                 style={{ backgroundColor: 'red' }}
-                // onClick={()=>removePreviousImages(index)}      
+                onClick={()=>removePreviousImages(index)}     
             />
             <p>{props.data.name}</p>
         </div>

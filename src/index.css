@@ -1,7 +1,4 @@
 body{
-  background-image: url('https://s26162.pcdn.co/wp-content/uploads/2019/11/bestbookcovers2019.jpg');
-  background-repeat: no-repeat;
-  object-fit: fill;
 }
 .header{
   max-height: 150px;
@@ -22,11 +19,29 @@ body{
   margin: 10px;
  
 }
+.registration-container{
+  background-image: url('https://wallpapercave.com/wp/wp4430530.jpg');
+  height: 110vh;
+  width: 100vw;
+  background-size: cover;
+  padding-top: 1%;
+  
+
+}
 .registration{
-  margin: 2% auto;
+  margin-left: 15% ;
   padding: 2%;
   max-width: fit-content;
-  box-shadow: 11px 12px 13px 12px rgb(105, 104, 104);
+  /* border: 1px solid black; */
+  /* box-shadow: 11px 12px 13px 12px rgb(105, 104, 104); */
+}
+.loginContainer{
+  background-image: url('Images/bestbookcovers2019.jpg');
+  background-repeat: no-repeat;
+  height: 100vh;
+  width: 100vw;
+  padding: 1%;
+ 
 }
 .loginPage{
   margin: 2% auto;
@@ -43,15 +58,22 @@ body{
   border-radius: 50%;
   border: 1px solid rgb(1, 1, 10);
 }
+.my-profile-container{
+  background-image: url('https://wallpaperaccess.com/full/1927125.jpg');
+  background-repeat: no-repeat;
+  height: 100vh;
+  width: 100vw;
+  padding: 1%;
+}
 .my-profile{
  
   padding: 4%;
   margin: 2% auto;
-  background-color: rgb(114, 112, 111);
+  border: 1px solid grey;
   border-radius: 2%;
-  /* box-shadow: 11px 12px 13px 12px rgb(105, 104, 104); */
   max-width: fit-content;
 }
+
 .changePwd{
   padding: 2%;
   margin: 2% auto;
@@ -64,14 +86,29 @@ body{
 .swal-title{
   color:red
 }
+/* .productImages-container{
+  background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHxdxsZ5Jd9q3ncvOsYCpeEbr8BDJY6uffKI6vIiKAcZkAhiccYaS_dr0wRQcm6psesxQ&usqp=CAU');
+
+} */
 .productImages{
   display: grid;
   grid-template-columns: auto auto auto auto;
-  gap: 3%;
+  gap: 3%;  
   padding-left: 1%;
   padding-right: 1%;
 }
 .productCard{
   border: 1px solid black;
+  border-radius: 2%;
+  background-color: rgb(223, 212, 198);
   padding: 5%;
+}
+.createProduct-container{
+  background-image: url('https://w0.peakpx.com/wallpaper/31/750/HD-wallpaper-cup-coffee-books-pen-laptop.jpg');
+  background-repeat: no-repeat;
+  padding: 5%;
+  object-fit: cover;
+  max-width: fit-content;
+  margin: 0% auto;
+  
 }
