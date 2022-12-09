@@ -71,6 +71,7 @@ export default function Products() {
               <p>Name={item.name}</p>
               <p>description={item.description}</p>
               <p>Price={item.price}</p>
+              <button className="btn btn-secondary">QUICK VIEW</button>
               <button onClick={()=>showProduct(item)}>Show</button>
             </div>
           );

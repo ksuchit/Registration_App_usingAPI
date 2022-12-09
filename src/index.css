@@ -1,3 +1,8 @@
+body{
+  background-image: url('https://s26162.pcdn.co/wp-content/uploads/2019/11/bestbookcovers2019.jpg');
+  background-repeat: no-repeat;
+  object-fit: fill;
+}
 .header{
   max-height: 150px;
   background-color: rgb(1, 1, 10);
@@ -25,7 +30,9 @@
 }
 .loginPage{
   margin: 2% auto;
-  box-shadow: 11px 12px 13px 12px rgb(105, 104, 104);
+  /* box-shadow: 11px 12px 13px 12px rgb(105, 104, 104); */
+  background-color: rgb(114, 112, 111);
+  border-radius: 2%;
 }
 .btn{
   border: none;
@@ -40,7 +47,9 @@
  
   padding: 4%;
   margin: 2% auto;
-  box-shadow: 11px 12px 13px 12px rgb(105, 104, 104);
+  background-color: rgb(114, 112, 111);
+  border-radius: 2%;
+  /* box-shadow: 11px 12px 13px 12px rgb(105, 104, 104); */
   max-width: fit-content;
 }
 .changePwd{

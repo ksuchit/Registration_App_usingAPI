@@ -1,4 +1,4 @@
-import React, {  useContext, useEffect, useState } from "react";
+import React, {  useContext, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import  { setToken } from "../Services/TokenService";
 import Post  from "../Services/HttpService";
@@ -67,8 +67,8 @@ export default function Login() {
   
     return (
         <div className="loginPage w-25 h-auto p-2">
-            <h1>Login</h1>
-            <hr />
+            {/* <h2>Login</h2>
+            <hr /> */}
             <Form onSubmit={handleSubmit(onSubmit)} className="reg-form  h-auto p-2">
             <Form.Field className="d-flex flex-column p-1">
                     <label>Email</label>
@@ -116,7 +116,7 @@ export default function Login() {
                 />
             </div>
             
-            <div className="py-2">
+            <div>
                 <LoginViaGoogle />
                 <LoginViaFacebook />
             </div>
