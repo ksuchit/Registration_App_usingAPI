@@ -48,25 +48,27 @@ export default function Products() {
   };
   return (
     <div>
-      <div>
-        <div>
-          <button onClick={onCreateProduct}>Create Product</button>
-          <h1>products</h1>
+      <div className="d-flex justify-content-between">
+        <div className="mx-2 my-2">
+          <h1>Product List</h1>
         </div>
-        <div>
-          <lable>SortBy-</lable>
+        <div className="mx-3 my-5">
+          <lable className='fw-bolder'>SortBy-</lable>
           <select onChange={(e)=>setSortBy(e.target.value)}>
             <option value={''}>Default</option>
             <option value='name'>Name</option>
             <option value='price'>Price</option>
           </select>
+          <button onClick={onCreateProduct}
+           className='mx-2 btn btn-secondary'>Create Product</button>
         </div>
       </div>
       
-      <div className="d-flex">
-        {products.map((item, i) => {
+      <div className="productImages">
+        {products.length>0 ?
+        products.map((item, i) => {
           return (
-            <div key={i}>
+            <div key={i} className='productCard'>
               <ImgCarousal imgData={item.images} />
               <p>Name={item.name}</p>
               <p>description={item.description}</p>
@@ -75,7 +77,9 @@ export default function Products() {
               <button onClick={()=>showProduct(item)}>Show</button>
             </div>
           );
-        })}
+        })
+      :<p style={{color:'red'}}>No data Found</p>
+      }
       </div>
       <CreateNewProduct
         show={show}
@@ -91,7 +95,7 @@ export default function Products() {
         />
       </div>
       <div>
-        <lable>Items Per Page</lable>
+        <lable className='fw-bolder'>Items Per Page-</lable>
         <select onChange={(e)=>setItemPerPage(e.target.value)}>
           <option value={4}>4</option>
           <option value={7}>7</option>

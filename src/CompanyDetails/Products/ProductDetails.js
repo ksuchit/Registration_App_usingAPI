@@ -37,7 +37,7 @@ export default function ProductDetails() {
         
         swalWithBootstrapButtons.fire({
           title: 'Are you sure?',
-          html: `You won't be able to revert <p className="swal-title">${data.name} Products!</p>`,
+          html: `You won't be able to revert <p style=${{color:'red'}}>${data.name} Products!</p>`,
           icon: 'warning',
           showCancelButton: true,
           confirmButtonText: 'Yes, delete it!',
@@ -73,8 +73,10 @@ export default function ProductDetails() {
     }
     
   return (
-    <div>
-      <h1>productDetails</h1>
+    <div className="row">
+    <div className="col-3"></div>
+    <div className="col-6" style={{border:'1px solid black',padding:'2%',marginTop:'2%'}}>
+      <h1 style={{textAlign:'center'}}>Product Details</h1>
           {
             //we required time to get response but till our page is rendered so i was getting error.
             data && <>
@@ -97,12 +99,20 @@ export default function ProductDetails() {
             </>
           }
 
-        <div>
-           <button onClick={onDeleteProduct}>Delete Product</button>   
-           <button onClick={()=>setUPShow(true)}>Update Product</button>
-           <button onClick={()=>setUIShow(true)}>Update Images</button>
+        <div style={{textAlign:'center'}}>
+           <button onClick={onDeleteProduct}
+              className="btn btn-danger"
+           >Delete Product</button>   
+           <button onClick={()=>setUPShow(true)}
+              className="btn btn-secondary mx-2"
+           >Update Product</button>
+           <button onClick={()=>setUIShow(true)}
+              className="btn btn-secondary"
+           >Update Images</button>
       </div>
       
+    </div>
+    <div className="col-3"></div>
     </div>
   );
 }
