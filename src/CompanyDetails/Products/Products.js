@@ -80,7 +80,9 @@ export default function Products() {
               <p>Name={item.name}</p>
               <p>description={item.description}</p>
               <p>Price={item.price}</p>
-              <button className="btn btn-secondary" onClick={() => onQuickView(item._id)}>QUICK VIEW</button>
+              <div className="d-flex justify-content-center productCard-btn">
+                <button className="btn btn-secondary" onClick={() => onQuickView(item._id)}>QUICK VIEW</button>
+              </div>
             </div>
           );
         })
