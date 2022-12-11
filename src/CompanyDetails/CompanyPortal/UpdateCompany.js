@@ -29,20 +29,10 @@ export default function UpdateCompany() {
   const [itemsPerPage, setItemsPerPage] = useState(4)
   const [userRole, setUserRole] = useState('');
   const [sortBy, setSortBy] = useState();
-  const [totalUsers, setTotalUsers] = useState();
+  const [totalPages, setTotalPages] = useState();
   const [searchByName, setSearchByName] = useState('');
 
-  useEffect(() => {
-       //axios getFull employeesss details
-       getUsers(`/users`)
-       .then((response) => {
-         console.log(response.data?.totalResults)
-          setTotalUsers(response.data?.totalResults)
-       })
-       .catch((error) => {
-           console.log(error)
-       })
-  },[])
+
   
     useEffect(() => {
         const fetchData = async () => {
@@ -66,6 +56,7 @@ export default function UpdateCompany() {
                 .then((response) => {
                   console.log(response)
                   setUsers(response.data.results)
+                  setTotalPages(response.data.totalPages)
                 })
                 .catch((error) => {
                   console.log(error)
@@ -75,6 +66,7 @@ export default function UpdateCompany() {
                 .then((response) => {
                   console.log(response)
                   setUsers(response.data.results)
+                  setTotalPages(response.data.totalPages)
                 })
                 .catch((error) => {
                   console.log(error)
@@ -135,30 +127,7 @@ export default function UpdateCompany() {
     const role=(e.target.value)
     setUserRole(role)
     console.log(userRole)
-    // if (role === 'showAll')
-    // {
-    //   getUsers(`/users?&limit=${itemsPerPage}`)
-    //               .then((response) => {
-    //                   console.log(response)
-    //                   setUsers(response.data.results)
-    //               })
-    //               .catch((error) => {
-    //                   console.log(error)
-    //               })
-    // }
-    // else {
-      
-    //   getUsers(`/users?&role=${role}&limit=${itemsPerPage}`)
-    //               .then((response) => {
-    //                   console.log(response)
-    //                   setUsers(response.data.results)
-    //               })
-    //               .catch((error) => {
-    //                   console.log(error)
-    //               })
-      
-    // }
-    // e.target.value = 'select Role'
+    
   }
 
   const [userName, setUserName] = useState("");
@@ -167,35 +136,13 @@ export default function UpdateCompany() {
     
     setSearchByName(()=>userName)
     console.log(searchByName)
-    // getUsers(`/users?&limit=${totalUsers}`)
-    //    .then((response) => {
-    //      console.log(response)
-         
-    //      console.log(response.data.results.filter((item) => { return (item.name.includes(userName)) }))
-    //      const filteredUserNames = response.data.results.filter((item) => { return (item.name.includes(userName)) });
-         
-    //     setFullUsers(filteredUserNames)
-    //     setUsers(filteredUserNames)
-    //    })
-    //    .catch((error) => {
-    //        console.log(error)
-    //    })
-   
+
   }
 
   const callSortBy = (e) => {
     console.log(e.target.value)
     const sortBy = e.target.value;
     setSortBy(sortBy)
-    
-    // getUsers(`/users?&sortBy=${sortBy}`)
-    //   .then((res) => {
-    //     console.log(res)
-    //     setUsers(res.data?.results)
-    //   })
-    //   .catch((err) => {
-    //   console.log(err)
-    // })
 
   }
 
@@ -352,8 +299,8 @@ export default function UpdateCompany() {
             pageNum={pageNum}
             setPageNum={setPageNum}
             users={users}
-          totalUsers={totalUsers}
-          fullUsers={fullUsers}
+            fullUsers={fullUsers}
+            totalPages={totalPages}
           />
           </div>
         {/* <div className="col-1"></div> */}

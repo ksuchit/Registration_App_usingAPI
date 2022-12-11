@@ -104,11 +104,11 @@ body{
   padding: 5%;
 }
   
-.productCard-btn{
-  display: none;
+.productCard-btn button{
+  opacity: 0;
 }
-.productCard:hover +.productCard-btn{
-  display: inline-block;
+.productCard:hover .productCard-btn button{
+  opacity: 1;
 }
 .createProduct-container{
   background-image: url('https://w0.peakpx.com/wallpaper/31/750/HD-wallpaper-cup-coffee-books-pen-laptop.jpg');

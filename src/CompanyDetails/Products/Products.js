@@ -5,6 +5,7 @@ import CreateNewProduct from "./CreateNewProduct";
 import ImgCarousal from "./ImgCarousal";
 import Pagination from "./Pagination";
 import QuickViewModal from "./QuickViewModal";
+import {FaRupeeSign} from 'react-icons/fa'
 
 export default function Products() {
   const [products, setProducts] = useState([]);
@@ -15,6 +16,7 @@ export default function Products() {
   
   const [pageNum, setPageNum] = useState(1);
   const [itemPerPage, setItemPerPage] = useState(4);
+  const [totalPages,setTotalPages]=useState();
   const [sortBy, setSortBy] = useState('');
 
   useEffect(() => {
@@ -24,6 +26,7 @@ export default function Products() {
       .then((response) => {
         console.log(response);
         setProducts(response.data.results);
+        setTotalPages(response.data.totalPages)
       })
       .catch((error) => {
         console.log(error);
@@ -33,6 +36,7 @@ export default function Products() {
       .then((response) => {
         console.log(response);
         setProducts(response.data.results);
+        setTotalPages(response.data.totalPages)
       })
       .catch((error) => {
         console.log(error);
@@ -77,11 +81,10 @@ export default function Products() {
           return (
             <div key={i} className='productCard'>
               <ImgCarousal imgData={item.images} />
-              <p>Name={item.name}</p>
-              <p>description={item.description}</p>
-              <p>Price={item.price}</p>
+              <p>{item.name}</p>
+              <p> <FaRupeeSign />{item.price}</p>
               <div className="d-flex justify-content-center productCard-btn">
-                <button className="btn btn-secondary" onClick={() => onQuickView(item._id)}>QUICK VIEW</button>
+                <button className="btn btn-secondary " onClick={() => onQuickView(item._id)}>QUICK VIEW</button>
               </div>
             </div>
           );
@@ -98,8 +101,7 @@ export default function Products() {
         <Pagination
           pageNum={pageNum}
           setPageNum={setPageNum}
-          products={products}
-          itemPerPage={itemPerPage}
+          totalPages={totalPages}
         />
         {/* we added ternary because when we click on quickView it will call fun and set id its working but before 
         that i think call goes to this modal  so we didn't get id in QuickModal so API not hitted   */}

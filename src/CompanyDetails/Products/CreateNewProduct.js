@@ -48,7 +48,7 @@ export default function CreateNewProduct(props) {
         console.log(response)
         toast.success('Product Created Successfully')
         props.setShow(false)
-        callGetProducts();    //so we dont need to refresh page to get new created product 
+        // callGetProducts();    //so we dont need to refresh page to get new created product 
       })
       .catch((error) => {
         console.log(error)
@@ -136,13 +136,23 @@ export default function CreateNewProduct(props) {
           {/* {errors.description && <p style={{color: "red"}}>Description is Required</p>} */}
           <Form.Field className='d-flex flex-column'>
               <label style={{color:'white'}}>Price *</label>
-            <input type='number' placeholder='Enter Price'
+            <input type='number' placeholder='Enter Price' min={0}
               {...register('price',{required:true})}
             />  
           </Form.Field>
           {errors.price && <p style={{color: "red"}}>Price is Required</p>}
           <Button type="submit" className="m-1 p-2" style={{backgroundColor:"rgb(1, 1, 10)",color:"white"}}>Submit</Button>
           </Form>
+          <label>Select Type of Book:</label>
+          <select>
+            <option>Engineering</option>
+            <option>Engineering</option>
+            <option>Engineering</option>
+            <option>Engineering</option>
+            <option>Engineering</option>
+            <option>Engineering</option>
+            <option>Engineering</option>
+          </select>
         </div>
       </Modal.Body>
         <Button onClick={()=>props.setShow(false)}>Close</Button>

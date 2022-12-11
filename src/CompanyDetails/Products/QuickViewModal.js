@@ -34,7 +34,7 @@ console.log(props.id)
       centered
       backdrop="static"
     >   
-              <Modal.Body>
+        <Modal.Body>
             <div className="d-flex gap-5">
                 <div className="d-flex flex-column gap-3">
                     {
