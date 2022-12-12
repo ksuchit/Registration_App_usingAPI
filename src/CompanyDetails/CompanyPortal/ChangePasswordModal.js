@@ -35,6 +35,7 @@ export default function ChangePasswordModal() {
   }
 
   return (
+    <div className='changePassword'>
     <div className='registration'>
       <Form onSubmit={handleSubmit(onSubmit)} >
         <Form.Field className="d-flex flex-column p-1">
@@ -73,6 +74,7 @@ export default function ChangePasswordModal() {
         <Button type="submit" className="m-1 p-2" style={{backgroundColor:"rgb(1, 1, 10)",color:"white"}}>Submit</Button>
         
       </Form>
+      </div>
     </div>
   );
 }

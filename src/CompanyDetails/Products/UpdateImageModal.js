@@ -4,6 +4,8 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { CiCircleRemove } from 'react-icons/ci'
 import getToken from '../../Services/TokenService';
+import {FaRupeeSign} from 'react-icons/fa'
+
 
 export default function UpdateImageModal(props) {
     console.log(props.data)
@@ -63,32 +65,42 @@ export default function UpdateImageModal(props) {
   return (
     <Modal {...props} size="lg" centered onExit={()=>onExitModal}>
       <Modal.Body>
-        <div>
+        <div className='d-flex'>
             <div>
-            <img src={props.data.images[index]?.url}
-                style={{width:'400px'}}
-                alt='1'
-            />
-            {/* <div>
-                <button style={{position:'absolute'}}>Delete</button>              
-            </div> */}
-            </div>          
-            <CiCircleRemove
-                size={20}
-                style={{ backgroundColor: 'red' }}
-                onClick={()=>removePreviousImages(index)}     
-            />
-            <p>{props.data.name}</p>
+                      {props.data.images.length > 0 ?
+                          <img src={props.data.images[index]?.url}
+                              style={{ width: '400px' }}
+                              alt='1'
+                          />
+                          : <img src='https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930'
+                              className="d-block w-100"
+                              alt='no data' />
+                      }
+                {/* <div>
+                    <button style={{position:'absolute'}}>Delete</button>              
+                </div> */}
+           
+                <CiCircleRemove
+                    size={20}
+                    style={{ backgroundColor: 'red' }}
+                    onClick={()=>removePreviousImages(index)}     
+                />
+            </div>
+            <div className='py-4 px-3'>
+                      <p>{props.data.name}</p>
+                      <p>{props.data.description}</p>
+                      <p><FaRupeeSign />{props.data.price}</p>
+            </div>
         </div>
-        <div className='d-flex gap-3'>
-        {props.data.images.map((item, i) => {
-            return (
-                <div key={i}>
-                    <img src={item.url} alt={i} style={{width:'100px'}} onClick={()=>imgClicked(i)} />
-                </div>
-            )
-        })
-        }        
+        <div className='d-flex gap-3 my-3'>
+            {props.data.images.map((item, i) => {
+                return (
+                    <div key={i}>
+                        <img src={item.url} alt={i} style={{width:'100px'}} onClick={()=>imgClicked(i)} />
+                    </div>
+                )
+            })
+            }        
 
         </div>
         <div>
@@ -103,7 +115,10 @@ export default function UpdateImageModal(props) {
                     }}
                   /> 
               </div> 
-              <p style={{ color: 'red' }} className='my-2'>Preview of Images:{addImages.length} Selected</p>
+              <div className='d-flex'>
+                <p style={{ color: 'red' }} className='my-2'>Preview of Images:</p>
+                <p>{addImages.length} Selected</p>
+              </div>
               <div className='d-flex gap-3 my-2'>
                   {/* addImages contains images data not url so for preview we have to convert to url so we used here URL.createObjectURL function of js  */}
                   {addImages.length > 0 && 
@@ -121,7 +136,7 @@ export default function UpdateImageModal(props) {
               </div>     
       </Modal.Body>
         <Modal.Footer>
-        <Button onClick={onUpdateImages}>Update Images</Button>      
+        <Button onClick={onUpdateImages}>Save Changes</Button>      
         <Button onClick={()=>props.setShow(false)}>Close</Button>
       </Modal.Footer>
     </Modal>

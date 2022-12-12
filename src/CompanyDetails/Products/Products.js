@@ -81,6 +81,13 @@ export default function Products() {
           return (
             <div key={i} className='productCard'>
               <ImgCarousal imgData={item.images} />
+              {/* <div style={{ width: '100%', border: '1px solid black', height: '50vh' }}>
+              <img
+                    className="cardImg"
+                    src={item.images[0].url}
+                    alt="First slide"
+                    />
+              </div> */}
               <p>{item.name}</p>
               <p> <FaRupeeSign />{item.price}</p>
               <div className="d-flex justify-content-center productCard-btn">

@@ -37,7 +37,7 @@ function App() {
           <Route element={<PublicRouting />}>
             <Route path="/auth/login" element={<Login />} />
             <Route path="/auth/registration" element={<Registration />} />
-              <Route path="/auth/reset-password" element={<ResetPasswordModal /> } />
+            <Route path="/auth/reset-password" element={<ResetPasswordModal /> } />
           </Route>
 
           {/* ProtectedRouting */}

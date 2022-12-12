@@ -3,7 +3,7 @@ import Button  from "react-bootstrap/Button";
 import  Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
 import { getProductDetails } from "../../Services/HttpService";
-import ImgCarousal from "./ImgCarousal";
+import { FaRupeeSign } from 'react-icons/fa'
 
 export default function QuickViewModal(props) {
   const [data, setData] = useState();
@@ -53,14 +53,20 @@ console.log(props.id)
                     <h2 style={{textAlign:'center'}}>Product Details</h2>
                     {
                         //we required time to get response but till our page is rendered so i was getting error.
-                        data && <>
-                        <img src={data.images[index]?.url}
-                            style={{width:'500px'}}
-                            alt='1'
-                        /> 
+                data && <>
+                  {data.images.length === 0 ?
+                    <img src='https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930'
+                      className="d-block w-100"
+                      alt='no data' />
+                    :
+                    <img src={data.images[index]?.url}
+                      style={{ width: '500px' }}
+                      alt='1'
+                    />
+                  }
                         <p>{data.name}</p>
                         <p>{data.description}</p>
-                        <p>{data.price}</p>          
+                        <p><FaRupeeSign />{data.price}</p>          
                         </>
                     }
                     
