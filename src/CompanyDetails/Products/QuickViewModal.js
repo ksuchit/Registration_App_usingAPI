@@ -32,7 +32,6 @@ console.log(props.id)
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
-      backdrop="static"
     >   
         <Modal.Body>
             <div className="d-flex gap-5">
@@ -56,17 +55,17 @@ console.log(props.id)
                 data && <>
                   {data.images.length === 0 ?
                     <img src='https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930'
-                      className="d-block w-100"
+                    style={{ width: '400px',height:'400px' }}
                       alt='no data' />
                     :
                     <img src={data.images[index]?.url}
-                      style={{ width: '500px' }}
+                      style={{ width: '400px',height:'400px' }}
                       alt='1'
                     />
                   }
-                        <p>{data.name}</p>
+                        <h2>{data.name}</h2>
                         <p>{data.description}</p>
-                        <p><FaRupeeSign />{data.price}</p>          
+                        <p className='fw-bolder'><FaRupeeSign />{data.price}</p>          
                         </>
                     }
                     

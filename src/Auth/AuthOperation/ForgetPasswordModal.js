@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Modal } from "react-bootstrap";
 import toast from "react-hot-toast";
-import  Post from "../../Services/HttpService";
+import  Post from "../../Services/HttpService"; 
 
 export default function ForgetPasswordModal(props) {
 
@@ -47,7 +47,7 @@ export default function ForgetPasswordModal(props) {
 
   return (
     <div>
-      <Modal show={props.show} centered >
+      <Modal show={props.show} >
         <Modal.Header>
           <h6>Enter valid email id so that we will send verification email to your mail id</h6>
         </Modal.Header>

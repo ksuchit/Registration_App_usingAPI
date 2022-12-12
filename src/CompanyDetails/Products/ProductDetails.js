@@ -94,17 +94,21 @@ export default function ProductDetails() {
           }
         </div>
         <div>
-             
                 {
                   //we required time to get response but till our page is rendered so i was getting error.
               data && <> {data.images.length>0 ?<>
-                  <img src={data.images[index].url} alt="1" style={{width:'500px'}}/>
-                  <p>{data.name}</p>
-                  <p><FaRupeeSign />{data.price}</p>
+                  <div>
+                    <img src={data.images[index].url} alt="1" style={{width:'400px',height:'400px'}}/>
+                  </div>
+                  <h2>{data.name}</h2>
+                  <p>{data.description}</p>
+                  <p className='fw-bolder'><FaRupeeSign />{data.price}</p>
                   </> :
-                  <img src='https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930'
-                  className="d-block w-100"
-                  alt='no data' />
+                  <div>
+                    <img src='https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930'
+                    style={{width:'400px',height:'400px'}} 
+                    alt='no data' />
+                  </div>
                 }
                   <div>
                     <UpdateProductModal

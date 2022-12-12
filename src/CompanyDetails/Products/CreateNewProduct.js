@@ -143,16 +143,6 @@ export default function CreateNewProduct(props) {
           {errors.price && <p style={{color: "red"}}>Price is Required</p>}
           <Button type="submit" className="m-1 p-2" style={{backgroundColor:"rgb(1, 1, 10)",color:"white"}}>Submit</Button>
           </Form>
-          <label>Select Type of Book:</label>
-          <select>
-            <option>Engineering</option>
-            <option>Engineering</option>
-            <option>Engineering</option>
-            <option>Engineering</option>
-            <option>Engineering</option>
-            <option>Engineering</option>
-            <option>Engineering</option>
-          </select>
         </div>
       </Modal.Body>
         <Button onClick={()=>props.setShow(false)}>Close</Button>

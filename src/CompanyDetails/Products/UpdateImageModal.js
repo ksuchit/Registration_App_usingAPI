@@ -66,42 +66,42 @@ export default function UpdateImageModal(props) {
     <Modal {...props} size="lg" centered onExit={()=>onExitModal}>
       <Modal.Body>
         <div className='d-flex'>
+            <div className='d-flex gap-3 mx-3'>
+                {props.data.images.map((item, i) => {
+                    return (
+                        <div key={i}>
+                            <img src={item.url} alt={i} style={{width:'100px'}} onClick={()=>imgClicked(i)} />
+                        </div>
+                    )
+                })
+                }        
+
+            </div>
             <div>
+                <div className='d-flex'>
                       {props.data.images.length > 0 ?
                           <img src={props.data.images[index]?.url}
-                              style={{ width: '400px' }}
+                              style={{ width: '400px',height:'400px' }}
                               alt='1'
                           />
                           : <img src='https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930'
-                              className="d-block w-100"
+                              style={{ width: '400px',height:'400px' }}
                               alt='no data' />
                       }
-                {/* <div>
-                    <button style={{position:'absolute'}}>Delete</button>              
-                </div> */}
-           
-                <CiCircleRemove
-                    size={20}
-                    style={{ backgroundColor: 'red' }}
-                    onClick={()=>removePreviousImages(index)}     
-                />
-            </div>
-            <div className='py-4 px-3'>
-                      <p>{props.data.name}</p>
-                      <p>{props.data.description}</p>
-                      <p><FaRupeeSign />{props.data.price}</p>
-            </div>
-        </div>
-        <div className='d-flex gap-3 my-3'>
-            {props.data.images.map((item, i) => {
-                return (
-                    <div key={i}>
-                        <img src={item.url} alt={i} style={{width:'100px'}} onClick={()=>imgClicked(i)} />
+                    <div>
+                        <CiCircleRemove
+                            size={20}
+                            style={{ backgroundColor: 'red' }}
+                            onClick={()=>removePreviousImages(index)}     
+                        />
                     </div>
-                )
-            })
-            }        
-
+                </div>
+                <div className='py-2 px-3' style={{textAlign:'center'}}>
+                        <h2>{props.data.name}</h2>
+                        {/* <p>{props.data.description}</p>
+                        <p className='fw-bolder'><FaRupeeSign />{props.data.price}</p> */}
+                </div>
+            </div>
         </div>
         <div>
                   <p style={{color:'red'}}>If you want to add Images Select from here:</p>

@@ -9,12 +9,16 @@ import { loginContext } from "../App";
 import ForgetPasswordModal from "./AuthOperation/ForgetPasswordModal";
 import LoginViaGoogle from "./SocialLogin/LoginViaGoogle";
 import LoginViaFacebook from "./SocialLogin/LoginViaFacebook";
+import {BiShow,BiHide} from 'react-icons/bi'
+import { type } from "@testing-library/user-event/dist/type";
 
 export default function Login() {
     const [, setIsLive] = useContext(loginContext);
     const navigate = useNavigate();
     const [captchaToken, setCaptchaToken] = useState();
     const [show, setShow] = useState(false);
+    const [showPassword,setShowPassword]=useState(false);
+
     const {
         register,
         handleSubmit,
@@ -70,7 +74,7 @@ export default function Login() {
         <div className="loginPage w-25 h-auto p-2">
             {/* <h2>Login</h2>
             <hr /> */}
-            <Form onSubmit={handleSubmit(onSubmit)} className="reg-form  h-auto p-2">
+            <Form onSubmit={handleSubmit(onSubmit)} className="reg-form h-auto p-2">
             <Form.Field className="d-flex flex-column p-1">
                     <label>Email</label>
                     <input type="text" placeholder="Enter Email"
@@ -81,10 +85,13 @@ export default function Login() {
                 {errors.email && <p style={{ color: "red" }}>email is Required</p>}
                 <Form.Field className="d-flex flex-column p-1">
                     <label>Password</label>
-                    <input type="password" placeholder="Enter Password"
-                    className="p-2"
+                    <input placeholder="Enter Password" className="p-2"
+                    //  {showPassword ? type='text' : type='password'}
                     {...register("password",{required:true , minLength:8 })}
                     />
+                    {showPassword ?<BiHide onClick={()=>setShowPassword(false)}/>
+                    :<BiShow onClick={()=>setShowPassword(true)}/>
+                    }
                 </Form.Field>
                 {errors.password?.type === 'required' && <p style={{ color: "red" }}>password is Required</p>}
                 {errors.password?.type === 'minLength' && <p style={{ color: "red" }}>minimum 8 charachters Required</p>}

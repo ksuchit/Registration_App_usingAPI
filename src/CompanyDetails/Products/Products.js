@@ -82,14 +82,21 @@ export default function Products() {
             <div key={i} className='productCard'>
               <ImgCarousal imgData={item.images} />
               {/* <div style={{ width: '100%', border: '1px solid black', height: '50vh' }}>
+              {item.images.length>0 ?
               <img
-                    className="cardImg"
-                    src={item.images[0].url}
-                    alt="First slide"
-                    />
+                  className="cardImg"
+                  src={item.images[0].url}
+                  alt="First slide"
+              /> :
+              <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930"
+                  className="cardImg"
+                  alt="no data"
+              />
+              }
               </div> */}
-              <p>{item.name}</p>
-              <p> <FaRupeeSign />{item.price}</p>
+              <h4>{item.name}</h4>
+              <p className='fw-bolder'> <FaRupeeSign />{item.price}</p>
               <div className="d-flex justify-content-center productCard-btn">
                 <button className="btn btn-secondary " onClick={() => onQuickView(item._id)}>QUICK VIEW</button>
               </div>
