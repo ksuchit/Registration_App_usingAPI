@@ -66,7 +66,7 @@ export default function UpdateImageModal(props) {
     <Modal {...props} size="lg" centered onExit={()=>onExitModal}>
       <Modal.Body>
         <div className='d-flex'>
-            <div className='d-flex gap-3 mx-3'>
+            <div className='d-flex flex-column gap-3 mx-3'>
                 {props.data.images.map((item, i) => {
                     return (
                         <div key={i}>

@@ -6,6 +6,7 @@ import ImgCarousal from "./ImgCarousal";
 import Pagination from "./Pagination";
 import QuickViewModal from "./QuickViewModal";
 import {FaRupeeSign} from 'react-icons/fa'
+import Footer from "../../Components/Footer";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
@@ -16,9 +17,11 @@ export default function Products() {
   
   const [pageNum, setPageNum] = useState(1);
   const [itemPerPage, setItemPerPage] = useState(4);
-  const [totalPages,setTotalPages]=useState();
+  const [totalPages, setTotalPages] = useState();
+  const [totalResults, setTotalResults] = useState();
   const [sortBy, setSortBy] = useState('');
-
+  const [name, setName] = useState("");
+  const[searchByName,setSearchByName]=useState('')
   useEffect(() => {
 
     sortBy ?
@@ -27,6 +30,7 @@ export default function Products() {
         console.log(response);
         setProducts(response.data.results);
         setTotalPages(response.data.totalPages)
+        setTotalResults(response.data.totalResults)
       })
       .catch((error) => {
         console.log(error);
@@ -37,12 +41,26 @@ export default function Products() {
         console.log(response);
         setProducts(response.data.results);
         setTotalPages(response.data.totalPages)
+        setTotalResults(response.data.totalResults)
       })
       .catch((error) => {
         console.log(error);
       });
+    
+    searchByName &&
+    getProducts(`/products?&limit=${itemPerPage}&page=${pageNum}&name=${searchByName}`)
+    .then((response) => {
+      console.log(response);
+      setProducts(response.data.results);
+      setTotalPages(response.data.totalPages)
+      setTotalResults(response.data.totalResults)
+      setName("")
+    })
+    .catch((error) => {
+      console.log(error);
+    })
 
-  }, [itemPerPage,pageNum,sortBy]);
+  }, [itemPerPage,pageNum,sortBy,searchByName]);
 
   const onCreateProduct = () => {
     console.log("oncreate");
@@ -54,12 +72,25 @@ export default function Products() {
     console.log(id)
     setId(id)
   }
+
+  const onSearchByName = () => {
+    setSearchByName(() => name)
+    console.log(searchByName)
+    
+  }
   
   return (
     <div className="productImages-container">
       <div className="d-flex justify-content-between">
         <div className="mx-2 my-2">
           <h1>Product List</h1>
+          <div>
+            <input type='text' value={name}
+              onChange={(e) => setName(e.target.value)} />
+            <button className="btn btn-primary mx-2"
+                onClick={onSearchByName}
+            >Search</button>
+          </div>
         </div>
         <div className="mx-3 my-5">
 
@@ -80,7 +111,8 @@ export default function Products() {
         products.map((item, i) => {
           return (
             <div key={i} className='productCard'>
-              <ImgCarousal imgData={item.images} />
+
+              <ImgCarousal imgData={item.images} style={{position:''}} />
               {/* <div style={{ width: '100%', border: '1px solid black', height: '50vh' }}>
               {item.images.length>0 ?
               <img
@@ -95,10 +127,10 @@ export default function Products() {
               />
               }
               </div> */}
-              <h4>{item.name}</h4>
-              <p className='fw-bolder'> <FaRupeeSign />{item.price}</p>
+              <h6 className="py-1">{item.name}</h6>
+              <p className='fw-bolder '> <FaRupeeSign />{item.price}</p>
               <div className="d-flex justify-content-center productCard-btn">
-                <button className="btn btn-secondary " onClick={() => onQuickView(item._id)}>QUICK VIEW</button>
+                <button className="btn btn-secondary btn-sm " onClick={() => onQuickView(item._id)}>QUICK VIEW</button>
               </div>
             </div>
           );
@@ -128,13 +160,21 @@ export default function Products() {
           : ""}
       </div>
       <div>
-        <lable className='fw-bolder'>Items Per Page-</lable>
-        <select onChange={(e)=>setItemPerPage(e.target.value)}>
-          <option value={4}>4</option>
-          <option value={7}>7</option>
-          <option value={10}>10</option>
-        </select>
+        <div>
+          <lable className='fw-bolder'>Items Per Page-</lable>
+          <select onChange={(e)=>setItemPerPage(e.target.value)}>
+            <option value={4}>4</option>
+            <option value={7}>7</option>
+            <option value={10}>10</option>
+          </select>
+        </div>
+        <div className="d-flex py-1">
+          <p>Showing Results From :</p> <p className="px-1 fw-bolder">{itemPerPage * (pageNum - 1) + 1}</p>
+            to <p className="px-1 fw-bolder">{itemPerPage * pageNum > totalResults ? totalResults : itemPerPage * pageNum}</p>
+            of <p className="px-1 fw-bolder">{totalResults} </p>
+        </div>
       </div>
+      <Footer />
     </div>
   );
 }

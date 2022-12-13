@@ -1,5 +1,3 @@
-import { getUsers } from "../../Services/HttpService"
-
 export default function Pagination(props) {
 
     return (
@@ -31,7 +29,7 @@ export default function Pagination(props) {
                     <p className="fw-bolder mx-1">{((props.pageNum -1) * props.itemsPerPage)+1}</p>
                     <p> to </p><p className="fw-bolder mx-1">{((props.pageNum -1) * props.itemsPerPage)+props.users.length}</p>
                     <p>of</p>
-                    {props.fullUsers.length > 0 ? <p className="fw-bolder mx-1">{props.fullUsers.length}</p> :<p className="fw-bolder mx-1">{props.totalUsers}</p>}
+                    <p className="fw-bolder mx-1">{props.totalResults}</p>
                 </div>
             </div>
             

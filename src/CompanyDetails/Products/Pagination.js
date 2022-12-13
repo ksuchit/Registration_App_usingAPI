@@ -7,7 +7,7 @@ export default function Pagination(props) {
                 >Previous</button>
             }
             <p className='fw-bolder mx-2'>{props.pageNum}</p>
-            { props.totalPages!==props.pageNum ? 
+            { props.totalPages!==props.pageNum && props.totalPages!==0? 
                 <button onClick={() => props.setPageNum((prev) => prev + 1)}
                     className='btn btn-secondary'
                 >Next</button>

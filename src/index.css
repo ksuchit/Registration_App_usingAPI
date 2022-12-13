@@ -12,8 +12,8 @@ body{
  
 }
 .h-img{
-  height: 50px;
-  width: 50px;
+  width: 60px;
+  /* height: 70px; */
 }
 .h-nav NavLink{
   margin: 10px;
@@ -108,7 +108,7 @@ body{
   border-radius: 2%;
   background-color: rgb(223, 212, 198);
   padding: 5%;
-  height: 75vh;
+  min-height: 60vh;
 }
 
 .carousel-item {
@@ -117,7 +117,7 @@ body{
   justify-content: center !important;
   align-items: center !important;
   width: 100% !important;
-  height: 50vh !important;
+  height: 45vh !important;
   /* border: 2px solid black; */
 
 }
@@ -150,3 +150,4 @@ body{
   max-width: fit-content;
   margin: 0% auto;
 }
+

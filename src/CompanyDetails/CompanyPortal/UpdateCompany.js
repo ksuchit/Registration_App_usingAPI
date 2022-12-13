@@ -23,13 +23,13 @@ export default function UpdateCompany() {
   const [currentUser, setCurrentUser] = useState({});
   const [users, setUsers] = useState([]);
   
-  const [fullUsers, setFullUsers] = useState([]);
   const [orgData, setOrgData] = useState({})
   const [pageNum, setPageNum] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(4)
   const [userRole, setUserRole] = useState('');
   const [sortBy, setSortBy] = useState();
   const [totalPages, setTotalPages] = useState();
+  const [totalResults, setTotalResults] = useState();
   const [searchByName, setSearchByName] = useState('');
 
 
@@ -57,6 +57,7 @@ export default function UpdateCompany() {
                   console.log(response)
                   setUsers(response.data.results)
                   setTotalPages(response.data.totalPages)
+                  setTotalResults(response.data.totalResults)
                 })
                 .catch((error) => {
                   console.log(error)
@@ -67,6 +68,7 @@ export default function UpdateCompany() {
                   console.log(response)
                   setUsers(response.data.results)
                   setTotalPages(response.data.totalPages)
+                  setTotalResults(response.data.totalResults)
                 })
                 .catch((error) => {
                   console.log(error)
@@ -189,7 +191,6 @@ export default function UpdateCompany() {
         <CreateUserModal
           show={modalShow}
           onHide={()=>setModalShow(false)}
-          setFullUsers={setFullUsers}
         />
         <UpdateProfileModal
           show={modalShowUpdate}
@@ -299,8 +300,8 @@ export default function UpdateCompany() {
             pageNum={pageNum}
             setPageNum={setPageNum}
             users={users}
-            fullUsers={fullUsers}
             totalPages={totalPages}
+            totalResults={totalResults}
           />
           </div>
         {/* <div className="col-1"></div> */}

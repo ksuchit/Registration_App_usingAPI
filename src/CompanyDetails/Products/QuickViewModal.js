@@ -48,8 +48,9 @@ console.log(props.id)
                         })
                     }
                 </div>      
-                <div  style={{border:'1px solid black',padding:'2%',marginTop:'2%'}}>
-                    <h2 style={{textAlign:'center'}}>Product Details</h2>
+            <div style={{ border: '1px solid black', padding: '2%', marginTop: '1%' }}>
+              <div className="d-flex">
+                    {/* <h2 style={{textAlign:'center'}}>Product Details</h2> */}
                     {
                         //we required time to get response but till our page is rendered so i was getting error.
                 data && <>
@@ -62,13 +63,15 @@ console.log(props.id)
                       style={{ width: '400px',height:'400px' }}
                       alt='1'
                     />
-                  }
+                    }
+                    <div className="mx-2">
                         <h2>{data.name}</h2>
                         <p>{data.description}</p>
-                        <p className='fw-bolder'><FaRupeeSign />{data.price}</p>          
+                        <p className='fw-bolder'><FaRupeeSign />{data.price}</p>  
+                    </div>
                         </>
                     }
-                    
+                </div>    
                           <div className="d-flex justify-content-end">
                           <Button onClick={onSeeMore}>See More</Button>          
                           </div>

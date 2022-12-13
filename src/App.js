@@ -16,6 +16,7 @@ import ChangePasswordModal from "./CompanyDetails/CompanyPortal/ChangePasswordMo
 import ResetPasswordModal from "./Auth/AuthOperation/ResetPasswordModal";
 import VerifyEmail from "./Auth/AuthOperation/VerifyEmail";
 import MapRouting from "./MapRouting";
+
 const loginContext = createContext();
 function App() {
 
@@ -50,10 +51,12 @@ function App() {
             <Route path="/my-profile/companyInfo" element={<UpdateCompany />} />
             <Route path="/auth/change-password" element={< ChangePasswordModal />} />
             <Route path="/auth/verify-email" element={<VerifyEmail /> } /> */}
+            
           </Route>
-
+          
           <Route path="*" element={<NotFound />} />
-        </Routes>
+          </Routes>
+          
       </BrowserRouter>
       <Toaster position="top-center" reverseOrder={false} />
         </loginContext.Provider>

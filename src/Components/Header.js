@@ -1,17 +1,18 @@
 import React, { useContext  } from "react";
 import { NavLink } from "react-router-dom";
 import { loginContext } from "../App";
-import OffCanvas from "./DropDown";
+import DropDown from "./DropDown";
+import logo from '../Images/logo.png' 
 
 export default function Header() {
     const [live] = useContext(loginContext);
    
     return (
-        <div className="header p-3">
-            <div className="d-flex">
-                <img src="https://res.cloudinary.com/crunchbase-production/image/upload/c_lpad,f_auto,q_auto:eco,dpr_1/h0kvromeujgdyexmj42o"
+        <div className="header p-2">
+            <div className="d-flex align-items-center">
+                <img src={logo}
                    className="h-img" alt="logo" />
-                <h1 className="mx-2">Angular Minds</h1>
+                <h5 className="mx-2" >READER'S PALACE</h5>
                 </div>
             <div className="h-nav d-flex flex-row">
                 {live ?
@@ -20,7 +21,7 @@ export default function Header() {
                         className='my-auto mx-2'
                         >Products
                     </NavLink>
-                    <OffCanvas /> 
+                    <DropDown /> 
                     </>
                  : ""}
             </div>
