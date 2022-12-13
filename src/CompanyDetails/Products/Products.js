@@ -111,8 +111,12 @@ export default function Products() {
         products.map((item, i) => {
           return (
             <div key={i} className='productCard'>
-
-              <ImgCarousal imgData={item.images} style={{position:''}} />
+              <div>
+                <ImgCarousal imgData={item.images} />
+              <div className="d-flex justify-content-center productCard-btn">
+                <button className="btn btn-secondary btn-sm " onClick={() => onQuickView(item._id)}>QUICK VIEW</button>
+              </div>
+              </div>
               {/* <div style={{ width: '100%', border: '1px solid black', height: '50vh' }}>
               {item.images.length>0 ?
               <img
@@ -129,9 +133,7 @@ export default function Products() {
               </div> */}
               <h6 className="py-1">{item.name}</h6>
               <p className='fw-bolder '> <FaRupeeSign />{item.price}</p>
-              <div className="d-flex justify-content-center productCard-btn">
-                <button className="btn btn-secondary btn-sm " onClick={() => onQuickView(item._id)}>QUICK VIEW</button>
-              </div>
+              
             </div>
           );
         })
