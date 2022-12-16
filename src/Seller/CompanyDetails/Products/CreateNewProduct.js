@@ -88,17 +88,24 @@ export default function CreateNewProduct(props) {
       <h2 style={{textAlign:'center'}} className='my-1'>Create Product</h2>
       <Modal.Body>
       <div className='createProduct-container'>
-      <h5 style={{color:'white'}}>Image Preview</h5>
-      {selectedImage && (
-        selectedImage.map((item,i)=>{
-          return(<div key={i}>
-          <img alt="not found" width={"50px"} src={item} />
-          <CiCircleRemove  onClick={()=>removeImage(i)} />
-          </div>)
-        })
-        
-      )}
-      {selectedImage.length>0 &&  <p style={{color:'red'}}>Image selected:{selectedImage.length}</p> }
+        <div>
+          <h5 style={{ color: 'white' }}>Image Preview</h5>
+          <div className='d-flex flex-wrap gap-1'>
+            {selectedImage && (
+              selectedImage.map((item,i)=>{
+                return (<div key={i}>
+                <div className='d-flex'>
+                  <img alt="not found" width={"70px"} height={'70px'} src={item} />
+                    <CiCircleRemove onClick={() => removeImage(i)}
+                      style={{ backgroundColor: 'white',borderRadius:'50%' }} />
+                </div>
+                </div>)
+              })
+              
+            )}
+          </div>    
+          {selectedImage.length>0 &&  <p style={{color:'red'}}>Image selected:{selectedImage.length}</p> }
+        </div>      
       
      
         <Form onSubmit={handleSubmit(onSubmit)}>

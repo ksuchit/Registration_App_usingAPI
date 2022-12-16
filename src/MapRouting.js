@@ -3,7 +3,7 @@ import VerifyEmail from "./Auth/AuthOperation/VerifyEmail";
 import ChangePasswordModal from "./CompanyDetails/CompanyPortal/ChangePasswordModal";
 import Products from "./CompanyDetails/Products/Products";
 import UpdateCompany from "./CompanyDetails/CompanyPortal/UpdateCompany";
-import MyProfile from "./Components/MyProfile";
+import MyProfile from "./CompanyDetails/CompanyPortal/MyProfile";
 import ProductDetails from "./CompanyDetails/Products/ProductDetails";
 
 export default function MapRouting() {

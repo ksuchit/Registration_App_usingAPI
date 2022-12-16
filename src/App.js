@@ -2,16 +2,16 @@ import React, { createContext,  useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Header from "./Components/Header";
 import Login from "./Auth/Login";
-import MyProfile from "./Components/MyProfile";
+import MyProfile from "./CompanyDetails/CompanyPortal/MyProfile";
 import Registration from "./Auth/Registration";
 import NotFound from "./Components/NotFound";
 import { Toaster } from "react-hot-toast";
 import Loader from "./Loader/Loader";
 import PublicRouting from "./Auth/PublicRouting";
 import ProtectedRouting from "./Auth/ProtectedRouting";
-import getToken from "./Services/TokenService";
+import getToken from "./Seller/Services/TokenService";
 import UpdateCompany from "./CompanyDetails/CompanyPortal/UpdateCompany";
-import { getLoader } from "./Services/LoaderService";
+import { getLoader } from "./Seller/Services/LoaderService";
 import ChangePasswordModal from "./CompanyDetails/CompanyPortal/ChangePasswordModal";
 import ResetPasswordModal from "./Auth/AuthOperation/ResetPasswordModal";
 import VerifyEmail from "./Auth/AuthOperation/VerifyEmail";
@@ -35,23 +35,17 @@ function App() {
         <Routes>
 
            {/* PublicRouting   */}
-          <Route element={<PublicRouting />}>
+          <Route path="seller" element={<PublicRouting />}>
             <Route path="/auth/login" element={<Login />} />
             <Route path="/auth/registration" element={<Registration />} />
             <Route path="/auth/reset-password" element={<ResetPasswordModal /> } />
           </Route>
 
           {/* ProtectedRouting */}
-          <Route element={<ProtectedRouting />}>
+          <Route path="seller" element={<ProtectedRouting />}>
               {routesData.map((item,i) => {
                 return <Route path={item.path} element={item.element} key={i}/>
             })}
-            {/* <Route path="/my-profile" element={<MyProfile />} />
-            <Route path="/" element={<Navigate to={"/my-profile"} />} />
-            <Route path="/my-profile/companyInfo" element={<UpdateCompany />} />
-            <Route path="/auth/change-password" element={< ChangePasswordModal />} />
-            <Route path="/auth/verify-email" element={<VerifyEmail /> } /> */}
-            
           </Route>
           
           <Route path="*" element={<NotFound />} />

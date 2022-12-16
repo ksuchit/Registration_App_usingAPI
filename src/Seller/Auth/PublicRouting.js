@@ -7,5 +7,5 @@ import getToken from "../Services/TokenService";
 export default function PublicRouting() {
     const [live, ] = useContext(loginContext)
 
-    return live ? <Navigate to='/my-profile' /> : <Outlet />;
+    return live ? <Navigate to='/seller/my-profile' /> : <Outlet />;
 }

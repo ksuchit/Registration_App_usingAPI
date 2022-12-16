@@ -83,7 +83,9 @@ export default function Products() {
     <div className="productImages-container">
       <div className="d-flex justify-content-between">
         <div className="mx-2 my-2">
-          <h1>Product List</h1>
+          <div>
+            <h1>Product List</h1>
+          </div>
           <div>
             <input type='text' value={name}
               onChange={(e) => setName(e.target.value)} />
@@ -111,12 +113,12 @@ export default function Products() {
         products.map((item, i) => {
           return (
             <div key={i} className='productCard'>
-              <div>
+              {/* <div> */}
                 <ImgCarousal imgData={item.images} />
               <div className="d-flex justify-content-center productCard-btn">
                 <button className="btn btn-secondary btn-sm " onClick={() => onQuickView(item._id)}>QUICK VIEW</button>
               </div>
-              </div>
+              {/* </div> */}
               {/* <div style={{ width: '100%', border: '1px solid black', height: '50vh' }}>
               {item.images.length>0 ?
               <img
@@ -132,8 +134,9 @@ export default function Products() {
               }
               </div> */}
               <h6 className="py-1">{item.name}</h6>
-              <p className='fw-bolder '> <FaRupeeSign />{item.price}</p>
-              
+              <div>
+                <p className='fw-bolder'> <FaRupeeSign />{item.price}</p>
+              </div>
             </div>
           );
         })

@@ -38,7 +38,8 @@ export default function UpdateImageModal(props) {
         })
             .then((response) => {
                 console.log(response)
-                props.setData(response.data.images)
+                props.setData(response.data)
+                console.log(response.data.images)
                 props.setShow(false)
             })
             .catch((error) => {
@@ -48,14 +49,23 @@ export default function UpdateImageModal(props) {
     }
 
     const removePreviousImages = (index) => {
-        // props.data.images[index]._id
         console.log(props.data.images[index].public_id)
-        setDeleteImages((prev)=>[...prev,props.data.images[index].public_id])
+        // when we click on delete icon then it will add to array but when we 
+        // continiously clicking then it will add same img multiple times so to avoid it we write this
+        if (!deleteImages.includes(props.data.images[index].public_id))
+            setDeleteImages((prev) => [...prev,props.data.images[index].public_id])
+        
+    }
+    
+    const previewOfDeleteImg = (index) => {
+        setDeleteImages((prev)=>prev.filter((item,i)=>i!==index))
     }
 
     const onExitModal = () => {
+        console.log('onexit')
         setIndex(0)
         setAddImages([])
+        setDeleteImages([])
     }
 
     const removePreviewImage = (index) => {
@@ -63,7 +73,7 @@ export default function UpdateImageModal(props) {
     }
     console.log(addImages)
   return (
-    <Modal {...props} size="lg" centered onExit={()=>onExitModal}>
+    <Modal {...props} size="lg" centered onExit={()=>onExitModal()}>
       <Modal.Body>
         <div className='d-flex'>
             <div className='d-flex flex-column gap-3 mx-3'>
@@ -116,7 +126,7 @@ export default function UpdateImageModal(props) {
                   /> 
               </div> 
               <div className='d-flex'>
-                <p style={{ color: 'red' }} className='my-2'>Preview of Images:</p>
+                <p style={{ color: 'red' }}>Preview of Images To be Added:</p>
                 <p>{addImages.length} Selected</p>
               </div>
               <div className='d-flex gap-3 my-2'>
@@ -133,7 +143,33 @@ export default function UpdateImageModal(props) {
                         )
                     })
                   }
-              </div>     
+              </div>
+              {/* Preview of Images U want To DELETE */}
+              <div>
+                <div className='d-flex'>
+                    <p style={{ color: 'red' }} >Preview of Images U want To DELETE:</p>
+                    <p>{deleteImages.length} Selected</p>
+                </div>
+                <div className='d-flex'>
+                {/* this is for to get         */}
+                  {deleteImages && 
+                      deleteImages.map((item, i) => {
+                          const url = props.data.images.filter((data, i) => {
+                              if(data.public_id===item)
+                              return data.url
+                          })
+                        return (
+                            <div key={i} className='d-flex'> 
+                                  <img src={url[0].url} alt={i} style={{ width: '100px' }} />
+                                  <CiCircleRemove
+                                    onClick={()=>previewOfDeleteImg(i)}
+                                  />
+                            </div>
+                        )
+                    })                  
+                }
+                </div>      
+              </div>
       </Modal.Body>
         <Modal.Footer>
         <Button onClick={onUpdateImages}>Save Changes</Button>      

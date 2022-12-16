@@ -4,8 +4,8 @@ import { MdMarkEmailRead, MdWork } from "react-icons/md";
 import { FaUserAlt } from "react-icons/fa";
 import { AiFillCloseCircle } from "react-icons/ai";
 import toast from "react-hot-toast";
-import { loginContext } from "../App";
-import { EmailVerification, secureGet } from "../Services/HttpService";
+import { loginContext } from "../../App";
+import { EmailVerification, secureGet } from "../../Services/HttpService";
 
 export default function MyProfile(props) {
   const [ ,setIsLive] = useContext(loginContext);
