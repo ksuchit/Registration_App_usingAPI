@@ -2,7 +2,7 @@ import { GoogleLogin } from "@react-oauth/google";
 import React, { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { loginContext } from "../../App";
+import { loginContext } from "../../../App";
 import Post from "../../Services/HttpService";
 import { setToken } from "../../Services/TokenService";
 
@@ -38,7 +38,7 @@ export default function LoginViaGoogle() {
                 setToken(response.data.token)
                 localStorage.setItem('userName', JSON.stringify(response.data.user?.name))
                 setIsLive(response.data.token)
-                navigate('/my-profile')
+                navigate('/seller/my-profile')
             })
             .catch((error) => {
                 console.log(error)

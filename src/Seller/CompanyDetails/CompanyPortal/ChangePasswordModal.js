@@ -25,7 +25,7 @@ export default function ChangePasswordModal() {
       console.log(response)
       reset();
       toast.success('Password Changed Successfully')
-      navigate('/my-profile')
+      navigate('/seller/my-profile')
 
     })
     .catch((error)=>{

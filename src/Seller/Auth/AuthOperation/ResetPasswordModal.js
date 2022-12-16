@@ -25,7 +25,7 @@ export default function PostModal() {
           .then((response) => {
               console.log(response)
               toast.success('Successfully Changed Password')
-              navigate('/auth/login')
+              navigate('/seller/auth/login')
           })
           .catch((error) => {
               console.log(error)
@@ -71,7 +71,7 @@ export default function PostModal() {
               Reset Password
             </Button>
       </Form>
-      <NavLink to='/auth/login' 
+      <NavLink to='/seller/auth/login' 
         style={{ textDecoration: 'none', position: '' }}>Back</NavLink>
         </div>
         

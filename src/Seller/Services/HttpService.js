@@ -1,4 +1,4 @@
-import axiosInstance from "../Interceptor/Interceptor";
+import axiosInstance from "../../Interceptor/Interceptor";
 
 export default function Post(url,data) {
    return (axiosInstance.post(`${url}`, data))

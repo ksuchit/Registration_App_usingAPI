@@ -1,7 +1,7 @@
 import axios from "axios";
 import toast from "react-hot-toast";
-import setLoader from "../Services/LoaderService";
-import getToken, { removeToken } from "../Services/TokenService";
+// import setLoader from "../Services/LoaderService";
+import getToken, { removeToken } from "../Seller/Services/TokenService";
 
 const axiosInstance = axios.create({
   baseURL: `https://shop-api.ngminds.com/`,

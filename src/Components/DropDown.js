@@ -34,11 +34,11 @@ export default function DropDown() {
         </Dropdown.Toggle>
 
         <Dropdown.Menu variant="dark" align={{ lg: 'end' }}>
-          <Dropdown.Item href="/my-profile" ><ImProfile className="mx-2"/>Profile</Dropdown.Item>
-          <Dropdown.Item href="/my-profile/companyInfo" ><MdWork className="mx-2"/>Company Info</Dropdown.Item>
-          <Dropdown.Item href="/auth/change-password" ><BsFillKeyFill className="mx-2"/>Change Password</Dropdown.Item>
+          <Dropdown.Item href="/seller/my-profile" ><ImProfile className="mx-2"/>Profile</Dropdown.Item>
+          <Dropdown.Item href="/seller/my-profile/companyInfo" ><MdWork className="mx-2"/>Company Info</Dropdown.Item>
+          <Dropdown.Item href="/seller/auth/change-password" ><BsFillKeyFill className="mx-2"/>Change Password</Dropdown.Item>
           <Dropdown.Divider />
-          <Dropdown.Item href="/auth/login" onClick={logOutClicked}><CgLogOff size={20} className="mx-2"/>Logout</Dropdown.Item>
+          <Dropdown.Item href="/seller/auth/login" onClick={logOutClicked}><CgLogOff size={20} className="mx-2"/>Logout</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
 

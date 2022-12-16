@@ -11,7 +11,7 @@ export default function VerifyEmail() {
             .then((response) => {
                 console.log(response)
                 toast.success('Successfully Email Verified')
-                navigate('/my-profile')
+                navigate('/seller/my-profile')
             })
             .catch((error) => {
                 console.log(error)

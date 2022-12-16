@@ -5,12 +5,11 @@ import Post  from "../Services/HttpService";
 import toast from "react-hot-toast";
 import { Button, Form } from "semantic-ui-react";
 import { useForm } from "react-hook-form";
-import { loginContext } from "../App";
+import { loginContext } from "../../App";
 import ForgetPasswordModal from "./AuthOperation/ForgetPasswordModal";
 import LoginViaGoogle from "./SocialLogin/LoginViaGoogle";
 import LoginViaFacebook from "./SocialLogin/LoginViaFacebook";
 import {BiShow,BiHide} from 'react-icons/bi'
-import { type } from "@testing-library/user-event/dist/type";
 
 export default function Login() {
     const [, setIsLive] = useContext(loginContext);
@@ -52,7 +51,7 @@ export default function Login() {
                 setToken(response.data.token)
                 localStorage.setItem('userName', JSON.stringify(response.data.user?.name))
                 setIsLive(response.data.token)
-                navigate('/my-profile')
+                navigate('/seller/my-profile')
             }
         )
             .catch((err) => {
@@ -114,7 +113,7 @@ export default function Login() {
                 <div className="d-flex flex-column">
                     {/* <NavLink style={{ textDecoration: 'none' }} to='/auth/forgot-password' ><button className=" mx-1 btn btn-sm btn-primary float-right">forgot password</button></NavLink> */}
                     <Button type="submit" className="m-1 my-2 p-2" style={{backgroundColor:"rgb(1, 1, 10)",color:"white"}}>Submit</Button>
-                    <p className="mx-1">Not a member? <NavLink style={{ textDecoration: 'none' }} to='/auth/registration' >Register</NavLink></p>
+                    <p className="mx-1">Not a member? <NavLink style={{ textDecoration: 'none' }} to='/seller/auth/registration' >Register</NavLink></p>
                 </div>
             </Form>
             <div>

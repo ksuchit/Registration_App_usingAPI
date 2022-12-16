@@ -39,7 +39,7 @@ export default function Registration() {
                 toast.success('Successfully Registered')
                 console.log(response.data?.token)
                 // callPost(response.data?.token);
-                navigate('/auth/login');
+                navigate('/seller/auth/login');
             }
         )
             .catch((err) => {
@@ -151,7 +151,7 @@ export default function Registration() {
                 {errors.checkBox?.type === 'required' && <p style={{color: "red"}}>checkBox must selected </p>}
                 <Button type="submit" className="m-1 p-2" style={{backgroundColor:"rgb(1, 1, 10)",color:"white"}}>Submit</Button>
             </Form>
-            <NavLink style={{ textDecoration: 'none' }} to='/auth/login' >Already have an account? </NavLink>
+            <NavLink style={{ textDecoration: 'none' }} to='/seller/auth/login' >Already have an account? </NavLink>
         </div>
     </div>
     )

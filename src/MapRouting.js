@@ -1,41 +1,37 @@
 import { Navigate } from "react-router-dom";
-import VerifyEmail from "./Auth/AuthOperation/VerifyEmail";
-import ChangePasswordModal from "./CompanyDetails/CompanyPortal/ChangePasswordModal";
-import Products from "./CompanyDetails/Products/Products";
-import UpdateCompany from "./CompanyDetails/CompanyPortal/UpdateCompany";
-import MyProfile from "./CompanyDetails/CompanyPortal/MyProfile";
-import ProductDetails from "./CompanyDetails/Products/ProductDetails";
+import VerifyEmail from "./Seller/Auth/AuthOperation/VerifyEmail";
+import ChangePasswordModal from "./Seller/CompanyDetails/CompanyPortal/ChangePasswordModal";
+import Products from "./Seller/CompanyDetails/Products/Products";
+import UpdateCompany from "./Seller/CompanyDetails/CompanyPortal/UpdateCompany";
+import MyProfile from "./Seller/CompanyDetails/CompanyPortal/MyProfile";
+import ProductDetails from "./Seller/CompanyDetails/Products/ProductDetails";
 
 export default function MapRouting() {
 
  const routes = [
     
         {
-            path: "/my-profile",
+            path: "/seller/my-profile",
             element: < MyProfile />
         },
         {
-            path: "/",
-            element: < Navigate to={ "/my-profile"} />
-        },
-        {
-            path:"/my-profile/companyInfo" ,
+            path:"/seller/my-profile/companyInfo" ,
             element:< UpdateCompany />
         },
         {
-            path:"/auth/change-password" ,
+            path:"/seller/auth/change-password" ,
             element:<ChangePasswordModal />
         },
         {
-            path:"/auth/verify-email",
+            path:"/seller/auth/verify-email",
             element: <VerifyEmail /> 
         },
         {
-            path: "/products",
+            path: "/seller/products",
             element: <Products />
         },
         {
-            path: "/products/product-details",
+            path: "/seller/products/product-details",
             element:<ProductDetails />
         }
 

@@ -1,21 +1,18 @@
 import React, { createContext,  useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Header from "./Components/Header";
-import Login from "./Auth/Login";
-import MyProfile from "./CompanyDetails/CompanyPortal/MyProfile";
-import Registration from "./Auth/Registration";
+import Login from "./Seller/Auth/Login";
+import Registration from "./Seller/Auth/Registration";
 import NotFound from "./Components/NotFound";
 import { Toaster } from "react-hot-toast";
-import Loader from "./Loader/Loader";
-import PublicRouting from "./Auth/PublicRouting";
-import ProtectedRouting from "./Auth/ProtectedRouting";
+// import Loader from "./Loader/Loader";
+import PublicRouting from "./Seller/Auth/PublicRouting";
+import ProtectedRouting from "./Seller/Auth/ProtectedRouting";
 import getToken from "./Seller/Services/TokenService";
-import UpdateCompany from "./CompanyDetails/CompanyPortal/UpdateCompany";
-import { getLoader } from "./Seller/Services/LoaderService";
-import ChangePasswordModal from "./CompanyDetails/CompanyPortal/ChangePasswordModal";
-import ResetPasswordModal from "./Auth/AuthOperation/ResetPasswordModal";
-import VerifyEmail from "./Auth/AuthOperation/VerifyEmail";
+// import { getLoader } from "./Services/LoaderService";
+import ResetPasswordModal from "./Seller/Auth/AuthOperation/ResetPasswordModal";
 import MapRouting from "./MapRouting";
+import MapRoutingCustomer from "./MapRoutingCustomer";
 
 const loginContext = createContext();
 function App() {
@@ -24,7 +21,7 @@ function App() {
   console.log(getToken())
   const [live, setIsLive] = useState(getToken() || null);
   const routesData = MapRouting();
-  
+  const customerRouteData=MapRoutingCustomer();
   
   return (
     <div className="App">
@@ -34,15 +31,21 @@ function App() {
         {/* {progress && <Loader />} */}
         <Routes>
 
+          <Route>
+              {customerRouteData.map((item,i)=>{
+                return <Route path={item.path} element={item.element} />
+              })}
+          </Route>
+
            {/* PublicRouting   */}
-          <Route path="seller" element={<PublicRouting />}>
-            <Route path="/auth/login" element={<Login />} />
-            <Route path="/auth/registration" element={<Registration />} />
-            <Route path="/auth/reset-password" element={<ResetPasswordModal /> } />
+          <Route element={<PublicRouting />}>
+            <Route path="/seller/auth/login" element={<Login />} />
+            <Route path="/seller/auth/registration" element={<Registration />} />
+            <Route path="/seller/auth/reset-password" element={<ResetPasswordModal /> } />
           </Route>
 
           {/* ProtectedRouting */}
-          <Route path="seller" element={<ProtectedRouting />}>
+          <Route element={<ProtectedRouting />}>
               {routesData.map((item,i) => {
                 return <Route path={item.path} element={item.element} key={i}/>
             })}

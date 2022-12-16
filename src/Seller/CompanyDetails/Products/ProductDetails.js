@@ -58,7 +58,7 @@ export default function ProductDetails() {
                 `Your <p style={{color:'red'}}>${data.name} Products</p> has been deleted.`,
                 "success"
               );
-              navigate("/products");
+              navigate("/seller/products");
             })
             .catch((error) => {
               console.log(error);

@@ -36,9 +36,7 @@ export default function ForgetPasswordModal(props) {
         toast.error(error.response.data?.message)
         getCaptcha();
       })
-    
-    
-   
+  
   }
    
   const onVerify = () => {

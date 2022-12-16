@@ -1,19 +1,17 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { getProducts } from "../../Services/HttpService";
 import CreateNewProduct from "./CreateNewProduct";
 import ImgCarousal from "./ImgCarousal";
 import Pagination from "./Pagination";
 import QuickViewModal from "./QuickViewModal";
 import {FaRupeeSign} from 'react-icons/fa'
-import Footer from "../../Components/Footer";
+import Footer from "../../../Components/Footer";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
   const [show, setShow] = useState(false);
   const [quickView, setQuickView] = useState(false);
   const [id, setId] = useState();
-  const navigate = useNavigate();
   
   const [pageNum, setPageNum] = useState(1);
   const [itemPerPage, setItemPerPage] = useState(4);

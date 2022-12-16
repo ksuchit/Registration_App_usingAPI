@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Button, Form } from "semantic-ui-react";
 import { useForm } from "react-hook-form";
-import { loginContext } from "../App";
+import { loginContext } from "../../App";
 
 export default function Login() {
     const [, setIsLive] = useContext(loginContext);

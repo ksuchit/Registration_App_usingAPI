@@ -11,6 +11,7 @@ import EditUser from "../CRUD/EditUser";
 import EditRole from "../CRUD/EditRole";
 import DeleteUserModal from "../CRUD/DeleteUserModal";
 import Pagination from "./Pagination";
+import { hover } from "@testing-library/user-event/dist/hover";
 
 export default function UpdateCompany() {
     
@@ -242,8 +243,8 @@ export default function UpdateCompany() {
           </select>
         </div>
       </div>
-        <Table striped bordered hover>
-          <thead>
+        <Table striped bordered hover >
+          <thead className="table-dark">
             <tr>
               <th>#</th>
               <th>Name</th>

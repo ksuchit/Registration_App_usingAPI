@@ -17,7 +17,7 @@ export default function Header() {
             <div className="h-nav d-flex flex-row">
                 {live ?
                     <>
-                    <NavLink to='/products' style={{ textDecoration: 'none', color: 'white' }}
+                    <NavLink to='/seller/products' style={{ textDecoration: 'none', color: 'white' }}
                         className='my-auto mx-2'
                         >Products
                     </NavLink>
