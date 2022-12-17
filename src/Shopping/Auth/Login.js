@@ -1,5 +1,5 @@
 import React, {  useContext, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Button, Form } from "semantic-ui-react";
 import { useForm } from "react-hook-form";
@@ -7,6 +7,7 @@ import { loginContext } from "../../App";
 
 export default function Login() {
     const [, setIsLive] = useContext(loginContext);
+    const navigate = useNavigate();
 
     const {
         register,
@@ -20,6 +21,7 @@ export default function Login() {
 
     const forgotPassword = () => {
         console.log('forgot password clicked')
+        navigate('/home')
     }
     return (
         <div className="loginContainer">

@@ -6,6 +6,24 @@ import {Country,State,City} from 'country-state-city'
 
 export default function Registration() {
     const [isEmailRegistered, setIsEmailRegistered] = useState(false);
+    
+    const [state, setState] = useState([]);
+    const [countryCode, setCountryCode] = useState("")
+    const [city,setCity]=useState([])
+    function getState(countryCode) {
+        console.log(countryCode);
+        setState(State.getStatesOfCountry(countryCode));
+        setCountryCode(countryCode)
+    }
+    console.log(state);
+    
+    function getCity(stateCode) {
+        console.log(stateCode)
+        setCity(City.getCitiesOfState(countryCode, stateCode))
+        
+    }
+    console.log(city)
+
     const {
         register,
         watch,
@@ -74,16 +92,34 @@ export default function Registration() {
                     />
                 </Form.Field>
                 {errors.email && <p style={{ color: "red" }}>addressLine2 is Required</p>}
-                <div>
-                    <div>
-                        <input type='text' placeholder="Country"/>
-                        <input type='text' placeholder="State"/>
+                    
+                {/* countryStateCity     */}
+                <div className="countryStateCity">
+                    <div className="d-flex flex-column p-1">        
+                        <label>Country::</label>
+                        <select  onChange={(e)=>getState(e.target.value)}>
+                            <option>Select Country</option>
+                            {Country.getAllCountries().map((countryData) => (
+                                <option value={countryData.isoCode}> {countryData.name} </option>
+                            ))}
+                        </select>
+                        
+                        <label>State::</label>
+                        <select onChange={(e)=>getCity(e.target.value)}>
+                            <option>Select State</option>
+                            {state.map((data) => (<option value={data.isoCode}>{data.name}</option>))}
+                        </select>
                     </div>
-                    <div>
-                        <input type='text' placeholder="City"/>
-                        <input type='text' placeholder="Pin Code"/>
-                    </div>    
-                </div>    
+                    <div className="p-1">        
+                        <label>City::</label>
+                        <select>
+                            <option>Select City</option>
+                            {city.map((cityData) => (<option>{cityData.name}</option>))}
+                        </select>
+                    
+                        <input type="text" placeholder="PIN code" className="m-1"></input>
+                    </div>
+                </div>
                 <Form.Field className="d-flex flex-column p-1">
                     <label className="fw-bolder">Password</label>
                     <input type="password" placeholder="Enter Password"

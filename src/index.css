@@ -21,7 +21,7 @@ body{
 }
 .registration-container{
   background-image: url('https://wallpapercave.com/wp/wp4430530.jpg');
-  height: 110vh;
+  height: 140vh;
   width: 100vw;
   background-size: cover;
   padding-top: 1%;
@@ -31,7 +31,7 @@ body{
 .registration{
   margin-left: 15% ;
   padding: 2%;
-  max-width: fit-content;
+  max-width: 40%;
   /* border: 1px solid black; */
   /* box-shadow: 11px 12px 13px 12px rgb(105, 104, 104); */
 }
