@@ -5,11 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { Button, Form } from "semantic-ui-react"
 import Get, { Delete, Patch, Put } from "../Services/HttpService";
 import Address from "./Address";
+import UpdateAddressModal from "./UpdateAddressModal";
 import UpdateProfileImgModal from "./UpdateProfileImgModal";
 
 export default function UpdateProfile() {
     const [data, setData] = useState({})
-    const [show, setShow] = useState(false)
+    const [show, setShow] = useState(false);
+    const [addressShow,setAddressShow]=useState(false);
     const [address, setAddress] = useState([]);
     const navigate = useNavigate();
     useEffect(() => {
@@ -76,16 +78,13 @@ export default function UpdateProfile() {
         })
     }
 
-    const updateAddress = (id) => {
+    const [updateAdd,setUpdateAddress]=useState();
+    const updateAddress = (item) => {
         console.log('update add')
-
-        Put(`/customers/address/${id}`,data)
-            .then((response) => {
-            console.log(response)
-            })
-            .catch((error) => {
-            console.log(error)
-        })
+        console.log(item)
+        setUpdateAddress(item)
+        setAddressShow(true)
+        
     }
     return (
         <div>
@@ -145,11 +144,11 @@ export default function UpdateProfile() {
                                     <p>city:{item.city}</p>
                                     <p>pin:{item.pin}</p>
                                     <div className="d-flex justify-content-center">
-                                        <button className="btn btn-secondary btn-sm"
+                                        <button className="btn btn-danger btn-sm"
                                             onClick={()=>removeAddress(item._id)}
                                         >Remove</button>
                                         <button className="btn btn-info btn-sm mx-1"
-                                            onClick={()=>updateAddress(item._id)}
+                                            onClick={()=>updateAddress(item)}
                                         >update</button>
 
                                     </div>
@@ -162,6 +161,12 @@ export default function UpdateProfile() {
                 {/* <div className="d-flex justify-content-center">
                     <button className="btn btn-secondary ">Add</button>
                 </div> */}
+                {updateAdd && 
+                <UpdateAddressModal 
+                    show={addressShow}
+                    setShow={setAddressShow}
+                    updateAdd={updateAdd}
+                />}
             </div>
         </div>
     )

@@ -1,13 +1,17 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { useNavigate } from 'react-router-dom';
+import { Form, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { Delete } from '../Services/HttpService';
+import getShopToken from '../Services/TokenService';
 
 export default function UpdateProfileImgModal(props){
-
+    const [imgData,setImgData]=useState();
     const navigate = useNavigate();
+
+    const formData = new FormData();
 
     const removeImg = () => {
         console.log('clicked remove btn')
@@ -54,6 +58,26 @@ export default function UpdateProfileImgModal(props){
               }
             });
     }
+
+    const onSave=()=>{
+      console.log('on save clicked')
+      formData.append('picture',imgData)
+
+      axios.post('https://shop-api.ngminds.com/customers/profile-picture',formData,
+        {
+          headers:`Bearer ${getShopToken()}`,
+          'Content-Type': 'multipart/form-data'
+        }
+      )
+      .then((response)=>{
+        console.log(response)
+      })
+      .catch((error)=>{
+        console.log(error)
+      })
+
+    }
+
     return (
     <>
       <Modal
@@ -81,7 +105,7 @@ export default function UpdateProfileImgModal(props){
                 <div>
                   <label>Upload from Computer</label>          
                    <input type='file'
-                        onChange={(e)=>console.log(e.target.files)}        
+                        onChange={(e)=>setImgData(e.target.files)}        
                             />         
                 </div>        
             </div>
@@ -89,7 +113,7 @@ export default function UpdateProfileImgModal(props){
             <Button variant="secondary" className='mx-2' onClick={()=>props.setShow(false)}>
                 Cancel
             </Button>
-            <Button variant="primary">Save</Button>
+            <Button variant="primary" onClick={onSave}>Save</Button>
             </div>
         </Modal.Body>
       </Modal>

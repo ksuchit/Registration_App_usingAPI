@@ -10,8 +10,6 @@ export default function Address() {
     const {
         register,
         handleSubmit,
-        resetField,
-        
         formState: { errors },
     } = useForm();
     
@@ -66,23 +64,16 @@ export default function Address() {
             console.log(error)
             })
         
-        resetField('street');
-        resetField('addressLine2')
+       
     }
 
-    const saveAddress = () => {
-        console.log('save add')
-
-        
-
-    }
     return (
         <div>
             {additionalInfo.map((item,i) => {
                 return (
                     <div>
                         <div className="d-flex justify-content-between">
-                            <h6>{i + 1}:AdditionalInfo</h6>
+                            <h6>{i + 1}:Address</h6>
                             <AiFillDelete  onClick={()=>deleteAdditionalInfo(i)} />
                         </div>
                         <Form onSubmit={handleSubmit(onSubmit)}>
@@ -140,7 +131,7 @@ export default function Address() {
                     </div>
                 </div>
                 </Form.Field>
-                <Button type="submit">Submit</Button>            
+                <Button type="submit" className="btn btn-secondary my2">Submit</Button>            
                 </Form>
                     </div>
                 )
@@ -150,9 +141,9 @@ export default function Address() {
                     onClick={()=>setAdditionalInfo((prev)=>[...prev,1])}                
                 >Add</button>
 
-                <button className="btn btn-secondary btn-sm mx-2"
+                {/* <button className="btn btn-secondary btn-sm mx-2"
                     onClick={()=>saveAddress()}              
-                >Save Address</button>
+                >Save Address</button> */}
             </div>
         </div>
     )
