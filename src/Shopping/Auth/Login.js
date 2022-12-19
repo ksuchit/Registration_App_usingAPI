@@ -1,14 +1,15 @@
-import React, {  useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Button, Form } from "semantic-ui-react";
 import { useForm } from "react-hook-form";
-import { loginContext } from "../../App";
+import { Post } from "../Services/HttpService";
+import { setShopToken } from "../Services/TokenService";
+import { shopLoginContext } from "../../App";
 
 export default function Login() {
-    const [, setIsLive] = useContext(loginContext);
     const navigate = useNavigate();
-
+    const[,setShopIsLive]=useContext(shopLoginContext)
     const {
         register,
         handleSubmit,
@@ -16,7 +17,19 @@ export default function Login() {
     } = useForm();
 
     const onSubmit = (data) => {
-       console.log(data)
+        console.log(data)
+        
+        Post('/shop/auth/login', data)
+            .then((response) => {
+                console.log(response)
+                setShopToken(response.data.token)
+                setShopIsLive(response.data.token)
+                // localStorage.setItem('userName', JSON.stringify(response.data.customer?.name))
+                navigate('/home')
+            })
+            .catch((error) => {
+            console.log(error)
+        })
     }
 
     const forgotPassword = () => {

@@ -1,8 +1,9 @@
 import axios from "axios";
 import toast from "react-hot-toast";
+
 // import setLoader from "../Services/LoaderService";
 import getToken, { removeToken } from "../Seller/Services/TokenService";
-
+import getShopToken from "../Shopping/Services/TokenService";
 const axiosInstance = axios.create({
   baseURL: `https://shop-api.ngminds.com/`,
   
@@ -10,9 +11,23 @@ const axiosInstance = axios.create({
 
   // axios.defaults.headers.common['Authorization']=`Bearer ${getToken()}`; 
   
+  
   axiosInstance.interceptors.request.use((request) => {
 
-    request.headers['Authorization'] = `Bearer ${getToken()}`;
+    if(request.url.includes('shop/') || request.url.includes('customers')){
+      console.log("shop",request);
+      if(getShopToken()){
+        
+          request.headers = { Authorization: `Bearer ${getShopToken()}` }
+        }
+    }else{console.log("auth")
+         if(getToken()){
+          console.log(getToken());
+        
+          request.headers = { Authorization: `Bearer ${getToken()}` }
+         
+    }}
+
     console.log(request)
     // setLoader(true)
     return request;

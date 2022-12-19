@@ -3,26 +3,31 @@ import { Button, Form } from "semantic-ui-react";
 import {useForm} from "react-hook-form"
 import { NavLink } from "react-router-dom";
 import {Country,State,City} from 'country-state-city'
+import { Post } from "../Services/HttpService";
 
 export default function Registration() {
     const [isEmailRegistered, setIsEmailRegistered] = useState(false);
     
     const [state, setState] = useState([]);
     const [countryCode, setCountryCode] = useState("")
-    const [city,setCity]=useState([])
+    const [city, setCity] = useState([])
+    const [currentState,setCurrentState]=useState('')
+    const [currentCity, setCurrentCity] = useState('')
+    
     function getState(countryCode) {
-        console.log(countryCode);
         setState(State.getStatesOfCountry(countryCode));
         setCountryCode(countryCode)
-    }
-    console.log(state);
-    
-    function getCity(stateCode) {
-        console.log(stateCode)
-        setCity(City.getCitiesOfState(countryCode, stateCode))
         
     }
-    console.log(city)
+    
+    function getCity(stateCode) {
+        setCity(City.getCitiesOfState(countryCode, stateCode))
+        setCurrentState(state.find((item)=>item.isoCode===stateCode))
+    }
+    function cityOfState(city) {
+        setCurrentCity(city)
+
+    }
 
     const {
         register,
@@ -33,9 +38,31 @@ export default function Registration() {
     
     
     const onSubmit = (data) => {
-       
         console.log(data)
+        const address = {
+            street: data.street,
+            addressLine2: data.addressLine2,
+            city: currentCity,
+            state: currentState.name,
+            pin: data.pin
+        }
+        const payload = {
+            email: data.email,
+            password: data.password,
+            name: data.name,
+            address:address
+        }
+
+        Post('/shop/auth/register', payload)
+            .then((response) => {
+            console.log(response)
+            })
+            .catch((error) => {
+            console.log(error)
+        })
     }
+    
+    
 
    
     return (
@@ -73,7 +100,7 @@ export default function Registration() {
                     className="p-2"
                         {...register("street",
                             {
-                                required: true, pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                                required: true,
                                 onChange:()=> setIsEmailRegistered(false)
                             })}
                     />
@@ -86,13 +113,13 @@ export default function Registration() {
                     className="p-2"
                         {...register("addressLine2",
                             {
-                                required: true, pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                                required: true,
                                 onChange:()=> setIsEmailRegistered(false)
                             })}
                     />
                 </Form.Field>
                 {errors.email && <p style={{ color: "red" }}>addressLine2 is Required</p>}
-                    
+                <Form.Field>
                 {/* countryStateCity     */}
                 <div className="countryStateCity">
                     <div className="d-flex flex-column p-1">        
@@ -112,14 +139,17 @@ export default function Registration() {
                     </div>
                     <div className="p-1">        
                         <label>City::</label>
-                        <select>
+                        <select onChange={(e)=>cityOfState(e.target.value)}>
                             <option>Select City</option>
-                            {city.map((cityData) => (<option>{cityData.name}</option>))}
+                            {city.map((cityData) => (<option value={cityData.name}>{cityData.name}</option>))}
                         </select>
                     
-                        <input type="text" placeholder="PIN code" className="m-1"></input>
+                        <input type="text" placeholder="PIN code" className="m-1"
+                            {...register('pin',{required:true})}    
+                                ></input>
                     </div>
                 </div>
+                </Form.Field>           
                 <Form.Field className="d-flex flex-column p-1">
                     <label className="fw-bolder">Password</label>
                     <input type="password" placeholder="Enter Password"

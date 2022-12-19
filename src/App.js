@@ -13,19 +13,23 @@ import getToken from "./Seller/Services/TokenService";
 import ResetPasswordModal from "./Seller/Auth/AuthOperation/ResetPasswordModal";
 import MapRouting from "./MapRouting";
 import MapRoutingCustomer from "./MapRoutingCustomer";
+import getShopToken from "./Shopping/Services/TokenService";
 
 const loginContext = createContext();
+const shopLoginContext = createContext();
 function App() {
 
   //  const [progress, setProgress] = useState(false || getLoader());
   console.log(getToken())
   const [live, setIsLive] = useState(getToken() || null);
+  const [shopLive,setShopIsLive]=useState(getShopToken() || null)
   const routesData = MapRouting();
   const customerRouteData=MapRoutingCustomer();
   
   return (
     <div className="App">
-      <loginContext.Provider value={[live,setIsLive]} >
+      <loginContext.Provider value={[live, setIsLive]} >
+      <shopLoginContext.Provider value={[shopLive,setShopIsLive]} >
       <BrowserRouter>
         <Header />
         {/* {progress && <Loader />} */}
@@ -56,10 +60,11 @@ function App() {
           
       </BrowserRouter>
       <Toaster position="top-center" reverseOrder={false} />
-        </loginContext.Provider>
+      </shopLoginContext.Provider>    
+      </loginContext.Provider>
     </div>
   );
 }
 
-export {loginContext}
+export {loginContext,shopLoginContext}
 export default App;

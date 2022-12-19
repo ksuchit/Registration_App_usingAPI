@@ -1,16 +1,16 @@
 
-export default function getToken() {
+export default function getShopToken() {
     return(JSON.parse(localStorage.getItem('customerToken')))
 }
 
-export function setToken(data) {
+export function setShopToken(data) {
     return(localStorage.setItem('customerToken',JSON.stringify(data)))
 }
 
-export function removeToken() {
+export function removeShopToken() {
     return(localStorage.removeItem('customerToken'))
 }
 
-export function clearLocalStorage() {
+export function clearShopLocalStorage() {
     return(localStorage.clear())
 }
