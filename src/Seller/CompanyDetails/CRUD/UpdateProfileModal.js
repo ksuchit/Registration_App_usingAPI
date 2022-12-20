@@ -1,9 +1,9 @@
 import React from 'react';
+import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { Form } from 'semantic-ui-react';
 import { Patch } from '../../Services/HttpService';
 
 export default function UpdateProfileModal(props) {
@@ -37,20 +37,20 @@ export default function UpdateProfileModal(props) {
       <Modal.Body>
       <div className='registration'>
       <Form onSubmit={handleSubmit(onSubmit)} className="reg-form  h-auto p-2">
-                    <Form.Field className="d-flex flex-column p-1">
-                        <label>Organisation Name</label>
-                        <input type="text" defaultValue={props.currentUser_Update.name}
+                    <Form.Group className="d-flex flex-column p-1">
+                        <Form.Label>Organisation Name</Form.Label>
+                        <Form.Control type="text" defaultValue={props.currentUser_Update.name}
                         className="p-2"
                         {...register("name")}
                         />
-                    </Form.Field>
-                    <Form.Field className="d-flex flex-column p-1">
-                        <label>Organisation Email</label>
-                        <input type="text" defaultValue={props.currentUser_Update.email}
+                    </Form.Group>
+                    <Form.Group className="d-flex flex-column p-1">
+                        <Form.Label>Organisation Email</Form.Label>
+                        <Form.Control type="text" defaultValue={props.currentUser_Update.email}
                         className="p-2"
                         { ...register("email")}                    
                         />
-          </Form.Field>
+          </Form.Group>
           <Button type="submit" className="m-1 p-2" style={{backgroundColor:"rgb(1, 1, 10)",color:"white"}}>Submit</Button>
           </Form>
           </div>

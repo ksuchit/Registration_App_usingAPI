@@ -1,18 +1,21 @@
 import { useEffect, useState } from "react";
-import { Accordion } from "react-bootstrap";
+import { Accordion, Button, Dropdown, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom";
-import { Button, Form } from "semantic-ui-react"
+import Swal from "sweetalert2";
 import Get, { Delete, Patch, Put } from "../Services/HttpService";
 import Address from "./Address";
 import UpdateAddressModal from "./UpdateAddressModal";
 import UpdateProfileImgModal from "./UpdateProfileImgModal";
+import { BsThreeDots ,BsThreeDotsVertical} from 'react-icons/bs'
 
 export default function UpdateProfile() {
     const [data, setData] = useState({})
     const [show, setShow] = useState(false);
     const [addressShow,setAddressShow]=useState(false);
+    const [addAddressShow,setAddAddressShow]=useState(false);
     const [address, setAddress] = useState([]);
+    const [showAddresses,setShowAddresses]=useState(false)
     const navigate = useNavigate();
     useEffect(() => {
     
@@ -37,7 +40,7 @@ export default function UpdateProfile() {
             })
         
         
-      }, []);
+      }, [address.length]);
     
     
     const {
@@ -69,13 +72,49 @@ export default function UpdateProfile() {
     const removeAddress = (id) => {
         console.log('remove add')
 
-        Delete(`/customers/address/${id}`)
-            .then((response) => {
-            console.log(response)
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+              confirmButton: "btn btn-success",
+              cancelButton: "btn btn-danger",
+            },
+            buttonsStyling: false,
+          });
+      
+          swalWithBootstrapButtons
+            .fire({
+              title: "Are you sure?",
+              html: `You won't be able to revert Address!</p>`,
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonText: "Yes, delete it!",
+              cancelButtonText: "No, cancel!",
+              reverseButtons: true,
             })
-            .catch((error) => {
-            console.log(error)
-        })
+            .then((result) => {
+                if (result.isConfirmed) {
+                Delete(`/customers/address/${id}`)
+                .then((response) => {
+                    console.log(response)
+                    setAddress((prev)=>prev.filter((item)=>item._id!==id))
+                    swalWithBootstrapButtons.fire(
+                      "Deleted!",
+                      `Your Address has been deleted.`,
+                      "success"
+                    );
+                    navigate("/profile");
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                  });
+              } else if (result.dismiss === Swal.DismissReason.cancel) {
+                swalWithBootstrapButtons.fire(
+                  "Cancelled",
+                  `Your Address is safe :)</p>`,
+                  "error"
+                );
+              }
+            });
+        
     }
 
     const [updateAdd,setUpdateAddress]=useState();
@@ -88,6 +127,15 @@ export default function UpdateProfile() {
     }
     return (
         <div>
+            {showAddresses ?
+                <button className="btn btn-secondary mx-2 mt-2"
+                    onClick={() => setShowAddresses(false)}
+                >Hide Address</button>
+                :
+                <button className="btn btn-secondary mx-2 mt-2"
+                    onClick={() => setShowAddresses(true)}
+                >Show Address</button>
+            }
         <div className="d-flex my-2 justify-content-center gap-3" >
             <div className="d-flex flex-column justify-content-center">
                 <div>
@@ -105,20 +153,20 @@ export default function UpdateProfile() {
                 {
                 data &&
                 <Form onSubmit={handleSubmit(onSubmit)}>
-                    <Form.Field className='d-flex flex-column'>
-                        <label>Name</label>
-                        <input type='text' defaultValue={data.name}
+                    <Form.Group className='d-flex flex-column'>
+                        <Form.Label>Name</Form.Label>
+                        <Form.Control type='text' defaultValue={data.name}
                             {...register('name',{required:true})}
                         />                   
-                    </Form.Field>
-                    <Form.Field className='d-flex flex-column'>
-                        <label>Email</label>
-                        <input type='email' defaultValue={data.email}
+                    </Form.Group>
+                    <Form.Group className='d-flex flex-column'>
+                        <Form.Label>Email</Form.Label>
+                        <Form.Control type='email' defaultValue={data.email}
                             {...register('email',{required:true})}
                         />                   
-                    </Form.Field>
-                    <Button type="submit" className="m-1 p-2"
-                                style={{ backgroundColor: "rgb(1, 1, 10)", color: "white" }}
+                    </Form.Group>
+                    <Button type="submit" className="btn btn-secondary my-1"
+                        
                     >Save Changes</Button>
                             
                 </Form>   
@@ -127,45 +175,70 @@ export default function UpdateProfile() {
             <UpdateProfileImgModal
                 show={show}
                 setShow={setShow}
-                url={data.picture}
+                data={data}
+                setData={setData}    
             />
             </div>
             <div>
                 <hr></hr>
-                <div className="d-flex gap-3">
-                
-                {address && 
-                        address.map((item, i) => {
-                            return (
-                                <div key={i} style={{border:'1px solid black'}} className="p-2">
-                                    <p>Street:{item.street}</p>
-                                    <p>addressLine2:{item.addressLine2}</p>
-                                    <p>state:{item.state}</p>
-                                    <p>city:{item.city}</p>
-                                    <p>pin:{item.pin}</p>
-                                    <div className="d-flex justify-content-center">
-                                        <button className="btn btn-danger btn-sm"
-                                            onClick={()=>removeAddress(item._id)}
-                                        >Remove</button>
-                                        <button className="btn btn-info btn-sm mx-1"
-                                            onClick={()=>updateAddress(item)}
-                                        >update</button>
-
-                                    </div>
-                                </div>
-                            )
-                        })
-                    }
-                </div>
-                <Address />
-                {/* <div className="d-flex justify-content-center">
-                    <button className="btn btn-secondary ">Add</button>
-                </div> */}
+                {
+                    showAddresses ?
+                        <div>
+                            <div className="d-flex justify-content-center mb-2">
+                                <button className="btn btn-secondary" onClick={()=>setAddAddressShow(true)}>Add Address</button>
+                            </div>
+                            <div className="d-flex gap-5 row">
+                    
+                                {address &&
+                                    address.map((item, i) => {
+                                        return (
+                                            <div key={i} style={{ border: '1px solid black' }} className="p-2 col-3">
+                                                <div className="d-flex justify-content-between">
+                                                    <h6>{data.name}</h6>
+                                                    <div>
+                                                        <Dropdown>
+                                                            <Dropdown.Toggle
+                                                                variant="white"
+                                                            >
+                                                                <BsThreeDotsVertical />
+                                                            </Dropdown.Toggle>
+                                                            <Dropdown.Menu variant="dark" align={{ sm: "end" }}>
+                                                                <Dropdown.Item onClick={() => updateAddress(item)}>Update</Dropdown.Item>
+                                                                <Dropdown.Item onClick={() => removeAddress(item._id)}>Remove</Dropdown.Item>
+                                                            </Dropdown.Menu>
+                                                        </Dropdown>
+                                                    </div>
+                                                </div>
+                                                <hr></hr>
+                                                <p className="mb-0">{item.street} ,
+                                                    {item.addressLine2}</p>
+                                                <p className="mb-0">
+                                                    {item.city}
+                                                    -{item.pin}
+                                                </p>
+                                                <p>
+                                                    {item.state}
+                                                </p>
+                                        
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
+                        </div>
+                    : ""
+                }
+                <Address
+                    show={addAddressShow}
+                    setShow={setAddAddressShow}
+                    setAddress={setAddress}
+                />
                 {updateAdd && 
                 <UpdateAddressModal 
                     show={addressShow}
                     setShow={setAddressShow}
                     updateAdd={updateAdd}
+                    setAddress={setAddress}
                 />}
             </div>
         </div>

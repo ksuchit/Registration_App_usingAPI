@@ -3,13 +3,13 @@ import { NavLink, useNavigate } from "react-router-dom";
 import  { setToken } from "../Services/TokenService";
 import Post  from "../Services/HttpService";
 import toast from "react-hot-toast";
-import { Button, Form } from "semantic-ui-react";
 import { useForm } from "react-hook-form";
 import { loginContext } from "../../App";
 import ForgetPasswordModal from "./AuthOperation/ForgetPasswordModal";
 import LoginViaGoogle from "./SocialLogin/LoginViaGoogle";
 import LoginViaFacebook from "./SocialLogin/LoginViaFacebook";
 import {BiShow,BiHide} from 'react-icons/bi'
+import { Button, Form } from "react-bootstrap";
 
 export default function Login() {
     const [, setIsLive] = useContext(loginContext);
@@ -74,42 +74,43 @@ export default function Login() {
             {/* <h2>Login</h2>
             <hr /> */}
             <Form onSubmit={handleSubmit(onSubmit)} className="reg-form h-auto p-2">
-            <Form.Field className="d-flex flex-column p-1">
-                    <label>Email</label>
-                    <input type="text" placeholder="Enter Email"
+            <Form.Group className="d-flex flex-column p-1">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control type="text" placeholder="Enter Email"
                     className="p-2"
                      {...register("email",{required:true , pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i })}
                     />
-                </Form.Field>
+                </Form.Group>
                 {errors.email && <p style={{ color: "red" }}>email is Required</p>}
-                <Form.Field className="d-flex flex-column p-1">
-                    <label>Password</label>
-                    <input placeholder="Enter Password" className="p-2"
+                <Form.Group className="d-flex flex-column p-1">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control placeholder="Enter Password" className="p-2"
                     //  {showPassword ? type='text' : type='password'}
                     {...register("password",{required:true , minLength:8 })}
                     />
                     {showPassword ?<BiHide onClick={()=>setShowPassword(false)}/>
                     :<BiShow onClick={()=>setShowPassword(true)}/>
                     }
-                </Form.Field>
+                </Form.Group>
                 {errors.password?.type === 'required' && <p style={{ color: "red" }}>password is Required</p>}
                 {errors.password?.type === 'minLength' && <p style={{ color: "red" }}>minimum 8 charachters Required</p>}
-                <Form.Field className="p-1">
+                <Form.Group className="p-1">
 
                 <div className="form-check">
-                        <input className="form-check-input" type="checkbox" value="" id="defaultCheck1"
+                        <Form.Control className="form-check-Form.Control" type="checkbox" value="" id="defaultCheck1"
                         onClick={getCaptcha}
                             {...register("checkBox", { required: true} )}            
                 />
-                <label className="form-check-label">
+                <Form.Label className="form-check-Form.Label">
                     Keep me Logged In
-                </label>
+                </Form.Label>
                 </div>
                 
-                </Form.Field>
+                </Form.Group>
                 {errors.checkBox?.type === 'required' && <p style={{ color: "red" }}>captcha must selected</p>}
-                
-                <button type="button" className="m-1 btn btn-sm btn-secondary float-right" onClick={forgotPass}>forget Password</button>
+                <div className="d-flex justify-content-end">    
+                    <NavLink style={{ textDecoration: 'none' }} onClick={forgotPass} >forgot password?</NavLink>
+                </div>
                 <div className="d-flex flex-column">
                     {/* <NavLink style={{ textDecoration: 'none' }} to='/auth/forgot-password' ><button className=" mx-1 btn btn-sm btn-primary float-right">forgot password</button></NavLink> */}
                     <Button type="submit" className="m-1 my-2 p-2" style={{backgroundColor:"rgb(1, 1, 10)",color:"white"}}>Submit</Button>

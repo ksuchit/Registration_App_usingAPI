@@ -6,7 +6,7 @@ import Get, { Delete } from "../Services/HttpService";
 import { shopLoginContext } from "../../App";
 import Swal from "sweetalert2";
 
-export default function Profile(props) {
+export default function Profile() {
   const navigate = useNavigate();
   const [,setShopIsLogin]=useContext(shopLoginContext)
   const [data, setData] = useState({});

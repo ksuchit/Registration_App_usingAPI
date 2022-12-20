@@ -1,7 +1,7 @@
+import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useForm } from 'react-hook-form';
-import { Form } from 'semantic-ui-react';
 import { UpdateProduct } from '../../Services/HttpService';
 
 export default function UpdateProductModal(props) {
@@ -45,24 +45,24 @@ export default function UpdateProductModal(props) {
         {
         props.data &&
             <Form onSubmit={handleSubmit(onSubmit)}>
-                <Form.Field className='d-flex flex-column'>
-                    <label>Name of Product</label>
-                    <input type='text' defaultValue={props.data.name}
+                <Form.Group className='d-flex flex-column'>
+                    <Form.Label>Name of Product</Form.Label>
+                    <Form.Control type='text' defaultValue={props.data.name}
                         {...register('name',{required:true})}
                     />                   
-                </Form.Field>
-                <Form.Field className='d-flex flex-column'>
-                    <label>Description</label>
+                </Form.Group>
+                <Form.Group className='d-flex flex-column'>
+                    <Form.Label>Description</Form.Label>
                     <textarea type='text' defaultValue={props.data.description}
                         {...register('description')}
                     />                   
-                </Form.Field> 
-                <Form.Field className='d-flex flex-column'>
-                    <label>Price of Product</label>
-                    <input type='number' defaultValue={props.data.price}
+                </Form.Group> 
+                <Form.Group className='d-flex flex-column'>
+                    <Form.Label>Price of Product</Form.Label>
+                    <Form.Control type='number' defaultValue={props.data.price}
                         {...register('price',{required:true})}
                     />                   
-                </Form.Field>
+                </Form.Group>
                 <Button type="submit" className="m-1 p-2" style={{backgroundColor:"rgb(1, 1, 10)",color:"white"}}>Submit</Button>
                           
             </Form>   

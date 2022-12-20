@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Button, Form } from "semantic-ui-react";
 import {useForm} from "react-hook-form"
 import { NavLink, useNavigate } from "react-router-dom";
 import Post  from "../Services/HttpService";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { Button, Form } from "react-bootstrap";
 
 export default function Registration() {
     const navigate = useNavigate();
@@ -79,25 +79,25 @@ export default function Registration() {
             <Form onSubmit={handleSubmit(onSubmit)} className="reg-form  h-auto p-2">
                 <h2>Registration</h2>
                 <hr/>
-                <Form.Field className="d-flex flex-column p-1">
-                    <label className="fw-bolder">Full Name</label>
-                    <input type="text" placeholder="Enter Full Name"
+                <Form.Group className="d-flex flex-column p-1">
+                    <Form.Label className="fw-bolder">Full Name</Form.Label>
+                    <Form.Control type="text" placeholder="Enter Full Name"
                     className="p-2"
                     {...register("name",{required:true})}
                     />
-                </Form.Field>
+                </Form.Group>
                 { errors.name && <p style={{color: "red"}}>user name is Required</p>}
-                <Form.Field className="d-flex flex-column p-1">
-                    <label className="fw-bolder">Company Name</label>
-                    <input type="text" placeholder="Enter Company Name"
+                <Form.Group className="d-flex flex-column p-1">
+                    <Form.Label className="fw-bolder">Company Name</Form.Label>
+                    <Form.Control type="text" placeholder="Enter Company Name"
                     className="p-2"
                     { ...register("company",{required:true})}                    
                     />
-                </Form.Field>
+                </Form.Group>
                 { errors.company && <p style={{color: "red"}}>company name is Required</p>}
-                <Form.Field className="d-flex flex-column p-1">
-                    <label className="fw-bolder">Email</label>
-                    <input type="text" placeholder="Enter Email" 
+                <Form.Group className="d-flex flex-column p-1">
+                    <Form.Label className="fw-bolder">Email</Form.Label>
+                    <Form.Control type="text" placeholder="Enter Email" 
                     className="p-2"
                         {...register("email",
                             {
@@ -105,22 +105,22 @@ export default function Registration() {
                                 onChange:()=> setIsEmailRegistered(false)
                             })}
                     />
-                </Form.Field>
+                </Form.Group>
                 {errors.email && <p style={{ color: "red" }}>email is Required</p>}
                 {isEmailRegistered ? <p style={{ color: "red" }}>user email is alredy exist</p> : ""}
-                <Form.Field className="d-flex flex-column p-1">
-                    <label className="fw-bolder">Password</label>
-                    <input type="password" placeholder="Enter Password"
+                <Form.Group className="d-flex flex-column p-1">
+                    <Form.Label className="fw-bolder">Password</Form.Label>
+                    <Form.Control type="password" placeholder="Enter Password"
                     className="p-2"
                     {...register("password",{required:true , minLength:8 })}
                     />
-                </Form.Field>
+                </Form.Group>
                 {errors.password?.type === 'required' && <p style={{ color: "red" }}>password is Required</p>}
                 {errors.password?.type==='minLength' && <p style={{ color: "red" }}>minimum 8 charachters Required</p>}
                 
-                <Form.Field className="d-flex flex-column p-1">
-                    <label className="fw-bolder">Confirm Password</label>
-                    <input type="password" placeholder="Enter Password"
+                <Form.Group className="d-flex flex-column p-1">
+                    <Form.Label className="fw-bolder">Confirm Password</Form.Label>
+                    <Form.Control type="password" placeholder="Enter Password"
                     className="p-2"
                         {...register("Rpassword", {
                              minLength: 8,
@@ -131,23 +131,23 @@ export default function Registration() {
                               },
                         })}
                     />
-                </Form.Field>
+                </Form.Group>
                 {errors.Rpassword && <p style={{ color: "red" }}>Your passwords do no match</p>}
                 
                 {/* captcha */}
-                <Form.Field className="p-1">
+                <Form.Group className="p-1">
                 <div className="form-check">
-                        <input className="form-check-input" type="checkbox" value="" id="defaultCheck1"
+                        <Form.Control className="form-check-Form.Control" type="checkbox" value="" id="defaultCheck1"
                         onClick={getCaptcha}
                     {...register('checkBox',{required:true})}          
                 />
-                <label className="form-check-label" >
+                <Form.Label className="form-check-Form.Label" >
                     Keep me Logged In
-                </label>
+                </Form.Label>
                 </div>
                     
                 
-                </Form.Field>
+                </Form.Group>
                 {errors.checkBox?.type === 'required' && <p style={{color: "red"}}>checkBox must selected </p>}
                 <Button type="submit" className="m-1 p-2" style={{backgroundColor:"rgb(1, 1, 10)",color:"white"}}>Submit</Button>
             </Form>

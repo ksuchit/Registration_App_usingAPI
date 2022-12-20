@@ -1,8 +1,8 @@
 import React from 'react';
+import { Button, Form } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-import { Button, Form } from 'semantic-ui-react';
 import { Post } from '../Services/HttpService';
 
 export default function ChangePassword() {
@@ -38,27 +38,27 @@ export default function ChangePassword() {
     <div className='changePassword'>
     <div className='registration'>
       <Form onSubmit={handleSubmit(onSubmit)} >
-        <Form.Field className="d-flex flex-column p-1">
-            <label>old_password</label>
-            <input type='text' placeholder='Enter old Password'
+        <Form.Group className="d-flex flex-column p-1">
+            <Form.Label>old_password</Form.Label>
+            <Form.Control type='text' placeholder='Enter old Password'
                 {...register('old_password',{required:true, minLength:8})}
             />
-        </Form.Field>  
+        </Form.Group>  
         {errors.old_password?.type === 'required' && <p style={{color:'red'}}>old_password is required</p>}
         {errors.old_password?.type === 'minLength' && <p style={{ color: 'red' }}>minimum 8 charachters needed</p>}
         
-        <Form.Field className="d-flex flex-column p-1">
-            <label>new_password</label>
-            <input type='text' placeholder='Enter new Password'
+        <Form.Group className="d-flex flex-column p-1">
+            <Form.Label>new_password</Form.Label>
+            <Form.Control type='text' placeholder='Enter new Password'
               {...register('new_password',{required:true,minLength:8})}
             />
-        </Form.Field>
+        </Form.Group>
         {errors.new_password?.type === 'required' && <p style={{color:'red'}}>new_password is required</p>}
         {errors.new_password?.type === 'minLength' && <p style={{ color: 'red' }}>minimum 8 charachters needed</p>}
 
-        <Form.Field className="d-flex flex-column p-1">
-            <label>Confirm_Password</label>
-            <input type='password' placeholder='Confirm Password'
+        <Form.Group className="d-flex flex-column p-1">
+            <Form.Label>Confirm_Password</Form.Label>
+            <Form.Control type='password' placeholder='Confirm Password'
               {...register('confirm_password',
                 {
                   required: true, minLength: 8,
@@ -69,7 +69,7 @@ export default function ChangePassword() {
                   }
                 })}
             />
-        </Form.Field>
+        </Form.Group>
         {errors.confirm_password && <p style={{ color: 'red' }}>Your passwords do no match</p>}
         <Button type="submit" className="m-1 p-2" style={{backgroundColor:"rgb(1, 1, 10)",color:"white"}}>Submit</Button>
         

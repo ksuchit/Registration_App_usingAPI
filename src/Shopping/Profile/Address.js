@@ -4,25 +4,17 @@ import { Button, Form } from "semantic-ui-react";
 import {Country,State,City} from 'country-state-city'
 import { useForm } from "react-hook-form";
 import { Post } from "../Services/HttpService";
+import { Modal } from "react-bootstrap";
 
-export default function Address() {
+export default function Address(props) {
     
     const {
         register,
         handleSubmit,
         formState: { errors },
+        reset,
     } = useForm();
     
-
-    const [additionalInfo, setAdditionalInfo] = useState([])
-    console.log(additionalInfo)
-
-    const deleteAdditionalInfo = (index) => {
-        console.log('delete')
-        setAdditionalInfo((prev) => prev.filter((item, i) => i !== index))
-        const id = additionalInfo.find((item, i) => i === index)
-        console.log(id)
-    }
     const [state, setState] = useState([]);
     const [countryCode, setCountryCode] = useState("")
     const [city, setCity] = useState([])
@@ -58,26 +50,36 @@ export default function Address() {
 
         Post('/customers/address', address)
             .then((response) => {
-            console.log(response)
+                console.log(response)
+                props.setAddress((prev) => [...prev, address])
+                props.setShow(false)
             })
             .catch((error) => {
             console.log(error)
             })
-        
-       
     }
 
+    const onExitModal = () => {
+        console.log('on exit modal')
+        reset();
+    }
     return (
         <div>
-            {additionalInfo.map((item,i) => {
-                return (
+            <Modal
+                show={props.show}
+                onHide={()=>props.setShow(false)}
+                backdrop="static"
+                keyboard={false}
+                onExit={()=>onExitModal()}
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>Add Address</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
                     <div>
-                        <div className="d-flex justify-content-between">
-                            <h6>{i + 1}:Address</h6>
-                            <AiFillDelete  onClick={()=>deleteAdditionalInfo(i)} />
-                        </div>
+                        
                         <Form onSubmit={handleSubmit(onSubmit)}>
-                        <Form.Field className="d-flex flex-column p-1">
+                        <Form.Group className="d-flex flex-column p-1">
                     <label className="fw-bolder">Street</label>
                     <input type="text" placeholder="Enter Street" 
                     className="p-2"
@@ -86,10 +88,10 @@ export default function Address() {
                                 required: true,
                             })}
                     />
-                </Form.Field>
+                </Form.Group>
                 {errors.email && <p style={{ color: "red" }}>Street is Required</p>}
                     
-                <Form.Field className="d-flex flex-column p-1">
+                <Form.Group className="d-flex flex-column p-1">
                     <label className="fw-bolder">AddressLine2</label>
                     <input type="text" placeholder="Enter AddressLine2" 
                     className="p-2"
@@ -98,9 +100,9 @@ export default function Address() {
                                 required: true,
                             })}
                     />
-                </Form.Field>
+                </Form.Group>
                 {errors.email && <p style={{ color: "red" }}>addressLine2 is Required</p>}
-                <Form.Field>
+                <Form.Group>
                 {/* countryStateCity     */}
                 <div className="countryStateCity">
                     <div className="d-flex flex-column p-1">        
@@ -130,21 +132,12 @@ export default function Address() {
                                 ></input>
                     </div>
                 </div>
-                </Form.Field>
+                </Form.Group>
                 <Button type="submit" className="btn btn-secondary my2">Submit</Button>            
                 </Form>
                     </div>
-                )
-            })}
-            <div>
-                <button className="btn btn-secondary btn-sm"
-                    onClick={()=>setAdditionalInfo((prev)=>[...prev,1])}                
-                >Add</button>
-
-                {/* <button className="btn btn-secondary btn-sm mx-2"
-                    onClick={()=>saveAddress()}              
-                >Save Address</button> */}
-            </div>
+                    </Modal.Body>
+        </Modal>
         </div>
     )
 }

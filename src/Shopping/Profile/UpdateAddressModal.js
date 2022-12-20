@@ -1,10 +1,9 @@
 import { useState } from "react"
 import { AiFillDelete } from "react-icons/ai"
-import { Button, Form } from "semantic-ui-react";
 import { Country, State, City } from 'country-state-city'
 import { useForm } from "react-hook-form";
-import { Post, Put } from "../Services/HttpService";
-import { Modal } from "react-bootstrap";
+import { Put } from "../Services/HttpService";
+import { Button, Form, Modal } from "react-bootstrap";
 import { toast } from "react-hot-toast";
 
 export default function UpdateAddressModal(props) {
@@ -17,25 +16,13 @@ export default function UpdateAddressModal(props) {
     } = useForm(
         {
             defaultValues:{
-                street: props.updateAdd?.street,
-                addressLine2: props.updateAdd?.addressLine2,
-                city: props.updateAdd?.city,
-                state: props.updateAdd?.state,
-                pin: props.updateAdd?.pin
+                street: props.updateAdd.street,
+                addressLine2: props.updateAdd.addressLine2,
+                pin: props.updateAdd.pin
             }
         }
     );
 
-
-    const [additionalInfo, setAdditionalInfo] = useState([])
-    console.log(additionalInfo)
-
-    const deleteAdditionalInfo = (index) => {
-        console.log('delete')
-        setAdditionalInfo((prev) => prev.filter((item, i) => i !== index))
-        const id = additionalInfo.find((item, i) => i === index)
-        console.log(id)
-    }
     const [state, setState] = useState([]);
     const [countryCode, setCountryCode] = useState("")
     const [city, setCity] = useState([])
@@ -72,7 +59,13 @@ export default function UpdateAddressModal(props) {
         Put(`/customers/address/${props.updateAdd._id}`,address)
             .then((response) => {
             console.log(response)
-            props.setShow(false)
+                props.setShow(false)
+                props.setAddress((prev) => prev.map((item) =>
+                    {if(item._id === props.updateAdd._id) {
+                        item=address
+                    }
+                    return item}
+                ))
             toast.success('Address Successfully Updated') 
             })
             .catch((error) => {
@@ -82,8 +75,8 @@ export default function UpdateAddressModal(props) {
 
     const onExitModal=()=>{
         console.log('onExitModal')
-        resetField('street')
-        resetField('addressLine2')
+        resetField('street');
+        resetField('addressLine2');
         resetField('pin')
     }
 
@@ -102,34 +95,34 @@ export default function UpdateAddressModal(props) {
             <Modal.Body>
             <div>
                 <Form onSubmit={handleSubmit(onSubmit)}>
-                    <Form.Field className="d-flex flex-column p-1">
-                        <label className="fw-bolder">Street</label>
-                        <input type="text" placeholder="Enter Street"
+                    <Form.Group className="d-flex flex-column p-1">
+                        <Form.Label className="fw-bolder">Street</Form.Label>
+                        <Form.Control type="text" placeholder="Enter Street"
                             className="p-2" defaultValue={props.updateAdd.street}
                             {...register("street",
                                 {
                                     required: true
                                 })}
                         />
-                    </Form.Field>
+                    </Form.Group>
                     {errors.email && <p style={{ color: "red" }}>Street is Required</p>}
 
-                    <Form.Field className="d-flex flex-column p-1">
-                        <label className="fw-bolder">AddressLine2</label>
-                        <input type="text" placeholder="Enter AddressLine2"
+                    <Form.Group className="d-flex flex-column p-1">
+                        <Form.Label className="fw-bolder">AddressLine2</Form.Label>
+                        <Form.Control type="text" placeholder="Enter AddressLine2"
                             className="p-2" defaultValue={props.updateAdd.addressLine2}
                             {...register("addressLine2",
                                 {
                                     required: true,
                                 })}
                         />
-                    </Form.Field>
+                    </Form.Group>
                     {errors.email && <p style={{ color: "red" }}>addressLine2 is Required</p>}
-                    <Form.Field>
+                    <Form.Group>
                         {/* countryStateCity     */}
                         <div className="countryStateCity">
                             <div className="d-flex flex-column p-1">
-                                <label>Country::</label>
+                                <Form.Label>Country::</Form.Label>
                                 <select onChange={(e) => getState(e.target.value)}>
                                     <option>Select Country</option>
                                     {Country.getAllCountries().map((countryData) => (
@@ -137,27 +130,27 @@ export default function UpdateAddressModal(props) {
                                     ))}
                                 </select>
 
-                                <label>State::</label>
+                                <Form.Label>State::</Form.Label>
                                 <select onChange={(e) => getCity(e.target.value)}>
                                     <option>Select State</option>
                                     {state.map((data) => (<option value={data.isoCode}>{data.name}</option>))}
                                 </select>
                             </div>
                             <div className="p-1">
-                                <label>City::</label>
+                                <Form.Label>City::</Form.Label>
                                 <select onChange={(e) => cityOfState(e.target.value)}>
                                     <option>Select City</option>
                                     {city.map((cityData) => (<option value={cityData.name}>{cityData.name}</option>))}
                                 </select>
 
-                                <input type="text" placeholder="PIN code" className="m-1"
+                                <Form.Control type="text" placeholder="PIN code" className="m-1"
                                     defaultValue={props.updateAdd.pin}
                                     {...register('pin', { required: true })}
-                                ></input>
+                                ></Form.Control>
                             </div>
                         </div>
-                    </Form.Field>
-                    <Button type="submit">Submit</Button>
+                    </Form.Group>
+                    <Button className="btn btn-secondary" type="submit">Submit</Button>
                 </Form>
             </div>
             </Modal.Body>

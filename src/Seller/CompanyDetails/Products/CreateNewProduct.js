@@ -2,12 +2,12 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useForm } from 'react-hook-form';
-import { Form } from 'semantic-ui-react';
 import { getProducts } from '../../Services/HttpService';
 import {CiCircleRemove} from 'react-icons/ci'
 import axios from 'axios';
 import getToken from '../../Services/TokenService';
 import toast from 'react-hot-toast';
+import { Form } from 'react-bootstrap';
 
 export default function CreateNewProduct(props) {
 
@@ -81,7 +81,6 @@ export default function CreateNewProduct(props) {
     <div >
       <Modal {...props} onExit={exitModal}
       size="md"
-      aria-labelledby="contained-modal-title-vcenter"
       centered
       backdrop="static"
     >
@@ -109,9 +108,9 @@ export default function CreateNewProduct(props) {
       
      
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <Form.Field className='d-flex flex-column'>
-              <label style={{color:'white'}}>Select Image *</label>
-                <input type='file'
+          <Form.Group className='d-flex flex-column'>
+              <Form.Label style={{color:'white'}}>Select Image *</Form.Label>
+                <Form.Control type='file'
                  
               multiple
               onChange={(event) => {
@@ -124,29 +123,29 @@ export default function CreateNewProduct(props) {
              }}
               // {...register('images',{required:true})}
             /> 
-            </Form.Field>
+            </Form.Group>
           {errors.images && <p style={{color: "red"}}>Image is Required</p>}
-          <Form.Field className='d-flex flex-column'>
-              <label style={{color:'white'}}>Name *</label>
-                <input type='text' placeholder='Enter Name'
+          <Form.Group className='d-flex flex-column'>
+              <Form.Label style={{color:'white'}}>Name *</Form.Label>
+                <Form.Control type='text' placeholder='Enter Name'
                  
               {...register('name',{required:true})}
             />  
-          </Form.Field>
+          </Form.Group>
           {errors.name && <p style={{color: "red"}}>Name is Required</p>}
-          <Form.Field className='d-flex flex-column'>
-              <label style={{color:'white'}}>Discription</label>
+          <Form.Group className='d-flex flex-column'>
+              <Form.Label style={{color:'white'}}>Discription</Form.Label>
             <textarea type='text' placeholder='Enter details about Image'
               {...register('description')}
             />  
-          </Form.Field>
+          </Form.Group>
           {/* {errors.description && <p style={{color: "red"}}>Description is Required</p>} */}
-          <Form.Field className='d-flex flex-column'>
-              <label style={{color:'white'}}>Price *</label>
-            <input type='number' placeholder='Enter Price' min={0}
+          <Form.Group className='d-flex flex-column'>
+              <Form.Label style={{color:'white'}}>Price *</Form.Label>
+            <Form.Control type='number' placeholder='Enter Price' min={0}
               {...register('price',{required:true})}
             />  
-          </Form.Field>
+          </Form.Group>
           {errors.price && <p style={{color: "red"}}>Price is Required</p>}
           <Button type="submit" className="m-1 p-2" style={{backgroundColor:"rgb(1, 1, 10)",color:"white"}}>Submit</Button>
           </Form>

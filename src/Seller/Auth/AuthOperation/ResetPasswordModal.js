@@ -1,7 +1,7 @@
+import { Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
-import { Button, Form } from "semantic-ui-react";
 import Post  from "../../Services/HttpService";
 
 export default function PostModal() {
@@ -41,19 +41,19 @@ export default function PostModal() {
             onSubmit={handleSubmit(onSubmit)}
             className="d-flex flex-column justify-content-center"
           >
-            <Form.Field className="d-flex flex-column py-2">
-              <label>New Password</label>
-              <input
+            <Form.Group className="d-flex flex-column py-2">
+              <Form.Label>New Password</Form.Label>
+              <Form.Control
                 type="text"
                 placeholder="Enter new Password"
                 {...register("password", { required: true, minLength: 8 })}
               />
-            </Form.Field>
+            </Form.Group>
             {errors.password?.type==='required' && <p style={{ color: "red" }}>Password is Required</p>}
             {errors.password?.type==='minLength' && <p style={{ color: "red" }}>minimum 8 charachters required</p>}
-            <Form.Field className="d-flex flex-column">
-              <label>Confirm Password</label>
-              <input
+            <Form.Group className="d-flex flex-column">
+              <Form.Label>Confirm Password</Form.Label>
+              <Form.Control
                 type="text"
                 placeholder="Enter confirm Password"
                 {...register("confirm_password", {
@@ -64,7 +64,7 @@ export default function PostModal() {
                       },
                 })}
               />
-            </Form.Field>
+            </Form.Group>
             {errors.confirm_password && <p style={{ color: "red" }}>your password do not match</p>}
             
             <Button type="submit" className="my-3 btn btn-primary" style={{backgroundColor:"rgb(1, 1, 10)",color:"white"}}>

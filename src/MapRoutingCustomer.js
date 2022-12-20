@@ -15,7 +15,7 @@ export default function MapRoutingCustomer(){
         },
         {
             path: "/",
-            element: < Navigate to={ "/auth/login"} />
+            element: < Navigate to={ "/home"} />
         },
         {
             path:'/auth/registration',

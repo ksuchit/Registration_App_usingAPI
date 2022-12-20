@@ -1,14 +1,13 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { Form, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { Delete } from '../Services/HttpService';
 import getShopToken from '../Services/TokenService';
 
 export default function UpdateProfileImgModal(props){
-    const [imgData,setImgData]=useState();
     const navigate = useNavigate();
 
     const formData = new FormData();
@@ -61,16 +60,22 @@ export default function UpdateProfileImgModal(props){
 
     const onSave=()=>{
       console.log('on save clicked')
-      formData.append('picture',imgData)
-
+      console.log(getShopToken())
       axios.post('https://shop-api.ngminds.com/customers/profile-picture',formData,
         {
-          headers:`Bearer ${getShopToken()}`,
-          'Content-Type': 'multipart/form-data'
+          headers: {
+        'Authorization': `Bearer ${getShopToken()}`,
+        'Content-Type': 'multipart/form-data'
+          }
         }
+        
       )
       .then((response)=>{
         console.log(response)
+        props.data.picture=response.data.picture
+        props.setData(props.data)
+        navigate('/update-profile')
+        props.setShow(false)
       })
       .catch((error)=>{
         console.log(error)
@@ -93,7 +98,7 @@ export default function UpdateProfileImgModal(props){
             <div className='d-flex gap-3'>
                 <div>
                     <img
-                    src={props.url}
+                    src={props.data.picture}
                     alt="menProfile-Logo"
                     style={{ display: "block", width: 100, height: 100 }}
                     ></img>
@@ -105,7 +110,7 @@ export default function UpdateProfileImgModal(props){
                 <div>
                   <label>Upload from Computer</label>          
                    <input type='file'
-                        onChange={(e)=>setImgData(e.target.files)}        
+                        onChange={(e)=>formData.append('picture',e.target.files[0])}        
                             />         
                 </div>        
             </div>

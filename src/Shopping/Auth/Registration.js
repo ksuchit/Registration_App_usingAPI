@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { Button, Form } from "semantic-ui-react";
 import {useForm} from "react-hook-form"
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {Country,State,City} from 'country-state-city'
 import { Post } from "../Services/HttpService";
+import { toast } from "react-hot-toast";
+import { Button, Form } from "react-bootstrap";
 
 export default function Registration() {
+    const navigate = useNavigate();
     const [isEmailRegistered, setIsEmailRegistered] = useState(false);
     
     const [state, setState] = useState([]);
@@ -55,7 +57,9 @@ export default function Registration() {
 
         Post('/shop/auth/register', payload)
             .then((response) => {
-            console.log(response)
+                console.log(response)
+                toast.success('Successfully Registered')
+                navigate('/auth/login')
             })
             .catch((error) => {
             console.log(error)
@@ -71,18 +75,18 @@ export default function Registration() {
             <Form onSubmit={handleSubmit(onSubmit)} className="reg-form  h-auto p-2">
                 <h2>Registration</h2>
                 <hr/>
-                <Form.Field className="d-flex flex-column p-1">
-                    <label className="fw-bolder">Full Name</label>
-                    <input type="text" placeholder="Enter Full Name"
+                <Form.Group className="d-flex flex-column p-1">
+                    <Form.Label className="fw-bolder">Full Name</Form.Label>
+                    <Form.Control type="text" placeholder="Enter Full Name"
                     className="p-2"
                     {...register("name",{required:true})}
                     />
-                </Form.Field>
+                </Form.Group>
                 { errors.name && <p style={{color: "red"}}>user name is Required</p>}
                
-                <Form.Field className="d-flex flex-column p-1">
-                    <label className="fw-bolder">Email</label>
-                    <input type="text" placeholder="Enter Email" 
+                <Form.Group className="d-flex flex-column p-1">
+                    <Form.Label className="fw-bolder">Email</Form.Label>
+                    <Form.Control type="text" placeholder="Enter Email" 
                     className="p-2"
                         {...register("email",
                             {
@@ -90,13 +94,13 @@ export default function Registration() {
                                 onChange:()=> setIsEmailRegistered(false)
                             })}
                     />
-                </Form.Field>
+                </Form.Group>
                 {errors.email && <p style={{ color: "red" }}>email is Required</p>}
                 {isEmailRegistered ? <p style={{ color: "red" }}>user email is alredy exist</p> : ""}
                  
-                <Form.Field className="d-flex flex-column p-1">
-                    <label className="fw-bolder">Street</label>
-                    <input type="text" placeholder="Enter Street" 
+                <Form.Group className="d-flex flex-column p-1">
+                    <Form.Label className="fw-bolder">Street</Form.Label>
+                    <Form.Control type="text" placeholder="Enter Street" 
                     className="p-2"
                         {...register("street",
                             {
@@ -104,12 +108,12 @@ export default function Registration() {
                                 onChange:()=> setIsEmailRegistered(false)
                             })}
                     />
-                </Form.Field>
+                </Form.Group>
                 {errors.email && <p style={{ color: "red" }}>Street is Required</p>}
                     
-                <Form.Field className="d-flex flex-column p-1">
-                    <label className="fw-bolder">AddressLine2</label>
-                    <input type="text" placeholder="Enter AddressLine2" 
+                <Form.Group className="d-flex flex-column p-1">
+                    <Form.Label className="fw-bolder">AddressLine2</Form.Label>
+                    <Form.Control type="text" placeholder="Enter AddressLine2" 
                     className="p-2"
                         {...register("addressLine2",
                             {
@@ -117,13 +121,13 @@ export default function Registration() {
                                 onChange:()=> setIsEmailRegistered(false)
                             })}
                     />
-                </Form.Field>
+                </Form.Group>
                 {errors.email && <p style={{ color: "red" }}>addressLine2 is Required</p>}
-                <Form.Field>
+                <Form.Group>
                 {/* countryStateCity     */}
                 <div className="countryStateCity">
                     <div className="d-flex flex-column p-1">        
-                        <label>Country::</label>
+                        <Form.Label>Country::</Form.Label>
                         <select  onChange={(e)=>getState(e.target.value)}>
                             <option>Select Country</option>
                             {Country.getAllCountries().map((countryData) => (
@@ -131,38 +135,38 @@ export default function Registration() {
                             ))}
                         </select>
                         
-                        <label>State::</label>
+                        <Form.Label>State::</Form.Label>
                         <select onChange={(e)=>getCity(e.target.value)}>
                             <option>Select State</option>
                             {state.map((data) => (<option value={data.isoCode}>{data.name}</option>))}
                         </select>
                     </div>
                     <div className="p-1">        
-                        <label>City::</label>
+                        <Form.Label>City::</Form.Label>
                         <select onChange={(e)=>cityOfState(e.target.value)}>
                             <option>Select City</option>
                             {city.map((cityData) => (<option value={cityData.name}>{cityData.name}</option>))}
                         </select>
                     
-                        <input type="text" placeholder="PIN code" className="m-1"
+                        <Form.Control type="text" placeholder="PIN code" className="m-1"
                             {...register('pin',{required:true})}    
-                                ></input>
+                                ></Form.Control>
                     </div>
                 </div>
-                </Form.Field>           
-                <Form.Field className="d-flex flex-column p-1">
-                    <label className="fw-bolder">Password</label>
-                    <input type="password" placeholder="Enter Password"
+                </Form.Group>           
+                <Form.Group className="d-flex flex-column p-1">
+                    <Form.Label className="fw-bolder">Password</Form.Label>
+                    <Form.Control type="password" placeholder="Enter Password"
                     className="p-2"
                     {...register("password",{required:true , minLength:8 })}
                     />
-                </Form.Field>
+                </Form.Group>
                 {errors.password?.type === 'required' && <p style={{ color: "red" }}>password is Required</p>}
                 {errors.password?.type==='minLength' && <p style={{ color: "red" }}>minimum 8 charachters Required</p>}
                 
-                <Form.Field className="d-flex flex-column p-1">
-                    <label className="fw-bolder">Confirm Password</label>
-                    <input type="password" placeholder="Enter Password"
+                <Form.Group className="d-flex flex-column p-1">
+                    <Form.Label className="fw-bolder">Confirm Password</Form.Label>
+                    <Form.Control type="password" placeholder="Enter Password"
                     className="p-2"
                         {...register("Rpassword", {
                              minLength: 8,
@@ -173,7 +177,7 @@ export default function Registration() {
                               },
                         })}
                     />
-                </Form.Field>
+                </Form.Group>
                 {errors.Rpassword && <p style={{ color: "red" }}>Your passwords do no match</p>}
                 
                 <Button type="submit" className="m-1 p-2" style={{backgroundColor:"rgb(1, 1, 10)",color:"white"}}>Submit</Button>

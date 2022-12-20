@@ -1,9 +1,9 @@
 import React from 'react';
+import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { Form } from 'semantic-ui-react';
 import { Patch } from '../../Services/HttpService';
 
 export default function EditUser(props) {
@@ -56,27 +56,27 @@ export default function EditUser(props) {
                   <h1 style={{textAlign:'center'}}>Edit User</h1>
                   <div className='registration'>
                   <Form onSubmit={handleSubmit(onSubmit)} className="reg-form  h-auto p-2">
-                    <Form.Field className="d-flex flex-column p-1">
-                        <label>Full Name</label>
-                        <input type="text" defaultValue={props.editUser?.name}
+                    <Form.Group className="d-flex flex-column p-1">
+                        <Form.Label>Full Name</Form.Label>
+                        <Form.Control type="text" defaultValue={props.editUser?.name}
                         className="p-2"
                         {...register("name")}
                         />
-                    </Form.Field>
-                    <Form.Field className="d-flex flex-column p-1">
-                        <label>Company Email</label>
-                        <input type="text" defaultValue={props.editUser?.email}
+                    </Form.Group>
+                    <Form.Group className="d-flex flex-column p-1">
+                        <Form.Label>Company Email</Form.Label>
+                        <Form.Control type="text" defaultValue={props.editUser?.email}
                         className="p-2"
                         { ...register("email")}                    
                         />
-                    </Form.Field>
-                    <Form.Field className='d-flex flex-column p-1'>
-                              <label>Password</label>
-                              <input type="text" placeholder='Enter Password'
+                    </Form.Group>
+                    <Form.Group className='d-flex flex-column p-1'>
+                              <Form.Label>Password</Form.Label>
+                              <Form.Control type="text" placeholder='Enter Password'
                                   className='p-2'
                                 {...register("password")}
                               />
-                    </Form.Field>     
+                    </Form.Group>     
                 <Button type="submit" className="m-1 p-2" style={{backgroundColor:"rgb(1, 1, 10)",color:"white"}}>Submit</Button>
                           
                 </Form>

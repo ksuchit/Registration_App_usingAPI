@@ -1,7 +1,7 @@
 import React  from "react";
+import { Form } from "react-bootstrap";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { Form } from "semantic-ui-react";
 import {useForm} from "react-hook-form"
 import toast from "react-hot-toast";
 import Post from "../../Services/HttpService";
@@ -42,7 +42,6 @@ export default function CreateUserModal(props) {
     <Modal
       {...props}
       size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
         centered
           backdrop="static"
       keyboard={false}
@@ -59,43 +58,43 @@ export default function CreateUserModal(props) {
             <Form onSubmit={handleSubmit(onSubmitCreateUser)} className="reg-form  h-auto p-2">
                 <h2>Register</h2>
                 <hr/>
-                <Form.Field className="d-flex flex-column p-1">
-                    <label>Full Name</label>
-                    <input type="text" placeholder="Enter Full Name"
+                <Form.Group className="d-flex flex-column p-1">
+                    <Form.Label>Full Name</Form.Label>
+                    <Form.Control type="text" placeholder="Enter Full Name"
                     className="p-2"
                     {...register("name",{required:true})}
                     />
-                </Form.Field>
+                </Form.Group>
                 { errors.name && <p style={{color: "red"}}>user name is Required</p>}
-                <Form.Field className="d-flex flex-column p-1">
-                    <label>Role</label>
-                    <input type="text" placeholder="Enter Role"
+                <Form.Group className="d-flex flex-column p-1">
+                    <Form.Label>Role</Form.Label>
+                    <Form.Control type="text" placeholder="Enter Role"
                     className="p-2"
                     { ...register("role",{required:true})}                    
                     />
-                </Form.Field>
+                </Form.Group>
                 { errors.role && <p style={{color: "red"}}>role is Required</p>}
-                <Form.Field className="d-flex flex-column p-1">
-                    <label>Email</label>
-                    <input type="text" placeholder="Enter Email"
+                <Form.Group className="d-flex flex-column p-1">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control type="text" placeholder="Enter Email"
                     className="p-2"
                     {...register("email",{required:true , pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i })}
                     />
-                </Form.Field>
+                </Form.Group>
                 {errors.email && <p style={{ color: "red" }}>email is Required</p>}
-                <Form.Field className="d-flex flex-column p-1">
-                    <label>Password</label>
-                    <input type="password" placeholder="Enter Password"
+                <Form.Group className="d-flex flex-column p-1">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control type="password" placeholder="Enter Password"
                     className="p-2"
                     {...register("password",{required:true , minLength:8 })}
                     />
-                </Form.Field>
+                </Form.Group>
                 {errors.password?.type === 'required' && <p style={{ color: "red" }}>password is Required</p>}
                 {errors.password?.type==='minLength' && <p style={{ color: "red" }}>minimum 8 charachters Required</p>}
                 
-                <Form.Field className="d-flex flex-column p-1">
-                    <label>Confirm Password</label>
-                    <input type="password" placeholder="Enter Password"
+                <Form.Group className="d-flex flex-column p-1">
+                    <Form.Label>Confirm Password</Form.Label>
+                    <Form.Control type="password" placeholder="Enter Password"
                     className="p-2"
                         {...register("Rpassword", {
                              minLength: 8,
@@ -106,7 +105,7 @@ export default function CreateUserModal(props) {
                               },
                         })}
                     />
-                </Form.Field>
+                </Form.Group>
                 {errors.Rpassword && <p style={{color: "red"}}>Your passwords do no match</p>}
                 <Button type="submit" className="m-1 p-2" style={{backgroundColor:"rgb(1, 1, 10)",color:"white"}}>Submit</Button>
             </Form>
