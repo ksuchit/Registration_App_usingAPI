@@ -39,7 +39,7 @@ export default function ChangePassword() {
     <div className='registration'>
       <Form onSubmit={handleSubmit(onSubmit)} >
         <Form.Group className="d-flex flex-column p-1">
-            <Form.Label>old_password</Form.Label>
+            <Form.Label>Old Password</Form.Label>
             <Form.Control type='text' placeholder='Enter old Password'
                 {...register('old_password',{required:true, minLength:8})}
             />
@@ -48,7 +48,7 @@ export default function ChangePassword() {
         {errors.old_password?.type === 'minLength' && <p style={{ color: 'red' }}>minimum 8 charachters needed</p>}
         
         <Form.Group className="d-flex flex-column p-1">
-            <Form.Label>new_password</Form.Label>
+            <Form.Label>New password</Form.Label>
             <Form.Control type='text' placeholder='Enter new Password'
               {...register('new_password',{required:true,minLength:8})}
             />
@@ -57,7 +57,7 @@ export default function ChangePassword() {
         {errors.new_password?.type === 'minLength' && <p style={{ color: 'red' }}>minimum 8 charachters needed</p>}
 
         <Form.Group className="d-flex flex-column p-1">
-            <Form.Label>Confirm_Password</Form.Label>
+            <Form.Label>Confirm Password</Form.Label>
             <Form.Control type='password' placeholder='Confirm Password'
               {...register('confirm_password',
                 {

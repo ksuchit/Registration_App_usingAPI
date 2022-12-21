@@ -1,10 +1,9 @@
 import { useState } from "react"
 import { AiFillDelete } from "react-icons/ai"
-import { Button, Form } from "semantic-ui-react";
 import {Country,State,City} from 'country-state-city'
 import { useForm } from "react-hook-form";
 import { Post } from "../Services/HttpService";
-import { Modal } from "react-bootstrap";
+import { Button, Form, Modal } from "react-bootstrap";
 
 export default function Address(props) {
     
@@ -80,8 +79,8 @@ export default function Address(props) {
                         
                         <Form onSubmit={handleSubmit(onSubmit)}>
                         <Form.Group className="d-flex flex-column p-1">
-                    <label className="fw-bolder">Street</label>
-                    <input type="text" placeholder="Enter Street" 
+                    <Form.Label className="fw-bolder">Street</Form.Label>
+                    <Form.Control type="text" placeholder="Enter Street" 
                     className="p-2"
                         {...register("street",
                             {
@@ -92,8 +91,8 @@ export default function Address(props) {
                 {errors.email && <p style={{ color: "red" }}>Street is Required</p>}
                     
                 <Form.Group className="d-flex flex-column p-1">
-                    <label className="fw-bolder">AddressLine2</label>
-                    <input type="text" placeholder="Enter AddressLine2" 
+                    <Form.Label className="fw-bolder">AddressLine2</Form.Label>
+                    <Form.Control type="text" placeholder="Enter AddressLine2" 
                     className="p-2"
                         {...register("addressLine2",
                             {
@@ -106,7 +105,7 @@ export default function Address(props) {
                 {/* countryStateCity     */}
                 <div className="countryStateCity">
                     <div className="d-flex flex-column p-1">        
-                        <label>Country::</label>
+                        <Form.Label>Country::</Form.Label>
                         <select  onChange={(e)=>getState(e.target.value)}>
                             <option>Select Country</option>
                             {Country.getAllCountries().map((countryData) => (
@@ -114,22 +113,22 @@ export default function Address(props) {
                             ))}
                         </select>
                         
-                        <label>State::</label>
+                        <Form.Label>State::</Form.Label>
                         <select onChange={(e)=>getCity(e.target.value)}>
                             <option>Select State</option>
                             {state.map((data) => (<option value={data.isoCode}>{data.name}</option>))}
                         </select>
                     </div>
                     <div className="p-1">        
-                        <label>City::</label>
+                        <Form.Label>City::</Form.Label>
                         <select onChange={(e)=>cityOfState(e.target.value)}>
                             <option>Select City</option>
                             {city.map((cityData) => (<option value={cityData.name}>{cityData.name}</option>))}
                         </select>
                     
-                        <input type="text" placeholder="PIN code" className="m-1"
+                        <Form.Control type="text" placeholder="PIN code" className="m-1"
                             {...register('pin',{required:true})}    
-                                ></input>
+                                ></Form.Control>
                     </div>
                 </div>
                 </Form.Group>

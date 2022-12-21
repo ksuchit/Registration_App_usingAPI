@@ -4,7 +4,10 @@ import ImgCarousal from "./ImgCarousal";
 import Pagination from "./Pagination";
 import {FaRupeeSign} from 'react-icons/fa'
 import Footer from "../../Components/Footer";
+import LoginModal from "./LoginModal";
+import Cookies from "universal-cookie";
 
+// let cnt = 0;
 export default function Products() {
   const [products, setProducts] = useState([]);
   
@@ -14,9 +17,25 @@ export default function Products() {
   const [totalResults, setTotalResults] = useState();
   const [sortBy, setSortBy] = useState('');
   const [name, setName] = useState("");
-  const[searchByName,setSearchByName]=useState('')
-  useEffect(() => {
+  const [searchByName, setSearchByName] = useState('')
+  const [loginShow, setLoginShow] = useState(false)
 
+  const cookies = new Cookies();
+  useEffect(()=>{
+    if (cookies.get('registered')) {
+      setLoginShow(false); //Modal does not open if cookie exists
+    } else if (!cookies.get('registered')) {
+       cookies.set('registered', 'true', {
+        path: '/',
+       });
+       setLoginShow(true); //Creates a cookie and shows modal.
+    }
+  },[])
+  useEffect(() => {
+    // if (cnt === 0) {
+    //   setLoginShow(true)
+    //   cnt++;
+    // }
     sortBy ?
     Get(`/shop/products?&limit=${itemPerPage}&page=${pageNum}&sortBy=${sortBy}`)
       .then((response) => {
@@ -80,7 +99,7 @@ export default function Products() {
 
           <lable className='fw-bolder'>SortBy-</lable>
           <select onChange={(e)=>setSortBy(e.target.value)}>
-            <option value={''}>Default</option>
+            <option value=''>Default</option>
             <option value='name'>Name</option>
             <option value='price'>Price</option>
           </select>
@@ -100,7 +119,7 @@ export default function Products() {
                 {/* <button className="btn btn-secondary btn-sm " onClick={() => onQuickView(item._id)}>QUICK VIEW</button> */}
               </div>
              
-              <h6 className="py-1">{item.name}</h6>
+              <h6 className="py-1">{item.name.length>25 ? `${item.name.slice(0,25)} ...`: item.name}</h6>
               <div>
                 <p className='fw-bolder'> <FaRupeeSign />{item.price}</p>
               </div>
@@ -116,6 +135,7 @@ export default function Products() {
           pageNum={pageNum}
           setPageNum={setPageNum}
           totalPages={totalPages}
+          itemPerPage={itemPerPage}
         />
         {/* we added ternary because when we click on quickView it will call fun and set id its working but before 
         that i think call goes to this modal  so we didn't get id in QuickModal so API not hitted   */}
@@ -137,6 +157,14 @@ export default function Products() {
         </div>
       </div>
       <Footer />
+
+      {/* it will display when we first time come to home page */}
+      <div>
+        <LoginModal
+          show={loginShow}
+          setShow={setLoginShow}
+        />
+      </div>
     </div>
   );
 }

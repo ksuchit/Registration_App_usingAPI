@@ -1,13 +1,16 @@
-import React, { useContext, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
-import { useForm } from "react-hook-form";
-import { Post } from "../Services/HttpService";
-import { setShopToken } from "../Services/TokenService";
-import { shopLoginContext } from "../../App";
-import { Button, Form } from "react-bootstrap";
+import React, { useContext } from 'react';
+import { Form } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { shopLoginContext } from '../../App';
+import { Post } from '../Services/HttpService';
+import { setShopToken } from '../Services/TokenService';
 
-export default function Login() {
+export default function LoginModal(props){
+    
     const navigate = useNavigate();
     const[,setShopIsLive]=useContext(shopLoginContext)
     const {
@@ -33,16 +36,22 @@ export default function Login() {
         })
     }
 
-    const forgotPassword = () => {
-        console.log('forgot password clicked')
-        navigate('/home')
-    }
+    
     return (
-        <div className="loginContainer">
-        <div className="loginPage w-25 h-auto p-2">
-            {/* <h2>Login</h2>
-            <hr /> */}
-            <Form onSubmit={handleSubmit(onSubmit)} className="reg-form h-auto p-2">
+    <>
+      <Modal
+        show={props.show}
+        onHide={()=>props.setShow(false)}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Login</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+            
+        <Form onSubmit={handleSubmit(onSubmit)}
+            style={{ border: '3px solid grey',borderRadius:'3%' }} className="p-2">
             <Form.Group className="d-flex flex-column p-1">
                     <Form.Label>Email</Form.Label>
                     <Form.Control type="text" placeholder="Enter Email"
@@ -60,17 +69,17 @@ export default function Login() {
                 </Form.Group>
                 {errors.password?.type === 'required' && <p style={{ color: "red" }}>password is Required</p>}
                 {errors.password?.type === 'minLength' && <p style={{ color: "red" }}>minimum 8 charachters Required</p>}
-                <div className="d-flex justify-content-end">
-                    <NavLink style={{ textDecoration: 'none' }} onClick={forgotPassword}>forget Password?</NavLink>
-                </div>
+                
                 <div className="d-flex flex-column">
-                    {/* <NavLink style={{ textDecoration: 'none' }} to='/auth/forgot-password' ><button className=" mx-1 btn btn-sm btn-primary float-right">forgot password</button></NavLink> */}
-                    <Button type="submit" className="m-1 my-2 p-2" style={{backgroundColor:"rgb(1, 1, 10)",color:"white"}}>Submit</Button>
+                    <div className='d-flex justify-content-start'>
+                        <Button type="submit" className="m-1 my-2 p-2" style={{backgroundColor:"rgb(1, 1, 10)",color:"white"}}>Submit</Button>
+                    </div>      
                     <Form.Text className="mx-1">Not a member? <NavLink style={{ textDecoration: 'none' }} to='/auth/registration' >Register</NavLink></Form.Text>
                 </div>
             </Form>
-            </div>
-        </div>
             
-    )
+        </Modal.Body>
+      </Modal>
+    </>
+  );
 }

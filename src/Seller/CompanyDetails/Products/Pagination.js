@@ -6,7 +6,22 @@ export default function Pagination(props) {
                     className='btn btn-secondary'                
                 >Previous</button>
             }
-            <p className='fw-bolder mx-2'>{props.pageNum}</p>
+            {
+                props.pageNum <= props.totalPages - 3 ?
+                    <div className='fw-bolder mx-2 d-flex align-items-center'>
+                        <div><button className="btn btn-primary" onClick={()=>props.setPageNum(props.pageNum)} style={{border:'none'}}>{props.pageNum}</button></div>
+                        <div className="mx-1"><button onClick={()=>props.setPageNum(props.pageNum+1)} style={{border:'none'}}>{props.pageNum + 1}</button></div>
+                        <div className="mx-1"><button onClick={()=>props.setPageNum(props.pageNum+2)} style={{border:'none'}}>{props.pageNum + 2}</button></div>
+                        <div className="mx-1"><button onClick={()=>props.setPageNum(props.pageNum)} style={{border:'none'}}>...</button></div>
+                        <div><button onClick={()=>props.setPageNum(props.totalPages)} style={{border:'none'}}>{props.totalPages}</button></div>
+                    </div>
+                :
+                    <div className='fw-bolder mx-2 d-flex align-items-center'>
+                        <div><button className={props.totalPages - 2 === props.pageNum ? "btn btn-primary" : ""} onClick={() => props.setPageNum(props.totalPages - 2)} style={{ border: 'none' }}>{props.totalPages - 2}</button></div>
+                        <div className="mx-1"><button className={props.totalPages - 1 === props.pageNum ? 'btn btn-primary' : ""} onClick={()=>props.setPageNum(props.totalPages - 1)} style={{ border: 'none' }}>{props.totalPages - 1}</button></div>
+                        <div><button className={props.totalPages === props.pageNum ? 'btn btn-primary' : ""} onClick={()=>props.setPageNum(props.totalPages)} style={{border:'none'}}>{props.totalPages}</button></div>
+                    </div>
+            }
             { props.totalPages!==props.pageNum && props.totalPages!==0? 
                 <button onClick={() => props.setPageNum((prev) => prev + 1)}
                     className='btn btn-secondary'

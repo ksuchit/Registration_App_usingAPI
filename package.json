@@ -29,6 +29,7 @@
     "react-social-login": "^3.4.16",
     "styled-components": "^5.3.6",
     "sweetalert2": "^11.6.15",
+    "universal-cookie": "^4.0.4",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

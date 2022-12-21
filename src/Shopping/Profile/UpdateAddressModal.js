@@ -97,7 +97,7 @@ export default function UpdateAddressModal(props) {
                 <Form onSubmit={handleSubmit(onSubmit)}>
                     <Form.Group className="d-flex flex-column p-1">
                         <Form.Label className="fw-bolder">Street</Form.Label>
-                        <Form.Control type="text" placeholder="Enter Street"
+                        <Form.Control type="text" 
                             className="p-2" defaultValue={props.updateAdd.street}
                             {...register("street",
                                 {
@@ -109,7 +109,7 @@ export default function UpdateAddressModal(props) {
 
                     <Form.Group className="d-flex flex-column p-1">
                         <Form.Label className="fw-bolder">AddressLine2</Form.Label>
-                        <Form.Control type="text" placeholder="Enter AddressLine2"
+                        <Form.Control type="text"
                             className="p-2" defaultValue={props.updateAdd.addressLine2}
                             {...register("addressLine2",
                                 {
@@ -143,7 +143,7 @@ export default function UpdateAddressModal(props) {
                                     {city.map((cityData) => (<option value={cityData.name}>{cityData.name}</option>))}
                                 </select>
 
-                                <Form.Control type="text" placeholder="PIN code" className="m-1"
+                                <Form.Control type="text" className="m-1"
                                     defaultValue={props.updateAdd.pin}
                                     {...register('pin', { required: true })}
                                 ></Form.Control>

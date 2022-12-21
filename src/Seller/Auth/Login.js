@@ -114,7 +114,7 @@ export default function Login() {
                 <div className="d-flex flex-column">
                     {/* <NavLink style={{ textDecoration: 'none' }} to='/auth/forgot-password' ><button className=" mx-1 btn btn-sm btn-primary float-right">forgot password</button></NavLink> */}
                     <Button type="submit" className="m-1 my-2 p-2" style={{backgroundColor:"rgb(1, 1, 10)",color:"white"}}>Submit</Button>
-                    <p className="mx-1">Not a member? <NavLink style={{ textDecoration: 'none' }} to='/seller/auth/registration' >Register</NavLink></p>
+                    <Form.Text className="mx-1">Not a member? <NavLink style={{ textDecoration: 'none' }} to='/seller/auth/registration' >Register</NavLink></Form.Text>
                 </div>
             </Form>
             <div>

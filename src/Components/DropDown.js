@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import toast from "react-hot-toast";
 import { loginContext } from "../App";
-import { clearLocalStorage } from "../Seller/Services/TokenService";
+import {removeToken } from "../Seller/Services/TokenService";
 import {ImProfile} from 'react-icons/im'
 import { MdWork } from 'react-icons/md'
 import {BsFillKeyFill} from 'react-icons/bs'
@@ -12,11 +12,11 @@ export default function DropDown() {
   
   const [live,setIsLive]=useContext(loginContext)
   const [user] = useState(JSON.parse(localStorage.getItem('userName')) || "Suchit")
-
+  
   const logOutClicked = () =>
     {
         setIsLive(null)
-        clearLocalStorage();
+        removeToken()
         if(live)
         toast.success("Successfully LogOut !");
   }

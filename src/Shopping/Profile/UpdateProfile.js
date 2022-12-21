@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import { Accordion, Button, Dropdown, Form } from "react-bootstrap";
+import { Button, Dropdown, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import Get, { Delete, Patch, Put } from "../Services/HttpService";
+import Get, { Delete, Patch } from "../Services/HttpService";
 import Address from "./Address";
 import UpdateAddressModal from "./UpdateAddressModal";
 import UpdateProfileImgModal from "./UpdateProfileImgModal";
-import { BsThreeDots ,BsThreeDotsVertical} from 'react-icons/bs'
+import { BsThreeDotsVertical} from 'react-icons/bs'
 
 export default function UpdateProfile() {
     const [data, setData] = useState({})
@@ -15,7 +15,7 @@ export default function UpdateProfile() {
     const [addressShow,setAddressShow]=useState(false);
     const [addAddressShow,setAddAddressShow]=useState(false);
     const [address, setAddress] = useState([]);
-    const [showAddresses,setShowAddresses]=useState(false)
+    const [showAddresses, setShowAddresses] = useState(false)
     const navigate = useNavigate();
     useEffect(() => {
     
@@ -117,7 +117,7 @@ export default function UpdateProfile() {
         
     }
 
-    const [updateAdd,setUpdateAddress]=useState();
+    const [updateAdd,setUpdateAddress]=useState({});
     const updateAddress = (item) => {
         console.log('update add')
         console.log(item)
@@ -125,6 +125,13 @@ export default function UpdateProfile() {
         setAddressShow(true)
         
     }
+
+    const [defaultAddress,setDefaultAddress]=useState({})
+    const onDefaultAddress = (item) => {
+        console.log('on default addresss')
+        setDefaultAddress(item)
+    }
+
     return (
         <div>
             {showAddresses ?
@@ -166,9 +173,7 @@ export default function UpdateProfile() {
                         />                   
                     </Form.Group>
                     <Button type="submit" className="btn btn-secondary my-1"
-                        
                     >Save Changes</Button>
-                            
                 </Form>   
                 }        
             </div>
@@ -192,24 +197,31 @@ export default function UpdateProfile() {
                                 {address &&
                                     address.map((item, i) => {
                                         return (
-                                            <div key={i} style={{ border: '1px solid black' }} className="p-2 col-3">
+                                            <div key={i} style={{ border: '1px solid black',borderRadius:'3%'}} className="p-2 col-3">
                                                 <div className="d-flex justify-content-between">
-                                                    <h6>{data.name}</h6>
                                                     <div>
-                                                        <Dropdown>
+                                                        <h6>{data.name}</h6>
+                                                        <div>
+                                                            {defaultAddress._id===item._id &&
+                                                                <mark style={{backgroundColor:'grey'}}>Default</mark>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <Dropdown key={i}>
                                                             <Dropdown.Toggle
-                                                                variant="white"
-                                                            >
+                                                                variant="white">
                                                                 <BsThreeDotsVertical />
                                                             </Dropdown.Toggle>
-                                                            <Dropdown.Menu variant="dark" align={{ sm: "end" }}>
+                                                            <Dropdown.Menu align={{ sm: "end" }}>
+                                                                <Dropdown.Item onClick={()=>onDefaultAddress(item)}>Set as Default</Dropdown.Item>
                                                                 <Dropdown.Item onClick={() => updateAddress(item)}>Update</Dropdown.Item>
-                                                                <Dropdown.Item onClick={() => removeAddress(item._id)}>Remove</Dropdown.Item>
+                                                                <Dropdown.Item onClick={() => removeAddress(item._id)} style={{color:'red'}}>Remove</Dropdown.Item>
                                                             </Dropdown.Menu>
                                                         </Dropdown>
                                                     </div>
                                                 </div>
-                                                <hr></hr>
+                                                {/* <hr></hr> */}
                                                 <p className="mb-0">{item.street} ,
                                                     {item.addressLine2}</p>
                                                 <p className="mb-0">

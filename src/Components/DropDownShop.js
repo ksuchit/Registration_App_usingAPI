@@ -7,14 +7,17 @@ import { MdWork } from "react-icons/md";
 import { BsFillKeyFill } from "react-icons/bs";
 import { CgLogOff } from "react-icons/cg";
 import { clearShopLocalStorage } from "../Shopping/Services/TokenService";
+import Cookies from "universal-cookie";
 
 export default function DropDownShop() {
   const [live, setIsLive] = useContext(loginContext);
    const [user] = useState(JSON.parse(localStorage.getItem("shopUserName")) || "Suchit");
+  const cookies = new Cookies();
   
   const logOutClicked = () => {
     setIsLive(null);
     clearShopLocalStorage();
+    cookies.set('registered', 'false');
   };
   return (
     <>
