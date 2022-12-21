@@ -26,7 +26,7 @@ export default function Products() {
       setLoginShow(false); //Modal does not open if cookie exists
     } else if (!cookies.get('registered')) {
        cookies.set('registered', 'true', {
-        path: '/',
+        expires:0
        });
        setLoginShow(true); //Creates a cookie and shows modal.
     }

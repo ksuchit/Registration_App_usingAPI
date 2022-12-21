@@ -17,7 +17,7 @@ export default function DropDownShop() {
   const logOutClicked = () => {
     setIsLive(null);
     clearShopLocalStorage();
-    cookies.set('registered', 'false');
+    cookies.remove();
   };
   return (
     <>

@@ -1,4 +1,7 @@
+import { useState } from "react"
+
 export default function Pagination(props) {
+    const[pageList,setPageList]=useState(false)
     return (
         <div className="my-2 d-flex justify-content-center">
             {props.pageNum === 1 ? "" :
@@ -12,7 +15,18 @@ export default function Pagination(props) {
                         <div><button className="btn btn-primary" onClick={()=>props.setPageNum(props.pageNum)} style={{border:'none'}}>{props.pageNum}</button></div>
                         <div className="mx-1"><button onClick={()=>props.setPageNum(props.pageNum+1)} style={{border:'none'}}>{props.pageNum + 1}</button></div>
                         <div className="mx-1"><button onClick={()=>props.setPageNum(props.pageNum+2)} style={{border:'none'}}>{props.pageNum + 2}</button></div>
-                        <div className="mx-1"><button onClick={()=>props.setPageNum(props.pageNum)} style={{border:'none'}}>...</button></div>
+                        <div className="mx-1"><button onClick={()=>setPageList((prev)=>!prev)} style={{border:'none'}}>...</button>
+                            
+                        </div>
+                        {pageList &&
+                            <select onChange={(e)=>props.setPageNum(parseInt(e.target.value))}>
+                                for(let i=0;i<=props.totalPages;i++){
+                                    
+                                }
+                                <option value={1}>0-10</option>
+                                <option value={5}>10-20</option>
+                            </select>  
+                            }   
                         <div><button onClick={()=>props.setPageNum(props.totalPages)} style={{border:'none'}}>{props.totalPages}</button></div>
                     </div>
                 :
