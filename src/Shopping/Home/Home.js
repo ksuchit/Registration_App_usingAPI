@@ -6,11 +6,13 @@ import {FaRupeeSign} from 'react-icons/fa'
 import Footer from "../../Components/Footer";
 import LoginModal from "./LoginModal";
 import Cookies from "universal-cookie";
+import { useNavigate } from "react-router-dom";
 
-// let cnt = 0;
+let cnt = 0;
 export default function Products() {
   const [products, setProducts] = useState([]);
   
+  const navigate = useNavigate();
   const [pageNum, setPageNum] = useState(1);
   const [itemPerPage, setItemPerPage] = useState(4);
   const [totalPages, setTotalPages] = useState();
@@ -19,23 +21,34 @@ export default function Products() {
   const [name, setName] = useState("");
   const [searchByName, setSearchByName] = useState('')
   const [loginShow, setLoginShow] = useState(false)
+  const [addToCartBtn,setAddToCartBtn]=useState([])
+  // const cookies = new Cookies();
+  // useEffect(()=>{
+  //   if (cookies.get('registered')) {
+  //     setLoginShow(false); //Modal does not open if cookie exists
+  //   } else if (!cookies.get('registered')) {
+  //     cookies.set('registered', 'true', {
+  //        path:'/',
+  //       expires:0
+  //      });
+  //      setLoginShow(true); //Creates a cookie and shows modal.
+  //   }
+  // },[])
 
-  const cookies = new Cookies();
-  useEffect(()=>{
-    if (cookies.get('registered')) {
-      setLoginShow(false); //Modal does not open if cookie exists
-    } else if (!cookies.get('registered')) {
-       cookies.set('registered', 'true', {
-        expires:0
-       });
-       setLoginShow(true); //Creates a cookie and shows modal.
-    }
-  },[])
+  // useEffect(()=>{
+  //   if (sessionStorage.getItem('registered')) {
+  //     setLoginShow(false); //Modal does not open if cookie exists
+  //   } else if (!sessionStorage.getItem('registered')) {
+  //     sessionStorage.setItem('registered',true);
+  //      setLoginShow(true); //Creates a cookie and shows modal.
+  //   }
+  // }, [])
+  
   useEffect(() => {
-    // if (cnt === 0) {
-    //   setLoginShow(true)
-    //   cnt++;
-    // }
+    if (cnt === 0) {
+      setLoginShow(true)
+      cnt++;
+    }
     sortBy ?
     Get(`/shop/products?&limit=${itemPerPage}&page=${pageNum}&sortBy=${sortBy}`)
       .then((response) => {
@@ -84,9 +97,9 @@ export default function Products() {
     <div className="productImages-container">
       <div className="d-flex justify-content-between">
         <div className="mx-2 my-2">
-          <div>
+          {/* <div>
             <h1>Product List</h1>
-          </div>
+          </div> */}
           <div>
             <input type='text' value={name}
               onChange={(e) => setName(e.target.value)} />
@@ -95,8 +108,7 @@ export default function Products() {
             >Search</button>
           </div>
         </div>
-        <div className="mx-3 my-5">
-
+        <div className="mx-3 my-2">
           <lable className='fw-bolder'>SortBy-</lable>
           <select onChange={(e)=>setSortBy(e.target.value)}>
             <option value=''>Default</option>
@@ -114,14 +126,18 @@ export default function Products() {
           return (
             <div key={i} className='productCard'>
               {/* <div> */}
-                <ImgCarousal imgData={item.images} />
-              <div className="d-flex justify-content-center productCard-btn">
-                {/* <button className="btn btn-secondary btn-sm " onClick={() => onQuickView(item._id)}>QUICK VIEW</button> */}
-              </div>
-             
-              <h6 className="py-1">{item.name.length>25 ? `${item.name.slice(0,25)} ...`: item.name}</h6>
+              <ImgCarousal imgData={item.images} />
+              <h6 className="py-1 mb-0">{item.name.length>25 ? `${item.name.slice(0,25)} ...`: item.name}</h6>
               <div>
-                <p className='fw-bolder'> <FaRupeeSign />{item.price}</p>
+                <p className='fw-bolder mb-0' > <FaRupeeSign />{item.price}</p>
+              </div>
+              <div className="mb-0 d-flex justify-content-center">
+                {
+                  addToCartBtn.find((prev)=>prev===item._id) ?
+                    <button onClick={()=>navigate('/cart')} className="btn btn-primary btn-sm">Go to Cart</button>
+                    : 
+                    <button className="btn btn-warning btn-sm" onClick={()=>setAddToCartBtn((prev)=>[...prev,item._id])}>Add to Cart</button>
+                }
               </div>
             </div>
           );
@@ -144,7 +160,10 @@ export default function Products() {
       <div>
         <div>
           <lable className='fw-bolder'>Items Per Page-</lable>
-          <select onChange={(e)=>setItemPerPage(e.target.value)}>
+          <select onChange={(e) => {
+            setItemPerPage(e.target.value)
+            setPageNum(1)
+          }}>
             <option value={4}>4</option>
             <option value={7}>7</option>
             <option value={10}>10</option>

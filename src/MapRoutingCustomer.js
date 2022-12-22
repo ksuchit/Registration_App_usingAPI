@@ -5,6 +5,7 @@ import Home from './Shopping/Home/Home'
 import Profile from './Shopping/Profile/Profile'
 import UpdateProfile from './Shopping/Profile/UpdateProfile'
 import ChangePassword from './Shopping/Auth/ChangePassword'
+import Cart from './Shopping/Cart/Cart'
 
 export default function MapRoutingCustomer(){
     
@@ -36,6 +37,10 @@ export default function MapRoutingCustomer(){
         {
             path: 'change-password',
             element:<ChangePassword />
+        },
+        {
+            path: 'cart',
+            element:<Cart />
         }
     ]
 

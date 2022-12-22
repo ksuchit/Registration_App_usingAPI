@@ -5,6 +5,7 @@ import DropDown from "./DropDown";
 import logo from '../Images/logo.png' 
 import getShopToken from "../Shopping/Services/TokenService";
 import DropDownShop from "./DropDownShop";
+import { BsCart } from 'react-icons/bs'
 
 export default function Header() {
     const [live] = useContext(loginContext);
@@ -39,6 +40,10 @@ export default function Header() {
                         className='my-auto mx-2'
                         >HOME
                     </NavLink>
+                    <NavLink to='/cart' style={{ textDecoration: 'none', color: 'white' }}
+                        className='my-auto mx-2'
+                        ><BsCart size={25}/>
+                    </NavLink>            
                     <DropDownShop /> 
                     </>
                 :

@@ -1,4 +1,4 @@
-import React, { createContext,  useState } from "react";
+import React, { createContext,  useEffect,  useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Header from "./Components/Header";
 import Login from "./Seller/Auth/Login";
@@ -14,6 +14,7 @@ import ResetPasswordModal from "./Seller/Auth/AuthOperation/ResetPasswordModal";
 import MapRouting from "./MapRouting";
 import MapRoutingCustomer from "./MapRoutingCustomer";
 import getShopToken from "./Shopping/Services/TokenService";
+import Cookies from "universal-cookie";
 
 const loginContext = createContext();
 const shopLoginContext = createContext();
@@ -24,7 +25,15 @@ function App() {
   const [live, setIsLive] = useState(getToken() || null);
   const [shopLive,setShopIsLive]=useState(getShopToken() || null)
   const routesData = MapRouting();
-  const customerRouteData=MapRoutingCustomer();
+  const customerRouteData = MapRoutingCustomer();
+  // const cookies = new Cookies();
+  // useEffect(() => { 
+  //   window.addEventListener('beforeunload', cookies.remove('registered'))
+  //   return () => {
+  //     window.removeEventListener('beforeunload')
+  //   }
+  // }, [])
+  
   
   return (
     <div className="App">
