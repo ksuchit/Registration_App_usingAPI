@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Get from "../Services/HttpService";
 import ImgCarousal from "./ImgCarousal";
 import Pagination from "./Pagination";
@@ -7,11 +7,15 @@ import Footer from "../../Components/Footer";
 import LoginModal from "./LoginModal";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
+import { shopLoginContext } from "../../App";
+import { useDispatch } from "react-redux";
 
 let cnt = 0;
 export default function Products() {
   const [products, setProducts] = useState([]);
-  
+  const [shopLive,] = useContext(shopLoginContext);
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [pageNum, setPageNum] = useState(1);
   const [itemPerPage, setItemPerPage] = useState(4);
@@ -93,6 +97,21 @@ export default function Products() {
     
   }
   
+  const addItemToCart = (item) => {
+    if (shopLive)
+    {
+      setAddToCartBtn((prev) => [...prev, item._id])
+      return {
+        type: "ADD_ITEM_TO_CART",
+        payload: {
+            item: item
+            }
+      }
+    }
+    else
+      setLoginShow(true)
+  }
+
   return (
     <div className="productImages-container">
       <div className="d-flex justify-content-between">
@@ -136,7 +155,8 @@ export default function Products() {
                   addToCartBtn.find((prev)=>prev===item._id) ?
                     <button onClick={()=>navigate('/cart')} className="btn btn-primary btn-sm">Go to Cart</button>
                     : 
-                    <button className="btn btn-warning btn-sm" onClick={()=>setAddToCartBtn((prev)=>[...prev,item._id])}>Add to Cart</button>
+                    <button className="btn btn-warning btn-sm"
+                      onClick={()=>dispatch(addItemToCart(item))}>Add to Cart</button>
                 }
               </div>
             </div>

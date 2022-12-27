@@ -14,7 +14,7 @@ import ResetPasswordModal from "./Seller/Auth/AuthOperation/ResetPasswordModal";
 import MapRouting from "./MapRouting";
 import MapRoutingCustomer from "./MapRoutingCustomer";
 import getShopToken from "./Shopping/Services/TokenService";
-import Cookies from "universal-cookie";
+// import Cookies from "universal-cookie";
 
 const loginContext = createContext();
 const shopLoginContext = createContext();
@@ -27,14 +27,14 @@ function App() {
   const routesData = MapRouting();
   const customerRouteData = MapRoutingCustomer();
   // const cookies = new Cookies();
-  // useEffect(() => { 
+  // useEffect(() => {
   //   window.addEventListener('beforeunload', cookies.remove('registered'))
   //   return () => {
   //     window.removeEventListener('beforeunload')
   //   }
   // }, [])
   
-  
+ 
   return (
     <div className="App">
       <loginContext.Provider value={[live, setIsLive]} >

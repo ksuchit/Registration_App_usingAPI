@@ -29,6 +29,7 @@ export default function LoginModal(props){
                 setShopIsLive(response.data.token)
                 localStorage.setItem('shopUserName', JSON.stringify(response.data.customer?.name))
                 toast.success('Successfully Login')
+                props.setShow(false)
                 navigate('/home')
             })
             .catch((error) => {
@@ -42,8 +43,8 @@ export default function LoginModal(props){
       <Modal
         show={props.show}
         onHide={()=>props.setShow(false)}
-        backdrop="static"
-        keyboard={false}
+        // backdrop="static"
+        // keyboard={false}
       >
         <Modal.Header closeButton>
           <Modal.Title>Login</Modal.Title>

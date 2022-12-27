@@ -1,9 +1,7 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
-import toast from "react-hot-toast";
-import { loginContext } from "../App";
+import { shopLoginContext } from "../App";
 import { ImProfile } from "react-icons/im";
-import { MdWork } from "react-icons/md";
 import { BsFillKeyFill } from "react-icons/bs";
 import { CgLogOff } from "react-icons/cg";
 import { clearShopLocalStorage } from "../Shopping/Services/TokenService";
@@ -11,12 +9,11 @@ import {CgProfile} from 'react-icons/cg'
 import { useNavigate } from "react-router-dom";
 
 export default function DropDownShop() {
-  const [live, setIsLive] = useContext(loginContext);
-  const [user] = useState(JSON.parse(localStorage.getItem("shopUserName")) || "Suchit");
+  const [, setShopIsLive] = useContext(shopLoginContext);
   const navigate = useNavigate();
   
   const logOutClicked = () => {
-    setIsLive(null);
+    setShopIsLive(null);
     clearShopLocalStorage();
     navigate("/home")
   };

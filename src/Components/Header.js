@@ -6,12 +6,18 @@ import logo from '../Images/logo.png'
 import getShopToken from "../Shopping/Services/TokenService";
 import DropDownShop from "./DropDownShop";
 import { BsCart } from 'react-icons/bs'
+import { useSelector } from "react-redux";
 
 export default function Header() {
     const [live] = useContext(loginContext);
     const [shopLive,] = useContext(shopLoginContext)
     const location = useLocation();
     console.log(location.pathname)
+
+    const state = useSelector((state) => state);
+    console.log(state.cartReducer.cart.length)
+    const length = state.cartReducer.cart.length;
+
     return (
         <div className="header p-2">
             <div className="d-flex align-items-center">
@@ -42,7 +48,7 @@ export default function Header() {
                     </NavLink>
                     <NavLink to='/cart' style={{ textDecoration: 'none', color: 'white' }}
                         className='my-auto mx-2'
-                        ><BsCart size={25}/>
+                                ><BsCart size={25} /> {length}
                     </NavLink>            
                     <DropDownShop /> 
                     </>
