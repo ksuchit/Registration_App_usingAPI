@@ -8,7 +8,8 @@ import LoginModal from "./LoginModal";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
 import { shopLoginContext } from "../../App";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addItemToCart } from "../Redux/Actions/CartActions";
 
 let cnt = 0;
 export default function Products() {
@@ -25,7 +26,6 @@ export default function Products() {
   const [name, setName] = useState("");
   const [searchByName, setSearchByName] = useState('')
   const [loginShow, setLoginShow] = useState(false)
-  const [addToCartBtn,setAddToCartBtn]=useState([])
   // const cookies = new Cookies();
   // useEffect(()=>{
   //   if (cookies.get('registered')) {
@@ -96,17 +96,19 @@ export default function Products() {
     console.log(searchByName)
     
   }
-  
-  const addItemToCart = (item) => {
+  const state = useSelector((state) => state);   //it will give us state in which array of selected products
+  // console.log(state.cartReducer.cart)
+  const addingItemToCart = (item) => {
     if (shopLive)
     {
-      setAddToCartBtn((prev) => [...prev, item._id])
-      return {
-        type: "ADD_ITEM_TO_CART",
-        payload: {
-            item: item
-            }
-      }
+      // return {
+      //   type: "ADD_ITEM_TO_CART",
+      //   payload: {
+      //       item: item
+      //       }
+      // }
+      item.quantity = 1;
+      dispatch(addItemToCart(item));
     }
     else
       setLoginShow(true)
@@ -151,12 +153,13 @@ export default function Products() {
                 <p className='fw-bolder mb-0' > <FaRupeeSign />{item.price}</p>
               </div>
               <div className="mb-0 d-flex justify-content-center">
+                {/* state.cartReducer.cart its used because state refreses when we come back to home page from anywhere   */}
                 {
-                  addToCartBtn.find((prev)=>prev===item._id) ?
-                    <button onClick={()=>navigate('/cart')} className="btn btn-primary btn-sm">Go to Cart</button>
+                  state.cartReducer.cart.find((prev)=>prev._id===item._id) ?
+                    <button onClick={()=>navigate(`/cart?id=${item._id}`)} className="btn btn-primary btn-sm">Go to Cart</button>
                     : 
                     <button className="btn btn-warning btn-sm"
-                      onClick={()=>dispatch(addItemToCart(item))}>Add to Cart</button>
+                      onClick={()=>addingItemToCart(item)}>Add to Cart</button>
                 }
               </div>
             </div>

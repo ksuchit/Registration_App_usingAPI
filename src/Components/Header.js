@@ -3,7 +3,6 @@ import { NavLink, useLocation } from "react-router-dom";
 import { loginContext, shopLoginContext } from "../App";
 import DropDown from "./DropDown";
 import logo from '../Images/logo.png' 
-import getShopToken from "../Shopping/Services/TokenService";
 import DropDownShop from "./DropDownShop";
 import { BsCart } from 'react-icons/bs'
 import { useSelector } from "react-redux";
@@ -12,10 +11,10 @@ export default function Header() {
     const [live] = useContext(loginContext);
     const [shopLive,] = useContext(shopLoginContext)
     const location = useLocation();
-    console.log(location.pathname)
+    // console.log(location.pathname)
 
     const state = useSelector((state) => state);
-    console.log(state.cartReducer.cart.length)
+    // console.log(state)
     const length = state.cartReducer.cart.length;
 
     return (

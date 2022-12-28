@@ -112,8 +112,8 @@ export default function CreateNewProduct(props) {
               <Form.Label style={{color:'white'}}>Select Image *</Form.Label>
                 <Form.Control type='file'
                  
-              multiple
-              onChange={(event) => {
+                multiple
+                onChange={(event) => {
                 console.log(event.target.files)
                 for (let i = 0; i < event.target.files.length; i++){
                   setSelectedImage((prev) => [...prev, URL.createObjectURL(event.target.files[i])])

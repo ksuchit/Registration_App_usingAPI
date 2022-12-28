@@ -161,3 +161,11 @@ body{
   margin: 0% auto;
 }
 
+.price-details{
+  position:fixed;
+  top:10;
+  right: 0;
+  margin-right: 4%;
+  width:100%;
+  z-index:100;
+}

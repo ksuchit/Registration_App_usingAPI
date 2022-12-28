@@ -2,7 +2,7 @@ import Carousel from "react-bootstrap/Carousel";
 
 export default function ImgCarousal(props) {
   return (
-    <div style={{ width: "100%", border: "1px solid black", height: "45vh" }}>
+    <div style={{ width: "100%",  height: "45vh" }}>
       {props.imgData.length > 1 || props.imgData.length === 0 ? (
         props.imgData.length !== 0 ? ( //this is for when there is no img for any product
           <Carousel interval={null}>
