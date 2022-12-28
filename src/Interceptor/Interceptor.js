@@ -1,5 +1,6 @@
 import axios from "axios";
 import toast from "react-hot-toast";
+import Loader from "../Loader/Loader";
 
 // import setLoader from "../Services/LoaderService";
 import getToken, { removeToken } from "../Seller/Services/TokenService";
@@ -30,6 +31,7 @@ const axiosInstance = axios.create({
 
     console.log(request)
     // setLoader(true)
+    {<Loader />}
     return request;
   },
     ((err) => {
