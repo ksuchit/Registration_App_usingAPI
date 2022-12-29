@@ -23,7 +23,7 @@ console.log(props.id)
   }, [props.id]);
 
     const onSeeMore = () => {
-        navigate(`/products/product-details?&productId=${props.id}`)
+        navigate(`/seller/products/product-details?&productId=${props.id}`)
     }
     
   return (

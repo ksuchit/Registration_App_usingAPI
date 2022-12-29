@@ -1,12 +1,18 @@
 import Carousel from "react-bootstrap/Carousel";
+import {FcLike} from 'react-icons/fc'
+import {MdOutlineFavoriteBorder} from 'react-icons/md'
+import { useDispatch } from "react-redux";
+import { addToFavorite } from "../Redux/Actions/FavoriteAction";
 
 export default function ImgCarousal(props) {
+
+  const dispatch=useDispatch();
   return (
-    <div style={{ width: "100%",  height: "45vh" }}>
-      {props.imgData.length > 1 || props.imgData.length === 0 ? (
-        props.imgData.length !== 0 ? ( //this is for when there is no img for any product
+    <div style={{ width: "100%",  height: "45vh" }} >
+      {props.imgData.images.length > 1 || props.imgData.images.length === 0 ? (
+        props.imgData.images.length !== 0 ? ( //this is for when there is no img for any product
           <Carousel interval={null}>
-            {props.imgData.map((item, i) => {
+            {props.imgData.images.map((item, i) => {
               return (
                 //   style={{ height: "50vh" }}
                 <Carousel.Item key={i}>
@@ -24,7 +30,7 @@ export default function ImgCarousal(props) {
         )
       ) : (
         <Carousel interval={null} controls={false} indicators={false}>
-          {props.imgData.map((item, i) => {
+          {props.imgData.images.map((item, i) => {
             return (
               <Carousel.Item key={i}>
                 <img className="cardImg" src={item.url} alt="First slide" />
@@ -33,6 +39,7 @@ export default function ImgCarousal(props) {
           })}
         </Carousel>
       )}
+      
     </div>
   );
 }

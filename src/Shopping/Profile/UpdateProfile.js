@@ -210,7 +210,7 @@ export default function UpdateProfile() {
                                                     <div>
                                                         <Dropdown key={i}>
                                                             <Dropdown.Toggle
-                                                                variant="white">
+                                                                variant="dark">
                                                                 <BsThreeDotsVertical />
                                                             </Dropdown.Toggle>
                                                             <Dropdown.Menu align={{ sm: "end" }}>

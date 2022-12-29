@@ -14,6 +14,9 @@ const axiosInstance = axios.create({
   
   
   axiosInstance.interceptors.request.use((request) => {
+     // spinning start to show
+  // UPDATE: Add this code to show global loading indicator
+  document.body.classList.add('loading-indicator');
 
     if(request.url.includes('shop/') || request.url.includes('customers')){
       console.log("shop",request);
@@ -43,6 +46,9 @@ const axiosInstance = axios.create({
     (response) => {
       console.log(response)
       // setLoader(false)
+       // spinning hide
+  // UPDATE: Add this code to hide global loading indicator
+  document.body.classList.remove('loading-indicator');
       return response;
     },
     ((err) => {

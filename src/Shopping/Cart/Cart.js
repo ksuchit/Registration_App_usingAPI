@@ -20,6 +20,8 @@ export default function Cart() {
     const navigate = useNavigate();
     const state = useSelector((state) => state);
     console.log(state.cartReducer.cart)
+    console.log(state)
+
     const dispatch = useDispatch();
     let price=0
     state.cartReducer.cart.map((item) => {
@@ -30,13 +32,13 @@ export default function Cart() {
     return ( 
         <div className="row mt-3">
         <div className="col-1"></div>
-        <div className="d-flex flex-column col-7 gap-3" style={{border:'2px solid grey'}}>
+        <div className="d-flex flex-column col-7 gap-3">
             {state.cartReducer.cart.length > 0 ?
             state.cartReducer.cart.map((item,i) => {
                 return (
-                    <div key={item._id} id={item._id} className='d-flex p-2' style={{border:'2px solid grey'}}>
+                    <div key={item._id} id={item._id} className='d-flex p-2' style={{border:'2px solid grey',borderRadius:'3%',backgroundColor:'lightGrey'}}>
                         <div style={{width:'50%'}}>
-                            <ImgCarousal imgData={item.images} />
+                            <ImgCarousal imgData={item} />
                         </div>
                         <div className="mx-3 position-relative">
                             <h6 className="py-1 mb-0">{item.name.length>25 ? `${item.name.slice(0,25)} ...`: item.name}</h6>
@@ -113,6 +115,9 @@ export default function Cart() {
                 <div className="d-flex justify-content-between">
                     <p>Total Amount:</p>
                     <p><FaRupeeSign />{price-1000}</p>    
+                </div>
+                <div className="d-flex justify-content-center">
+                    <button className="btn btn-warning">Proceed To Buy ({state.cartReducer.cart.length} items)</button>
                 </div>
                 <div>
                     <p style={{color:'green'}}  className='mb-0'>You will save <FaRupeeSign />1000 on this order</p>       

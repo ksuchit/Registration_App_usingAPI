@@ -47,7 +47,7 @@ export default function Header() {
                     </NavLink>
                     <NavLink to='/cart' style={{ textDecoration: 'none', color: 'white' }}
                         className='my-auto mx-2'
-                                ><BsCart size={25} /> {length}
+                                ><BsCart size={25} /> {length>0 ? length : ""}
                     </NavLink>            
                     <DropDownShop /> 
                     </>

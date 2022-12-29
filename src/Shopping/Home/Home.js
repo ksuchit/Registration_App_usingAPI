@@ -10,6 +10,9 @@ import { useNavigate } from "react-router-dom";
 import { shopLoginContext } from "../../App";
 import { useDispatch, useSelector } from "react-redux";
 import { addItemToCart } from "../Redux/Actions/CartActions";
+import { addToFavorite, removeFromFavorite } from "../Redux/Actions/FavoriteAction";
+import { MdOutlineFavoriteBorder } from "react-icons/md";
+import { FcLike } from "react-icons/fc";
 
 let cnt = 0;
 export default function Products() {
@@ -147,7 +150,15 @@ export default function Products() {
           return (
             <div key={i} className='productCard'>
               {/* <div> */}
-              <ImgCarousal imgData={item.images} />
+              <div className='position-relative'>
+                <ImgCarousal imgData={item} />
+                <div className="position-absolute top-0 end-0">
+                  {state.FavoriteReducer.favorite.find((data)=>data._id===item._id) ?
+                  <button onClick={()=>dispatch(removeFromFavorite(item))} style={{border:'none',borderRadius:'100%'}}><FcLike size={20}/></button>
+                  : <button onClick={()=>dispatch(addToFavorite(item))} style={{border:'none',borderRadius:'100%'}}><MdOutlineFavoriteBorder size={20} /></button>
+                  }
+                </div>
+              </div>
               <h6 className="py-1 mb-0">{item.name.length>25 ? `${item.name.slice(0,25)} ...`: item.name}</h6>
               <div>
                 <p className='fw-bolder mb-0' > <FaRupeeSign />{item.price}</p>

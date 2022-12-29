@@ -20,7 +20,8 @@ const loginContext = createContext();
 const shopLoginContext = createContext();
 function App() {
 
-  //  const [progress, setProgress] = useState(false || getLoader());
+  // const [progress, setProgress] = useState(false);
+ 
   console.log(getToken())
   const [live, setIsLive] = useState(getToken() || null);
   const [shopLive,setShopIsLive]=useState(getShopToken() || null)
