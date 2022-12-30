@@ -94,7 +94,7 @@ export default function Products() {
         </div>
         <div className="mx-3 my-5">
 
-          <lable className='fw-bolder'>SortBy-</lable>
+          <label className='fw-bolder'>SortBy-</label>
           <select onChange={(e)=>setSortBy(e.target.value)}>
             <option value={''}>Default</option>
             <option value='name'>Name</option>
@@ -164,7 +164,7 @@ export default function Products() {
       </div>
       <div>
         <div>
-          <lable className='fw-bolder'>Items Per Page-</lable>
+          <label className='fw-bolder'>Items Per Page-</label>
           <select onChange={(e)=>setItemPerPage(e.target.value)}>
             <option value={4}>4</option>
             <option value={7}>7</option>

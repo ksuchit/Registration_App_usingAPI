@@ -1,21 +1,21 @@
-import React, { createContext,  useEffect,  useState } from "react";
+import React, { createContext,  lazy,  useEffect,  useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Header from "./Components/Header";
-import Login from "./Seller/Auth/Login";
-import Registration from "./Seller/Auth/Registration";
-import NotFound from "./Components/NotFound";
 import { Toaster } from "react-hot-toast";
 // import Loader from "./Loader/Loader";
 import PublicRouting from "./Seller/Auth/PublicRouting";
 import ProtectedRouting from "./Seller/Auth/ProtectedRouting";
 import getToken from "./Seller/Services/TokenService";
-// import { getLoader } from "./Services/LoaderService";
-import ResetPasswordModal from "./Seller/Auth/AuthOperation/ResetPasswordModal";
 import MapRouting from "./MapRouting";
 import MapRoutingCustomer from "./MapRoutingCustomer";
 import getShopToken from "./Shopping/Services/TokenService";
+import { Suspense } from "react";
 // import Cookies from "universal-cookie";
 
+const Login=lazy(()=>import('./Seller/Auth/Login'))
+const Registration=lazy(()=>import('./Seller/Auth/Registration'))
+const ResetPasswordModal=lazy(()=>import('./Seller/Auth/AuthOperation/ResetPasswordModal'))
+const NotFound=lazy(()=>import('./Components/NotFound'))
 const loginContext = createContext();
 const shopLoginContext = createContext();
 function App() {
@@ -38,6 +38,11 @@ function App() {
  
   return (
     <div className="App">
+      <Suspense fallback={<button class="btn btn-primary" type="button" disabled>
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Loading...
+        </button>}
+      >
       <loginContext.Provider value={[live, setIsLive]} >
       <shopLoginContext.Provider value={[shopLive,setShopIsLive]} >
       <BrowserRouter>
@@ -47,7 +52,7 @@ function App() {
 
           <Route>
               {customerRouteData.map((item,i)=>{
-                return <Route path={item.path} element={item.element} />
+                return <Route path={item.path} element={item.element} key={i}/>
               })}
           </Route>
 
@@ -72,6 +77,7 @@ function App() {
       <Toaster position="top-center" reverseOrder={false} />
       </shopLoginContext.Provider>    
       </loginContext.Provider>
+      </Suspense>
     </div>
   );
 }

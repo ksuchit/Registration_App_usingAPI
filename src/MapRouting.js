@@ -1,10 +1,11 @@
-import { Navigate } from "react-router-dom";
-import VerifyEmail from "./Seller/Auth/AuthOperation/VerifyEmail";
-import ChangePasswordModal from "./Seller/CompanyDetails/CompanyPortal/ChangePasswordModal";
-import Products from "./Seller/CompanyDetails/Products/Products";
-import UpdateCompany from "./Seller/CompanyDetails/CompanyPortal/UpdateCompany";
-import MyProfile from "./Seller/CompanyDetails/CompanyPortal/MyProfile";
-import ProductDetails from "./Seller/CompanyDetails/Products/ProductDetails";
+import { lazy } from "react";
+
+const VerifyEmail =lazy(() => import('./Seller/Auth/AuthOperation/VerifyEmail'))
+const ChangePasswordModal =lazy(() => import('./Seller/CompanyDetails/CompanyPortal/ChangePasswordModal'))
+const Products =lazy(() => import('./Seller/CompanyDetails/Products/Products'))
+const UpdateCompany =lazy(() => import('./Seller/CompanyDetails/CompanyPortal/UpdateCompany'))
+const MyProfile =lazy(() => import('./Seller/CompanyDetails/CompanyPortal/MyProfile'))
+const ProductDetails =lazy(() => import('./Seller/CompanyDetails/Products/ProductDetails'))
 
 export default function MapRouting() {
 

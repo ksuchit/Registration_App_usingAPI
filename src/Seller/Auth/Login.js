@@ -84,20 +84,25 @@ export default function Login() {
                 {errors.email && <p style={{ color: "red" }}>email is Required</p>}
                 <Form.Group className="d-flex flex-column p-1">
                     <Form.Label>Password</Form.Label>
-                    <Form.Control placeholder="Enter Password" className="p-2"
-                    //  {showPassword ? type='text' : type='password'}
-                    {...register("password",{required:true , minLength:8 })}
-                    />
-                    {showPassword ?<BiHide onClick={()=>setShowPassword(false)}/>
-                    :<BiShow onClick={()=>setShowPassword(true)}/>
-                    }
+                    <div className="position-relative">
+                        <Form.Control placeholder="Enter Password" className="p-2"
+                         type={showPassword ? 'text' : 'password'}
+                        {...register("password",{required:true , minLength:8 })}
+                        />
+                    
+                    <div className="position-absolute top-50 end-0" style={{marginTop:'-4%',marginRight:'2%'}}>
+                        {showPassword ?<BiHide onClick={()=>setShowPassword(false)} size={20}/>
+                        :<BiShow onClick={()=>setShowPassword(true)} size={20}/>
+                        }
+                    </div>
+                    </div>
                 </Form.Group>
                 {errors.password?.type === 'required' && <p style={{ color: "red" }}>password is Required</p>}
                 {errors.password?.type === 'minLength' && <p style={{ color: "red" }}>minimum 8 charachters Required</p>}
                 <Form.Group className="p-1">
 
                 <div className="form-check">
-                        <Form.Control className="form-check-Form.Control" type="checkbox" value="" id="defaultCheck1"
+                        <input className="form-check-input" type="checkbox" value="" id="defaultCheck1"
                         onClick={getCaptcha}
                             {...register("checkBox", { required: true} )}            
                 />
@@ -114,7 +119,7 @@ export default function Login() {
                 <div className="d-flex flex-column">
                     {/* <NavLink style={{ textDecoration: 'none' }} to='/auth/forgot-password' ><button className=" mx-1 btn btn-sm btn-primary float-right">forgot password</button></NavLink> */}
                     <Button type="submit" className="m-1 my-2 p-2" style={{backgroundColor:"rgb(1, 1, 10)",color:"white"}}>Submit</Button>
-                    <Form.Text className="mx-1">Not a member? <NavLink style={{ textDecoration: 'none' }} to='/seller/auth/registration' >Register</NavLink></Form.Text>
+                    <Form.Text style={{color:'black'}} className="mx-1 mb-0">Not a member? <NavLink style={{ textDecoration: 'none' }} to='/seller/auth/registration' >Register</NavLink></Form.Text>
                 </div>
             </Form>
             <div>
@@ -126,7 +131,7 @@ export default function Login() {
             
             <div>
                 <LoginViaGoogle />
-                <LoginViaFacebook />
+                {/* <LoginViaFacebook /> */}
             </div>
 
             </div>

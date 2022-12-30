@@ -1,11 +1,13 @@
-import Login from './Shopping/Auth/Login'
-import Registration from './Shopping/Auth/Registration'
 import {Navigate} from 'react-router-dom'
-import Home from './Shopping/Home/Home'
-import Profile from './Shopping/Profile/Profile'
-import UpdateProfile from './Shopping/Profile/UpdateProfile'
-import ChangePassword from './Shopping/Auth/ChangePassword'
-import Cart from './Shopping/Cart/Cart'
+import { lazy } from 'react'
+
+const Home =lazy(() => import('./Shopping/Home/Home'))
+const Login =lazy(() => import('./Shopping/Auth/Login'))
+const Registration =lazy(() => import('./Shopping/Auth/Registration'))
+const Profile =lazy(() => import('./Shopping/Profile/Profile'))
+const UpdateProfile =lazy(() => import('./Shopping/Profile/UpdateProfile'))
+const ChangePassword =lazy(() => import('./Shopping/Auth/ChangePassword'))
+const Cart =lazy(() => import('./Shopping/Cart/Cart'))
 
 export default function MapRoutingCustomer(){
     

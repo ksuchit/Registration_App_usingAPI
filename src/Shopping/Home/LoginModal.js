@@ -1,9 +1,11 @@
 import React, { useContext } from 'react';
+import { useState } from 'react';
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
+import { BiHide, BiShow } from 'react-icons/bi';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { shopLoginContext } from '../../App';
 import { Post } from '../Services/HttpService';
@@ -13,6 +15,7 @@ export default function LoginModal(props){
     
     const navigate = useNavigate();
     const[,setShopIsLive]=useContext(shopLoginContext)
+    const [showPassword,setShowPassword]=useState(false);
     const {
         register,
         handleSubmit,
@@ -63,10 +66,18 @@ export default function LoginModal(props){
                 {errors.email && <p style={{ color: "red" }}>email is Required</p>}
                 <Form.Group className="d-flex flex-column p-1">
                     <Form.Label>Password</Form.Label>
-                    <Form.Control placeholder="Enter Password" className="p-2"
-                        type='password'
-                    {...register("password",{required:true , minLength:8 })}
-                    />
+                    <div className="position-relative">
+                        <Form.Control placeholder="Enter Password" className="p-2"
+                         type={showPassword ? 'text' : 'password'}
+                        {...register("password",{required:true , minLength:8 })}
+                        />
+                    
+                    <div className="position-absolute top-50 end-0" style={{marginTop:'-3%',marginRight:'2%'}}>
+                        {showPassword ?<BiHide onClick={()=>setShowPassword(false)} size={20}/>
+                        :<BiShow onClick={()=>setShowPassword(true)} size={20}/>
+                        }
+                    </div>
+                    </div>
                 </Form.Group>
                 {errors.password?.type === 'required' && <p style={{ color: "red" }}>password is Required</p>}
                 {errors.password?.type === 'minLength' && <p style={{ color: "red" }}>minimum 8 charachters Required</p>}

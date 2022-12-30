@@ -10,7 +10,7 @@ import { useEffect } from "react";
 export default function Cart() {
 
     const [searchParams,] = useSearchParams();
-    console.log(searchParams.get('id'))
+    // console.log(searchParams.get('id'))
     
     useEffect(() => {
         if (searchParams.get('id'))
@@ -19,7 +19,7 @@ export default function Cart() {
     
     const navigate = useNavigate();
     const state = useSelector((state) => state);
-    console.log(state.cartReducer.cart)
+    // console.log(state.cartReducer.cart)
     console.log(state)
 
     const dispatch = useDispatch();
@@ -51,18 +51,18 @@ export default function Cart() {
                             : ""}
                             <div className="d-flex flex-column position-absolute bottom-0 start-0">
                                 <div className="d-flex my-1">
-                                    <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                    <div className="btn-group" role="group" aria-label="Basic outlined example">
                                         {item.quantity === 1 ?
-                                            <button type="button" class="btn btn-outline-primary btn-sm"
+                                            <button type="button" className="btn btn-outline-primary btn-sm"
                                                 onClick={()=>dispatch(deleteItemFromCart(item))}
                                             ><AiTwotoneDelete /></button>
                                             : 
-                                            <button type="button" class="btn btn-outline-primary btn-sm"
+                                            <button type="button" className="btn btn-outline-primary btn-sm"
                                                 onClick={()=>dispatch(minusItem(item))}
                                             >-</button>
                                         }
-                                        <button type="button" class="btn btn-outline-primary btn-sm" disabled>{item.quantity}</button>
-                                        <button type="button" class="btn btn-outline-primary btn-sm"
+                                        <button type="button" className="btn btn-outline-primary btn-sm" disabled>{item.quantity}</button>
+                                        <button type="button" className="btn btn-outline-primary btn-sm"
                                             onClick={()=>dispatch(plusItem(item))}
                                         >+</button>
                                     </div>

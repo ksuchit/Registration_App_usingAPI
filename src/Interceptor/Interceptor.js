@@ -31,8 +31,6 @@ const axiosInstance = axios.create({
           request.headers = { Authorization: `Bearer ${getToken()}` }
          
     }}
-
-    console.log(request)
     // setLoader(true)
     {<Loader />}
     return request;
@@ -54,6 +52,7 @@ const axiosInstance = axios.create({
     ((err) => {
       console.log(err)
       // setLoader(false)
+      document.body.classList.remove('loading-indicator');
       if (err.response.request.status === 401) {
         removeToken();
         // toast.success('LogOut Due to Token Expired')

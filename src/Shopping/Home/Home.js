@@ -104,12 +104,6 @@ export default function Products() {
   const addingItemToCart = (item) => {
     if (shopLive)
     {
-      // return {
-      //   type: "ADD_ITEM_TO_CART",
-      //   payload: {
-      //       item: item
-      //       }
-      // }
       item.quantity = 1;
       dispatch(addItemToCart(item));
     }
@@ -139,8 +133,6 @@ export default function Products() {
             <option value='name'>Name</option>
             <option value='price'>Price</option>
           </select>
-          
-         
         </div>
       </div>
       
