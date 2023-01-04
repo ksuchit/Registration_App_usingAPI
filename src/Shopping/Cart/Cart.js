@@ -1,11 +1,13 @@
 import { FaRupeeSign } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import ImgCarousal from "../Home/ImgCarousal";
+import ImgCarousal from "../home/Img-Carousal";
 import {AiTwotoneDelete} from 'react-icons/ai'
-import { minusItem, plusItem } from "../Redux/Actions/CartItemActions";
-import { deleteItemFromCart } from "../Redux/Actions/CartActions";
+import { minusItem, plusItem } from "../redux/actions/Cart-Item-Actions";
+import { deleteItemFromCart } from "../redux/actions/Cart-Actions";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
+import { NavLink } from "react-bootstrap";
+import { selectItem } from "../redux/actions/Cart-Select-Item-Actions";
 
 export default function Cart() {
 
@@ -32,23 +34,33 @@ export default function Cart() {
     return ( 
         <div className="row mt-3">
         <div className="col-1"></div>
-        <div className="d-flex flex-column col-7 gap-3">
-            {state.cartReducer.cart.length > 0 ?
-            state.cartReducer.cart.map((item,i) => {
+        {state.cartReducer.cart.length > 0 ? <>
+        <div className=" col-7 gap-3 d-flex flex-column" style={{border:'2px solid grey',borderRadius:'1%'}}>
+            <h3>Shopping Cart</h3>
+            <div className="d-flex justify-content-end">
+                <p>Price</p>
+            </div>
+           { state.cartReducer.cart.map((item,i) => {
                 return (
-                    <div key={item._id} id={item._id} className='d-flex p-2' style={{border:'2px solid grey',borderRadius:'3%',backgroundColor:'lightGrey'}}>
-                        <div style={{width:'50%'}}>
-                            <ImgCarousal imgData={item} />
+                    <div key={item._id} id={item._id} className='d-flex p-2' style={{backgroundColor:'lightGrey',borderRadius:'2px'}}>
+                        <div style={{width:'100px',height:'120px'}} className='d-flex gap-1'>
+                            <input type='checkbox' onChange={()=>dispatch((selectItem(item)))}/>
+                            <img src={item.images[0].url} alt='cartItem' style={{height:'100%',width:'100%'}}/>
                         </div>
-                        <div className="mx-3 position-relative">
-                            <h6 className="py-1 mb-0">{item.name.length>25 ? `${item.name.slice(0,25)} ...`: item.name}</h6>
-                            <p>{item.description.length>50 ? `${item.description.slice(0,50)} ...`: item.description}</p>
-                            <p className='fw-bolder mb-0' > <FaRupeeSign />{item.price}</p>
-                            {item.quantity !== 1 ?
+                        <div className="mx-3 position-relative d-flex flex-column"  onClick={()=>navigate(`/buy?id=${item._id}`)}>
+
+                            <div className="d-flex justify-content-between">
+                                <h6 className="py-1 mb-0">{item.name.length>25 ? `${item.name.slice(0,25)} ...`: item.name}</h6>
+                                <div>
+                                    <p className='fw-bolder mb-0' > <FaRupeeSign />{item.price}</p>
+                                </div>
+                            </div>
+                            <p>{item.description.length>40 ? `${item.description.slice(0,40)} ...`: item.description}</p>
+                            {/* {item.quantity !== 1 ?
                                 <div className="d-flex">
                                     <p className='fw-bolder'>SubTotal:</p><p>{item.price} * {item.quantity} = </p><p className='fw-bolder'>{item.price * item.quantity} </p>
                                 </div>                            
-                            : ""}
+                            : ""} */}
                             <div className="d-flex flex-column position-absolute bottom-0 start-0">
                                 <div className="d-flex my-1">
                                     <div className="btn-group" role="group" aria-label="Basic outlined example">
@@ -72,24 +84,27 @@ export default function Cart() {
                                         >Delete</button>
                                     </div>
                                     <div>
-                                        <button className="btn btn-warning btn-sm">Buy</button>
+                                        <button className="btn btn-warning btn-sm" onClick={()=>navigate(`/buy?id=${item._id}`)}>Buy</button>
                                     </div>
                                 </div>
-                                <div className="mb-0">
-                                    <button className="btn btn-secondary btn-sm"
-                                        onClick={()=>navigate('/')}
-                                    >See more like this</button>
+                                <div className="d-flex justify-content-between">
+                                    <div>
+                                        <button className="btn btn-secondary btn-sm"
+                                            onClick={()=>navigate('/')}
+                                        >See more like this</button>
+                                    </div>
+                                    {item.quantity !== 1 ?
+                                    <div className="d-flex">
+                                        <p className='fw-bolder'>SubTotal:</p><p>{item.price} * {item.quantity} = </p><p className='fw-bolder'>{item.price * item.quantity} </p>
+                                    </div>                            
+                                    : ""}
                                 </div>
                             </div>
                         </div>
                     </div>
                 )
             })
-            : 
-            <div className="d-flex justify-content-center">
-                <h3>Cart is Empty</h3>
-            </div>
-            }
+        }
         </div>
         <div className="col-3 price-details">
             <div style={{border:'1px solid black',padding:'3%'}}>
@@ -124,6 +139,12 @@ export default function Cart() {
                 </div>    
             </div>
         </div>
+        </>
+           : 
+           <div className="d-flex justify-content-center">
+               <h3>Cart is Empty</h3>
+           </div>
+        }
         </div>
     )
 }

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {useForm} from "react-hook-form"
 import { NavLink, useNavigate } from "react-router-dom";
-import Post  from "../Services/HttpService";
+import Post  from "../services/Http-Service";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { Button, Form } from "react-bootstrap";

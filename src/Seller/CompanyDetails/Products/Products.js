@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { getProducts } from "../../Services/HttpService";
-import CreateNewProduct from "./CreateNewProduct";
-import ImgCarousal from "./ImgCarousal";
+import { getProducts } from "../../services/Http-Service";
+import CreateNewProduct from "./Create-New-Product";
+import ImgCarousal from "./Img-Carousal";
 import Pagination from "./Pagination";
-import QuickViewModal from "./QuickViewModal";
+import QuickViewModal from "./Quick-View-Modal";
 import {FaRupeeSign} from 'react-icons/fa'
-import Footer from "../../../Components/Footer";
+import Footer from "../../../components/Footer";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
@@ -81,18 +81,13 @@ export default function Products() {
     <div className="productImages-container">
       <div className="d-flex justify-content-between">
         <div className="mx-2 my-2">
-          <div>
-            <h1>Product List</h1>
-          </div>
-          <div>
             <input type='text' value={name}
               onChange={(e) => setName(e.target.value)} />
             <button className="btn btn-primary mx-2"
                 onClick={onSearchByName}
             >Search</button>
-          </div>
         </div>
-        <div className="mx-3 my-5">
+        <div className="mx-3 my-2">
 
           <label className='fw-bolder'>SortBy-</label>
           <select onChange={(e)=>setSortBy(e.target.value)}>

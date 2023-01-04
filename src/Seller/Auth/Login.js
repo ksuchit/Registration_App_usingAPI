@@ -1,13 +1,13 @@
 import React, {  useContext, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import  { setToken } from "../Services/TokenService";
-import Post  from "../Services/HttpService";
+import  { setToken } from "../services/Token-Service";
+import Post  from "../services/Http-Service";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { loginContext } from "../../App";
-import ForgetPasswordModal from "./AuthOperation/ForgetPasswordModal";
-import LoginViaGoogle from "./SocialLogin/LoginViaGoogle";
-import LoginViaFacebook from "./SocialLogin/LoginViaFacebook";
+import ForgetPasswordModal from "./auth-Operation/Forget-Password-Modal";
+import LoginViaGoogle from "./social-Login/LoginViaGoogle";
+import LoginViaFacebook from "./social-Login/LoginViaFacebook";
 import {BiShow,BiHide} from 'react-icons/bi'
 import { Button, Form } from "react-bootstrap";
 

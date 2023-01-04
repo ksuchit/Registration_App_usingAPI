@@ -1,21 +1,21 @@
 import React, { createContext,  lazy,  useEffect,  useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Header from "./Components/Header";
+import Header from "./components/Header";
 import { Toaster } from "react-hot-toast";
 // import Loader from "./Loader/Loader";
-import PublicRouting from "./Seller/Auth/PublicRouting";
-import ProtectedRouting from "./Seller/Auth/ProtectedRouting";
-import getToken from "./Seller/Services/TokenService";
-import MapRouting from "./MapRouting";
-import MapRoutingCustomer from "./MapRoutingCustomer";
-import getShopToken from "./Shopping/Services/TokenService";
+import PublicRouting from "./Seller/Auth/Public-Routing";
+import ProtectedRouting from "./Seller/Auth/Protected-Routing";
+import getToken from "./Seller/services/Token-Service";
+import MapRouting from "./Map-Routing";
+import MapRoutingCustomer from "./Map-Routing-Customer";
+import getShopToken from "./Shopping/services/Token-Service";
 import { Suspense } from "react";
 // import Cookies from "universal-cookie";
 
 const Login=lazy(()=>import('./Seller/Auth/Login'))
 const Registration=lazy(()=>import('./Seller/Auth/Registration'))
-const ResetPasswordModal=lazy(()=>import('./Seller/Auth/AuthOperation/ResetPasswordModal'))
-const NotFound=lazy(()=>import('./Components/NotFound'))
+const ResetPasswordModal=lazy(()=>import('./Seller/Auth/auth-Operation/Reset-Password-Modal'))
+const NotFound=lazy(()=>import('./components/Not-Found'))
 const loginContext = createContext();
 const shopLoginContext = createContext();
 function App() {

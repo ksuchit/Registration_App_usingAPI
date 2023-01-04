@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {useForm} from "react-hook-form"
 import { NavLink, useNavigate } from "react-router-dom";
 import {Country,State,City} from 'country-state-city'
-import { Post } from "../Services/HttpService";
+import { Post } from "../services/Http-Service";
 import { toast } from "react-hot-toast";
 import { Button, Form } from "react-bootstrap";
 

@@ -1,20 +1,20 @@
 import { useContext, useEffect, useState } from "react";
-import Get from "../Services/HttpService";
-import ImgCarousal from "./ImgCarousal";
+import Get from "../services/Http-Service";
+import ImgCarousal from "./Img-Carousal";
 import Pagination from "./Pagination";
 import {FaRupeeSign} from 'react-icons/fa'
-import Footer from "../../Components/Footer";
-import LoginModal from "./LoginModal";
+import Footer from "../../components/Footer";
+import LoginModal from "./Login-Modal";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
 import { shopLoginContext } from "../../App";
 import { useDispatch, useSelector } from "react-redux";
-import { addItemToCart } from "../Redux/Actions/CartActions";
-import { addToFavorite, removeFromFavorite } from "../Redux/Actions/FavoriteAction";
+import { addItemToCart } from "../redux/actions/Cart-Actions";
+import { addToFavorite, removeFromFavorite } from "../redux/actions/Favorite-Action";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { FcLike } from "react-icons/fc";
 
-let cnt = 0;
+// let cnt = 0;
 export default function Products() {
   const [products, setProducts] = useState([]);
   const [shopLive,] = useContext(shopLoginContext);
@@ -29,18 +29,18 @@ export default function Products() {
   const [name, setName] = useState("");
   const [searchByName, setSearchByName] = useState('')
   const [loginShow, setLoginShow] = useState(false)
-  // const cookies = new Cookies();
-  // useEffect(()=>{
-  //   if (cookies.get('registered')) {
-  //     setLoginShow(false); //Modal does not open if cookie exists
-  //   } else if (!cookies.get('registered')) {
-  //     cookies.set('registered', 'true', {
-  //        path:'/',
-  //       expires:0
-  //      });
-  //      setLoginShow(true); //Creates a cookie and shows modal.
-  //   }
-  // },[])
+  const cookies = new Cookies();
+  useEffect(()=>{
+    if (cookies.get('registered')) {
+      setLoginShow(false); //Modal does not open if cookie exists
+    } else if (!cookies.get('registered')) {
+      cookies.set('registered', 'true', {
+         path:'/',
+        expires:0
+       });
+       setLoginShow(true); //Creates a cookie and shows modal.
+    }
+  },[])
 
   // useEffect(()=>{
   //   if (sessionStorage.getItem('registered')) {
@@ -52,10 +52,10 @@ export default function Products() {
   // }, [])
   
   useEffect(() => {
-    if (cnt === 0) {
-      setLoginShow(true)
-      cnt++;
-    }
+  //   if (cnt === 0) {
+  //     setLoginShow(true)
+  //     cnt++;
+  //   }
     sortBy ?
     Get(`/shop/products?&limit=${itemPerPage}&page=${pageNum}&sortBy=${sortBy}`)
       .then((response) => {

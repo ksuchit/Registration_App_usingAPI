@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { MdMarkEmailRead } from "react-icons/md";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import Get, { Delete } from "../Services/HttpService";
+import Get, { Delete } from "../services/Http-Service";
 import { shopLoginContext } from "../../App";
 import Swal from "sweetalert2";
 

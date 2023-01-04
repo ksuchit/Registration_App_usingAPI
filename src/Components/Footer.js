@@ -1,6 +1,6 @@
 import {BsPhone} from 'react-icons/bs'
 import {AiOutlineMail} from 'react-icons/ai'
-import logo from '../Images/logo.png'
+import logo from '../images/logo.png'
 import React from 'react';
 import { CDBFooter, CDBBox, CDBBtn, CDBIcon } from 'cdbreact';
 import { NavLink } from 'react-router-dom';
