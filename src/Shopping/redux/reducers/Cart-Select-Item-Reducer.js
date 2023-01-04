@@ -15,8 +15,19 @@ const CartSelectItemReducer=(state=initialSelectItemState,action)=>{
             else
              updatedArr=[...state.selectedItem,action.payload]
 
-            return {updatedArr}
+            return {
+                selectedItem:updatedArr
+            }
         
+        case 'SELECT-ALL-ITEMS':
+            return{
+                selectedItem:action.payload
+            }
+
+        case 'DISELECT-ALL-ITEMS':
+            return{
+                selectedItem:[]
+            }
         default:
             return state
     }

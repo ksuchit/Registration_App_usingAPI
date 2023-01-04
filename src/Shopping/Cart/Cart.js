@@ -7,16 +7,19 @@ import { deleteItemFromCart } from "../redux/actions/Cart-Actions";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
 import { NavLink } from "react-bootstrap";
-import { selectItem } from "../redux/actions/Cart-Select-Item-Actions";
+import { diSelectAllItems, selectAllItems, selectItem } from "../redux/actions/Cart-Select-Item-Actions";
+import { useState } from "react";
 
 export default function Cart() {
 
+    const [selected,setSelected]=useState(false);
     const [searchParams,] = useSearchParams();
     // console.log(searchParams.get('id'))
     
     useEffect(() => {
         if (searchParams.get('id'))
         document.getElementById(searchParams.get('id')).scrollIntoView({ behavior: "smooth" },1000)
+        onSelectAllItems();
     }, [])
     
     const navigate = useNavigate();
@@ -27,16 +30,31 @@ export default function Cart() {
     const dispatch = useDispatch();
     let price=0
     state.cartReducer.cart.map((item) => {
+        if(state.CartSelectItemReducer.selectedItem.find((data)=>data._id===item._id))
         price+=item.price * item.quantity
         return item
     })
 
+    const onSelectAllItems=()=>{
+        dispatch(selectAllItems(state.cartReducer.cart))
+        setSelected((prev)=>!prev)
+    }
+    const onDiSelectAllItems=()=>{
+        dispatch(diSelectAllItems())
+        setSelected((prev)=>!prev)
+    }
     return ( 
         <div className="row mt-3">
         <div className="col-1"></div>
         {state.cartReducer.cart.length > 0 ? <>
         <div className=" col-7 gap-3 d-flex flex-column" style={{border:'2px solid grey',borderRadius:'1%'}}>
-            <h3>Shopping Cart</h3>
+            <div>
+                <h3>Shopping Cart</h3>
+                {selected ? 
+                <NavLink onClick={onDiSelectAllItems}>DiSelect all Items</NavLink>
+                : <NavLink onClick={onSelectAllItems}>Select all Items</NavLink>
+                }
+            </div>
             <div className="d-flex justify-content-end">
                 <p>Price</p>
             </div>
@@ -44,11 +62,13 @@ export default function Cart() {
                 return (
                     <div key={item._id} id={item._id} className='d-flex p-2' style={{backgroundColor:'lightGrey',borderRadius:'2px'}}>
                         <div style={{width:'100px',height:'120px'}} className='d-flex gap-1'>
-                            <input type='checkbox' onChange={()=>dispatch((selectItem(item)))}/>
+                            <input type='checkbox' onChange={()=>dispatch((selectItem(item)))}
+                            checked={state.CartSelectItemReducer.selectedItem.find((data)=>data._id===item._id) ? true :false}
+                            />
                             <img src={item.images[0].url} alt='cartItem' style={{height:'100%',width:'100%'}}/>
                         </div>
-                        <div className="mx-3 position-relative d-flex flex-column"  onClick={()=>navigate(`/buy?id=${item._id}`)}>
-
+                        <div className="mx-3 position-relative d-flex flex-column"> 
+                        {/* onClick={()=>navigate(`/buy?id=${item._id}`)} */}
                             <div className="d-flex justify-content-between">
                                 <h6 className="py-1 mb-0">{item.name.length>25 ? `${item.name.slice(0,25)} ...`: item.name}</h6>
                                 <div>
@@ -112,11 +132,11 @@ export default function Cart() {
                 <hr></hr>
                 <div className="d-flex justify-content-between">
                     <p>Total Items:</p>
-                    <p>{state.cartReducer.cart.length}</p>    
+                    <p>{state.CartSelectItemReducer.selectedItem.length}</p>    
                 </div>
                 <div className="d-flex justify-content-between">
                     <p>Price:</p>
-                        <p><FaRupeeSign />{price}</p>    
+                        <p><FaRupeeSign />{price}</p>
                 </div>
                 <div className="d-flex justify-content-between">
                     <p>Discount:</p>
@@ -132,7 +152,9 @@ export default function Cart() {
                     <p><FaRupeeSign />{price-1000}</p>    
                 </div>
                 <div className="d-flex justify-content-center">
-                    <button className="btn btn-warning">Proceed To Buy ({state.cartReducer.cart.length} items)</button>
+                    <button className="btn btn-warning"
+                        onClick={()=>navigate('/buy')}
+                    >Proceed To Buy ({state.CartSelectItemReducer.selectedItem.length} items)</button>
                 </div>
                 <div>
                     <p style={{color:'green'}}  className='mb-0'>You will save <FaRupeeSign />1000 on this order</p>       

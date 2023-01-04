@@ -12,3 +12,16 @@ export const diSelectItem = (item) => {
         payload:item
     }
 }
+
+export const selectAllItems=(item)=>{
+    return{
+        type:'SELECT-ALL-ITEMS',
+        payload:item
+    }
+}
+
+export const diSelectAllItems=()=>{
+    return{
+        type:'DISELECT-ALL-ITEMS',
+    }
+}
