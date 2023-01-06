@@ -43,6 +43,10 @@ export default function DropDownShop() {
             <BsFillKeyFill className="mx-2" />
             Change Password
           </Dropdown.Item>
+          <Dropdown.Item onClick={()=>navigate("/buy/my-orders")}>
+            <BsFillKeyFill className="mx-2" />
+            My-Orders
+          </Dropdown.Item>
           <Dropdown.Divider />
           <Dropdown.Item onClick={logOutClicked}>
             <CgLogOff size={20} className="mx-2" />

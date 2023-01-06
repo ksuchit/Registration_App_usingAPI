@@ -1,8 +1,11 @@
+import { useEffect } from "react";
 import { useState } from "react"
+import { useDispatch } from "react-redux";
 
 export default function Pagination(props) {
     const [pageList, setPageList] = useState(false)
     const optionValue = Math.floor(props.totalPages / 5);
+    const dispatch=useDispatch();
     // console.log(optionValue , 'grgrgrgrdg')
     const options = [
         { value: '', label: 'select'},
@@ -12,6 +15,7 @@ export default function Pagination(props) {
         { value: (3*optionValue), label: `${3*optionValue}-${4*optionValue}` },
         { value: (4*optionValue), label: `${4*optionValue}-${5*optionValue}` },
     ]
+    
     return (
         <div className="my-2 d-flex justify-content-center">
             {props.pageNum === 1 ? "" :

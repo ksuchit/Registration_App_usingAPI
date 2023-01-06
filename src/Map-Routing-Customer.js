@@ -1,5 +1,6 @@
 import {Navigate} from 'react-router-dom'
 import { lazy } from 'react'
+import MyOrders from './Shopping/buy/My-Orders'
 
 const Home =lazy(() => import('./Shopping/home/Home'))
 const Login =lazy(() => import('./Shopping/auth/Login'))
@@ -48,6 +49,10 @@ export default function MapRoutingCustomer(){
         {
             path: 'buy',
             element:<Buy />
+        },
+        {
+            path:'buy/my-orders',
+            element:<MyOrders />
         }
     ]
 

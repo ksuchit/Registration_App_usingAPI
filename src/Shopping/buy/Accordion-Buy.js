@@ -13,6 +13,8 @@ export default function AccordionBuy() {
   const [show,setShow]=useState(false)
   const [cardShow,setCardShow]=useState(false)
   const state=useSelector((state)=>state)
+  const [activeKey,setActiveKey]=useState(0);
+  const [orderId,setOrderId]=useState();
   console.log(state.CartSelectItemReducer.selectedItem)
   useEffect(()=>{
     Get('/customers/address')
@@ -53,6 +55,7 @@ export default function AccordionBuy() {
     Post('/shop/orders',payload)
     .then((response)=>{
       console.log(response)
+      setOrderId(response.data.order?._id)
     })
     .catch((error)=>{
       console.log(error)
@@ -65,8 +68,9 @@ export default function AccordionBuy() {
   }
 
   console.log(defaultAdd)
+  console.log(activeKey)
   return (
-    <><Accordion defaultActiveKey="2">
+    <><Accordion defaultActiveKey={activeKey}>
       <Accordion.Item eventKey="0">
         <Accordion.Header>
         {defaultAdd ?
@@ -93,7 +97,7 @@ export default function AccordionBuy() {
             })}
           </Form>
           <div className='d-flex justify-content-between'>
-            <Button className='btn-sm m-2'>use this Address</Button>
+            <Button className='btn-sm m-2' onClick={()=>setActiveKey(1)}>use this Address</Button>
             <Button className='btn-secondary btn-sm m-2' onClick={()=>setShow(true)}>Add Address</Button>
           </div>
           <div>
@@ -154,7 +158,7 @@ export default function AccordionBuy() {
                 <div style={{fontSize:'80%'}}>Cash/Pay on Delivery available for this order...</div>
               </Form.Check.Label>
             </Form.Check>
-            <Button className='btn btn-warning m-2'>Use this payment method</Button>
+            <Button className='btn btn-warning m-2' onClick={()=>setActiveKey(2)}>Use this payment method</Button>
           </Form>
         </Accordion.Body>
       </Accordion.Item>
@@ -225,7 +229,7 @@ export default function AccordionBuy() {
         </div>
       </div>
       <div>
-        <CardModal show={cardShow} setShow={setCardShow}/>
+        <CardModal show={cardShow} setShow={setCardShow} orderId={orderId}/>
       </div></>
   );
 }

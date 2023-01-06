@@ -13,6 +13,7 @@ import { addItemToCart } from "../redux/actions/Cart-Actions";
 import { addToFavorite, removeFromFavorite } from "../redux/actions/Favorite-Action";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { FcLike } from "react-icons/fc";
+import { addAllProducts } from "../redux/actions/All-Products";
 
 // let cnt = 0;
 export default function Products() {
@@ -74,6 +75,7 @@ export default function Products() {
         setProducts(response.data.results);
         setTotalPages(response.data.totalPages)
         setTotalResults(response.data.totalResults)
+        dispatch(addAllProducts(response.data.results))
       })
       .catch((error) => {
         console.log(error);
