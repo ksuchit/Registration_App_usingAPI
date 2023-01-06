@@ -105,6 +105,7 @@ export default function Products() {
     if (shopLive)
     {
       item.quantity = 1;
+      item.subTotal=item.quantity * item.price
       dispatch(addItemToCart(item));
     }
     else

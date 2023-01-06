@@ -21,6 +21,7 @@ const cartReducer = (state = initialCartState, action) => {
             const plusCartItem = state.cart.map((item) => {
                 if (item._id === action.payload._id) {
                     action.payload.quantity+=1
+                    action.payload.subTotal=action.payload.quantity * action.payload.price
                     item = action.payload
                 }
                     
@@ -33,6 +34,7 @@ const cartReducer = (state = initialCartState, action) => {
                 const minusCartItem = state.cart.map((item) => {
                     if (item._id === action.payload._id) {
                         action.payload.quantity-=1
+                        action.payload.subTotal=action.payload.quantity * action.payload.price
                         item = action.payload
                     }
                         

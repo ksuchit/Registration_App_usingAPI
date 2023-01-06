@@ -2,15 +2,18 @@ import { useEffect, useState } from 'react';
 import { Button, Form, NavLink } from 'react-bootstrap';
 import Accordion from 'react-bootstrap/Accordion';
 import { FaRupeeSign } from 'react-icons/fa';
+import { useSelector } from 'react-redux';
 import Address from '../profile/Address';
-import Get from '../services/Http-Service';
-import CardModal from './Card-Modal';
+import Get, { Post } from '../services/Http-Service';
+import CardModal from './Card-Modal'
 
 export default function AccordionBuy() {
   const [address, setAddress] = useState([]);
   const [defaultAdd, setDefaultAdd] = useState();
   const [show,setShow]=useState(false)
   const [cardShow,setCardShow]=useState(false)
+  const state=useSelector((state)=>state)
+  console.log(state.CartSelectItemReducer.selectedItem)
   useEffect(()=>{
     Get('/customers/address')
     .then((response) => {
@@ -22,9 +25,48 @@ export default function AccordionBuy() {
     })
   },[])
 
+  let price=0
+  state.cartReducer.cart.map((item) => {
+      if(state.CartSelectItemReducer.selectedItem.find((data)=>data._id===item._id))
+      price+=item.price * item.quantity
+      return item
+  })
+
+  const onPlaceOrder=()=>{
+    console.log('Order Placed')
+    const itemProduct=state.CartSelectItemReducer.selectedItem.map((item)=>{
+      return{
+        productId: item._id,
+        name: item.name,
+        price: item.price,
+        qty: item.quantity,
+        subTotal: item.subTotal
+      }
+    })
+    const payload={
+      items:itemProduct,
+      deliveryFee:40,
+      total:price+40,
+      address:defaultAdd
+    }
+    console.log(payload)
+    Post('/shop/orders',payload)
+    .then((response)=>{
+      console.log(response)
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+  }
+
+  const cartDetails=()=>{
+    console.log('cart details')
+    setCardShow(true)
+  }
+
   console.log(defaultAdd)
   return (
-    <Accordion defaultActiveKey="2">
+    <><Accordion defaultActiveKey="2">
       <Accordion.Item eventKey="0">
         <Accordion.Header>
         {defaultAdd ?
@@ -72,7 +114,7 @@ export default function AccordionBuy() {
                   <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTg-aIbegXTuKD72gcbiDOahjEhV63kZbZLAg&usqp=CAU'/>
                 </div> */}
                 <div>
-                  <button className='btn btn-primary btn-sm' onClick={()=>setCardShow(true)}>Enter Card Details</button>
+                  <Button className='btn btn-primary btn-sm' onClick={()=>cartDetails()}>Enter Card Details</Button>
                 </div>
               </Form.Check.Label>
             </Form.Check>
@@ -114,9 +156,6 @@ export default function AccordionBuy() {
             </Form.Check>
             <Button className='btn btn-warning m-2'>Use this payment method</Button>
           </Form>
-          {/* <div>
-            <CardModal show={cardShow} setShow={setCardShow} />
-          </div> */}
         </Accordion.Body>
       </Accordion.Item>
       <Accordion.Item eventKey="2">
@@ -125,24 +164,68 @@ export default function AccordionBuy() {
           <div>
             <div>
               <h5>Delivery Date:</h5>
-              <span><pre>If you order in the next 13 hours and 27 minutes ( Details )</pre>
-                    <pre>Items dispatched by Amazon</pre>
+              <span><pre className='mb-0'>If you order in the next 5 hours and 27 minutes ( Details )</pre>
+                    <pre>Items dispatched by Us</pre>
               </span>
             </div>
-            <div>
-              <div></div>
-              <div></div>
-            </div>
+            {state.CartSelectItemReducer.selectedItem.map((item,i)=>{
+              return(
+                  <div style={{border:'1px solid black',borderRadius:'3px',padding:'10px',margin:'5px'}} className='d-flex gap-4' key={i}>
+                    <div style={{width:'100px',height:'120px'}}>
+                      <img src={item.images[0].url} style={{height:'100%',width:'100%'}} alt='delivery'/>
+                    </div>
+                    <div>
+                        <h6>{item.name}</h6>
+                        <span style={{color:'#B12704'}}><FaRupeeSign />{item.price}</span>
+                        <Form.Select aria-label="Default select example">
+                          <option value="1">One</option>
+                          <option value="2">Two</option>
+                          <option value="3">Three</option>
+                          <option value="4">Four</option>
+                          <option value="5">Five</option>
+                          <option value="6">Six</option>
+                          <option value="7">Seven</option>
+                          <option value="8">Eight</option>
+                          <option value="9">Nine</option>
+                          <option value="10">Ten</option><hr></hr>
+                          <option value="delete">delete</option>
+                        </Form.Select>
+                    </div>
+                    {i===0 ?
+                    <div>
+                        <h6>Choose a delivery option:</h6>
+                        <Form>
+                          <Form.Check style={{backgroundColor:'lightgrey',margin:'10px',padding:'5px'}} className='d-flex' >
+                            <Form.Check.Input type='radio' name='group1' className='mx-1'/>
+                            <Form.Check.Label>
+                              Tomorrow  — FREE FREE Delivery on eligible orders
+                            </Form.Check.Label>
+                          </Form.Check>
+                          <Form.Check style={{backgroundColor:'lightgrey',margin:'10px',padding:'5px'}} className='d-flex' >
+                            <Form.Check.Input type='radio' name='group1' className='mx-1'/>
+                            <Form.Check.Label>
+                              Today  — Delivery Charges Rs. 40.
+                            </Form.Check.Label>
+                          </Form.Check>
+                        </Form>
+                    </div>
+                    : ""}
+                  </div>
+               )
+            })}
           </div>
         </Accordion.Body>
       </Accordion.Item>
-      <div style={{backgroundColor:'lightgrey',margin:'10px',padding:'5px'}} className='d-flex gap-4'>
-        <button className='btn btn-warning btn-sm'>Place your order</button>
+    </Accordion>
+      <div style={{backgroundColor:'lightgrey',margin:'10px',padding:'5px'}} className='d-flex align-items-center gap-4'>
+        <div><Button className='btn btn-warning' onClick={()=>onPlaceOrder()}>Place your order</Button></div>
         <div>
-          <h6>Order Total:{<FaRupeeSign />}</h6>
+          <div className='d-flex'><h6>Order Total:</h6><p style={{color:'#B12704'}}><FaRupeeSign /> {price}</p> </div>
           <span style={{fontSize:'80%'}}>By placing your order, you agree to Amazon's privacy notice and conditions of use.</span>
         </div>
       </div>
-    </Accordion>
+      <div>
+        <CardModal show={cardShow} setShow={setCardShow}/>
+      </div></>
   );
 }
