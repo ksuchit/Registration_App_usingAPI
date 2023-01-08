@@ -43,7 +43,7 @@ export default function DropDownShop() {
             <BsFillKeyFill className="mx-2" />
             Change Password
           </Dropdown.Item>
-          <Dropdown.Item onClick={()=>navigate("/buy/my-orders")}>
+          <Dropdown.Item onClick={()=>navigate("/orders")}>
             <BsFillKeyFill className="mx-2" />
             My-Orders
           </Dropdown.Item>
