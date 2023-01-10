@@ -1,20 +1,21 @@
 import { useEffect, useState } from 'react';
 import { Button, Form, NavLink } from 'react-bootstrap';
 import Accordion from 'react-bootstrap/Accordion';
+import { toast } from 'react-hot-toast';
 import { FaRupeeSign } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 import Address from '../profile/Address';
-import Get, { Post } from '../services/Http-Service';
+import Get, { Post, Put } from '../services/Http-Service';
 import CardModal from './Card-Modal'
 
-export default function AccordionBuy() {
+export default function AccordionBuy(props) {
   const [address, setAddress] = useState([]);
   const [defaultAdd, setDefaultAdd] = useState();
   const [show,setShow]=useState(false)
   const [cardShow,setCardShow]=useState(false)
   const state=useSelector((state)=>state)
-  const [activeKey,setActiveKey]=useState(0);
-  const [orderId,setOrderId]=useState();
+  const [activeKey,setActiveKey]=useState('0');
+
   console.log(state.CartSelectItemReducer.selectedItem)
   useEffect(()=>{
     Get('/customers/address')
@@ -34,8 +35,8 @@ export default function AccordionBuy() {
       return item
   })
 
-  const onPlaceOrder=()=>{
-    console.log('Order Placed')
+  const createOrder=()=>{
+    console.log('Order created')
     const itemProduct=state.CartSelectItemReducer.selectedItem.map((item)=>{
       return{
         productId: item._id,
@@ -55,11 +56,13 @@ export default function AccordionBuy() {
     Post('/shop/orders',payload)
     .then((response)=>{
       console.log(response)
-      setOrderId(response.data.order?._id)
+      props.setOrderId(response.data.order?._id)
     })
     .catch((error)=>{
       console.log(error)
     })
+
+    setActiveKey('1');
   }
 
   const cartDetails=()=>{
@@ -67,10 +70,29 @@ export default function AccordionBuy() {
     setCardShow(true)
   }
 
+  const placeYourOrder=()=>{
+    console.log(props.paymentDetails)
+    const payload={
+      nameOnCard:props.paymentDetails.nameOnCard,
+      cardNumber:props.paymentDetails.cardNumber,
+      expiry:`${props.paymentDetails.month}/${props.paymentDetails.year}`,
+      cvv:props.paymentDetails.cvv
+    }
+
+    Put(`/shop/orders/confirm/${props.orderId}`,payload)
+      .then((response)=>{
+        console.log(response)
+        toast.success(response.data.message)
+      })
+      .catch((error)=>{
+        console.log(error)
+        toast.error(error.response.data.message)
+      })
+  }
   console.log(defaultAdd)
   console.log(activeKey)
   return (
-    <><Accordion defaultActiveKey={activeKey}>
+    <><Accordion activeKey={activeKey}>
       <Accordion.Item eventKey="0">
         <Accordion.Header>
         {defaultAdd ?
@@ -97,7 +119,7 @@ export default function AccordionBuy() {
             })}
           </Form>
           <div className='d-flex justify-content-between'>
-            <Button className='btn-sm m-2' onClick={()=>setActiveKey(1)}>use this Address</Button>
+            <Button className='btn-sm m-2' onClick={createOrder}>use this Address</Button>
             <Button className='btn-secondary btn-sm m-2' onClick={()=>setShow(true)}>Add Address</Button>
           </div>
           <div>
@@ -158,7 +180,7 @@ export default function AccordionBuy() {
                 <div style={{fontSize:'80%'}}>Cash/Pay on Delivery available for this order...</div>
               </Form.Check.Label>
             </Form.Check>
-            <Button className='btn btn-warning m-2' onClick={()=>setActiveKey(2)}>Use this payment method</Button>
+            <Button className='btn btn-warning m-2' onClick={()=>setActiveKey('2')}>Use this payment method</Button>
           </Form>
         </Accordion.Body>
       </Accordion.Item>
@@ -222,14 +244,14 @@ export default function AccordionBuy() {
       </Accordion.Item>
     </Accordion>
       <div style={{backgroundColor:'lightgrey',margin:'10px',padding:'5px'}} className='d-flex align-items-center gap-4'>
-        <div><Button className='btn btn-warning' onClick={()=>onPlaceOrder()}>Place your order</Button></div>
+        <div><Button className='btn btn-warning' onClick={()=>placeYourOrder()}>Place your order</Button></div>
         <div>
           <div className='d-flex'><h6>Order Total:</h6><p style={{color:'#B12704'}}><FaRupeeSign /> {price}</p> </div>
           <span style={{fontSize:'80%'}}>By placing your order, you agree to Amazon's privacy notice and conditions of use.</span>
         </div>
       </div>
       <div>
-        <CardModal show={cardShow} setShow={setCardShow} orderId={orderId}/>
+        <CardModal show={cardShow} setShow={setCardShow} setPaymentDetails={props.setPaymentDetails}/>
       </div></>
   );
 }

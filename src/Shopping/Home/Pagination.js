@@ -1,11 +1,14 @@
 import { useEffect } from "react";
 import { useState } from "react"
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addAllProducts } from "../redux/actions/All-Products";
+import Get from "../services/Http-Service";
 
 export default function Pagination(props) {
     const [pageList, setPageList] = useState(false)
     const optionValue = Math.floor(props.totalPages / 5);
     const dispatch=useDispatch();
+    const state=useSelector((state)=>state)
     // console.log(optionValue , 'grgrgrgrdg')
     const options = [
         { value: '', label: 'select'},
@@ -16,6 +19,21 @@ export default function Pagination(props) {
         { value: (4*optionValue), label: `${4*optionValue}-${5*optionValue}` },
     ]
     
+    useEffect(()=>{
+        console.log(props.totalResults)
+        Get(`/shop/products?&limit=${props.totalResults}`)
+        .then((response) => {
+          console.log(response);
+          if(state.allProductsReducer.allProducts[0]?._id===response.data.results[0]?._id)
+          console.log('same data')
+          else
+          dispatch(addAllProducts(response.data.results))
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },[])
+
     return (
         <div className="my-2 d-flex justify-content-center">
             {props.pageNum === 1 ? "" :

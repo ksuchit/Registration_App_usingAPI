@@ -50,14 +50,15 @@ export default function Cart() {
         <div className=" col-7 gap-3 d-flex flex-column" style={{border:'2px solid grey',borderRadius:'1%'}}>
             <div>
                 <h3>Shopping Cart</h3>
-                {selected ? 
-                <NavLink onClick={onDiSelectAllItems}>DiSelect all Items</NavLink>
-                : <NavLink onClick={onSelectAllItems}>Select all Items</NavLink>
-                }
+                <div className="d-flex justify-content-between">
+                    {selected ? 
+                    <NavLink onClick={onDiSelectAllItems}>DiSelect all Items</NavLink>
+                    : <NavLink onClick={onSelectAllItems}>Select all Items</NavLink>
+                    }
+                    <p>Price</p>
+                </div>
             </div>
-            <div className="d-flex justify-content-end">
-                <p>Price</p>
-            </div>
+            
            { state.cartReducer.cart.map((item,i) => {
                 return (
                     <div key={item._id} id={item._id} className='d-flex p-2' style={{backgroundColor:'lightGrey',borderRadius:'2px'}}>

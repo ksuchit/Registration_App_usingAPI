@@ -13,7 +13,6 @@ import { addItemToCart } from "../redux/actions/Cart-Actions";
 import { addToFavorite, removeFromFavorite } from "../redux/actions/Favorite-Action";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { FcLike } from "react-icons/fc";
-import { addAllProducts } from "../redux/actions/All-Products";
 
 // let cnt = 0;
 export default function Products() {
@@ -75,7 +74,6 @@ export default function Products() {
         setProducts(response.data.results);
         setTotalPages(response.data.totalPages)
         setTotalResults(response.data.totalResults)
-        dispatch(addAllProducts(response.data.results))
       })
       .catch((error) => {
         console.log(error);
@@ -176,12 +174,15 @@ export default function Products() {
       </div>
       
       <div>
+        {totalResults && 
         <Pagination
           pageNum={pageNum}
           setPageNum={setPageNum}
           totalPages={totalPages}
           itemPerPage={itemPerPage}
+          totalResults={totalResults}
         />
+        }
         {/* we added ternary because when we click on quickView it will call fun and set id its working but before 
         that i think call goes to this modal  so we didn't get id in QuickModal so API not hitted   */}
         
