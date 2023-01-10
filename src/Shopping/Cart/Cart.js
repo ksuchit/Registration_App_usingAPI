@@ -1,6 +1,6 @@
 import { FaRupeeSign } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import ImgCarousal from "../home/Img-Carousal";
+// import ImgCarousal from "../home/Img-Carousal";
 import {AiTwotoneDelete} from 'react-icons/ai'
 import { minusItem, plusItem } from "../redux/actions/Cart-Item-Actions";
 import { deleteItemFromCart } from "../redux/actions/Cart-Actions";
@@ -52,10 +52,10 @@ export default function Cart() {
                 <h3>Shopping Cart</h3>
                 <div className="d-flex justify-content-between">
                     {selected ? 
-                    <NavLink onClick={onDiSelectAllItems}>DiSelect all Items</NavLink>
-                    : <NavLink onClick={onSelectAllItems}>Select all Items</NavLink>
+                    <button className="btn btn-link" onClick={onDiSelectAllItems}>DeSelect all Items</button>
+                    : <button className="btn btn-link" onClick={onSelectAllItems}>Select all Items</button>
                     }
-                    <p>Price</p>
+                    {/* <p>Price</p> */}
                 </div>
             </div>
             
@@ -68,7 +68,7 @@ export default function Cart() {
                             />
                             <img src={item.images[0].url} alt='cartItem' style={{height:'100%',width:'100%'}}/>
                         </div>
-                        <div className="mx-3 position-relative d-flex flex-column"> 
+                        <div className="d-flex flex-column" style={{paddingLeft:'40px',width:'400px'}}> 
                         {/* onClick={()=>navigate(`/buy?id=${item._id}`)} */}
                             <div className="d-flex justify-content-between">
                                 <h6 className="py-1 mb-0">{item.name.length>25 ? `${item.name.slice(0,25)} ...`: item.name}</h6>
@@ -76,13 +76,13 @@ export default function Cart() {
                                     <p className='fw-bolder mb-0' > <FaRupeeSign />{item.price}</p>
                                 </div>
                             </div>
-                            <p>{item.description.length>40 ? `${item.description.slice(0,40)} ...`: item.description}</p>
+                            <p className="mb-0">{item.description.length>40 ? `${item.description.slice(0,40)} ...`: item.description}</p>
                             {/* {item.quantity !== 1 ?
                                 <div className="d-flex">
                                     <p className='fw-bolder'>SubTotal:</p><p>{item.price} * {item.quantity} = </p><p className='fw-bolder'>{item.price * item.quantity} </p>
                                 </div>                            
                             : ""} */}
-                            <div className="d-flex flex-column position-absolute bottom-0 start-0">
+                            <div className="d-flex flex-column bottom-0 start-0">
                                 <div className="d-flex my-1">
                                     <div className="btn-group" role="group" aria-label="Basic outlined example">
                                         {item.quantity === 1 ?
@@ -104,9 +104,9 @@ export default function Cart() {
                                             onClick={()=>dispatch(deleteItemFromCart(item))}
                                         >Delete</button>
                                     </div>
-                                    <div>
+                                    {/* <div>
                                         <button className="btn btn-warning btn-sm" onClick={()=>navigate(`/buy?id=${item._id}`)}>Buy</button>
-                                    </div>
+                                    </div> */}
                                 </div>
                                 <div className="d-flex justify-content-between">
                                     <div>
@@ -115,7 +115,7 @@ export default function Cart() {
                                         >See more like this</button>
                                     </div>
                                     {item.quantity !== 1 ?
-                                    <div className="d-flex">
+                                    <div className="d-flex mx-2 align-items-center">
                                         <p className='fw-bolder'>SubTotal:</p><p>{item.price} * {item.quantity} = </p><p className='fw-bolder'>{item.price * item.quantity} </p>
                                     </div>                            
                                     : ""}
@@ -141,7 +141,7 @@ export default function Cart() {
                 </div>
                 <div className="d-flex justify-content-between">
                     <p>Discount:</p>
-                    <p style={{color:'green'}}>-<FaRupeeSign />1000</p>    
+                    <p style={{ color: 'green' }}>{price > 1000 ? <p className='mb-0'>-<FaRupeeSign />1000</p> : '0'}</p>    
                 </div>
                 <div className="d-flex justify-content-between">
                     <p>Delivery Charges:</p>
@@ -150,10 +150,11 @@ export default function Cart() {
                 <hr></hr>    
                 <div className="d-flex justify-content-between">
                     <p>Total Amount:</p>
-                    <p><FaRupeeSign />{price-1000}</p>    
+                    <p><FaRupeeSign />{price>1000 ? price-1000 : price}</p>    
                 </div>
                 <div className="d-flex justify-content-center">
                     <button className="btn btn-warning"
+                        disabled={state.CartSelectItemReducer.selectedItem.length===0 ? true : false}            
                         onClick={()=>navigate('/buy')}
                     >Proceed To Buy ({state.CartSelectItemReducer.selectedItem.length} items)</button>
                 </div>

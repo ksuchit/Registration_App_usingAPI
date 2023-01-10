@@ -1,11 +1,7 @@
-import { clear } from '@testing-library/user-event/dist/clear';
 import { useState } from 'react';
 import { Form } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-hot-toast';
-import { Put } from '../services/Http-Service';
 
 export default function CardModal(props) {
     const [moreDetails,setMoreDetails]=useState(false);
@@ -14,14 +10,15 @@ export default function CardModal(props) {
     const {register,
             handleSubmit,
             reset,
-            formState: { errors },}=useForm();
+      formState: { errors }, } = useForm();
+  
     const makePayment=(data)=>{
 
       props.setShow(false)
       setMoreDetails(false)
       console.log(data)
       props.setPaymentDetails(data)
-      
+      props.setpaymentDisabled(false)
     }
     const onSubmit=(data)=>{
       console.log(data)
@@ -51,9 +48,9 @@ export default function CardModal(props) {
              {errors.cvv && <p style={{ color: "red" }}>CVV is Required</p>}
             <button type='submit' className='btn btn-warning btn-sm'>Make Payment</button>
          </Form>
-         <div className='d-flex justify-content-end'>
+         {/* <div className='d-flex justify-content-end'>
             <Button className='btn-sm mx-2 ' onClick={()=>props.setShow(false)}>Cancel</Button>
-         </div>
+         </div> */}
           </div>
         :
         <><div className='d-flex justify-content-between gap-2'>
@@ -100,9 +97,10 @@ export default function CardModal(props) {
                 <div style={{width:'300px',height:'150px'}}><img src='https://toppng.com/uploads/preview/information-diners-club-credit-card-logo-11562925659qmdlcvtyqg.png' style={{width:'100%',height:'100%'}}/></div>
             </div>
         </div>
-        <div className='d-flex justify-content-end'>
+        {/* <div className='d-flex justify-content-end'>
             <Button className='btn-sm mx-2 ' onClick={()=>props.setShow(false)}>Close</Button>
-        </div></>
+        </div> */}
+        </>
         }
       </Modal.Body>
     </Modal>

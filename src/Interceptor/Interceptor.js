@@ -1,6 +1,5 @@
 import axios from "axios";
-import toast from "react-hot-toast";
-import Loader from "../loader/Loader";
+import Loader from "../Loader/Loader";
 
 // import setLoader from "../Services/LoaderService";
 import getToken, { removeToken } from "../Seller/services/Token-Service";

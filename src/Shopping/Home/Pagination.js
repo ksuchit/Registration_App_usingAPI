@@ -21,6 +21,8 @@ export default function Pagination(props) {
     
     useEffect(()=>{
         console.log(props.totalResults)
+        
+        props.totalResults && ( 
         Get(`/shop/products?&limit=${props.totalResults}`)
         .then((response) => {
           console.log(response);
@@ -31,7 +33,8 @@ export default function Pagination(props) {
         })
         .catch((error) => {
           console.log(error);
-        });
+        })
+        )
     },[])
 
     return (

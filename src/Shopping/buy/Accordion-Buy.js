@@ -1,12 +1,16 @@
 import { useEffect, useState } from 'react';
-import { Button, Form, NavLink } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import Accordion from 'react-bootstrap/Accordion';
 import { toast } from 'react-hot-toast';
 import { FaRupeeSign } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
-import Address from '../profile/Address';
-import Get, { Post, Put } from '../services/Http-Service';
+import Address from '../Profile/Address';
+import Get, { Delete, Post, Put } from '../services/Http-Service';
 import CardModal from './Card-Modal'
+import { AiFillEdit ,AiFillDelete} from 'react-icons/ai'
+import { Navigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import UpdateAddressModal from '../Profile/Update-Address-Modal';
 
 export default function AccordionBuy(props) {
   const [address, setAddress] = useState([]);
@@ -15,8 +19,12 @@ export default function AccordionBuy(props) {
   const [cardShow,setCardShow]=useState(false)
   const state=useSelector((state)=>state)
   const [activeKey,setActiveKey]=useState('0');
-
+  const [payWithCard, setPayWithCard] = useState(false)
+  const [addressDisabled,setAddressDisabled]=useState(true)
+  const [paymentDisabled,setpaymentDisabled]=useState(true)
+  const [selectAddress, setSelectAddress] = useState();
   console.log(state.CartSelectItemReducer.selectedItem)
+  
   useEffect(()=>{
     Get('/customers/address')
     .then((response) => {
@@ -33,11 +41,12 @@ export default function AccordionBuy(props) {
       if(state.CartSelectItemReducer.selectedItem.find((data)=>data._id===item._id))
       price+=item.price * item.quantity
       return item
-  })
-
-  const createOrder=()=>{
-    console.log('Order created')
-    const itemProduct=state.CartSelectItemReducer.selectedItem.map((item)=>{
+    })
+    
+    const createOrder=()=>{
+      console.log('Order created')
+      
+      const itemProduct=state.CartSelectItemReducer.selectedItem.map((item)=>{
       return{
         productId: item._id,
         name: item.name,
@@ -48,23 +57,24 @@ export default function AccordionBuy(props) {
     })
     const payload={
       items:itemProduct,
-      deliveryFee:40,
-      total:price+40,
-      address:defaultAdd
+      deliveryFee:props.deliveryCharges,
+      total:price+props.deliveryCharges,
+      address:selectAddress
     }
     console.log(payload)
-    Post('/shop/orders',payload)
-    .then((response)=>{
-      console.log(response)
-      props.setOrderId(response.data.order?._id)
-    })
-    .catch((error)=>{
-      console.log(error)
-    })
-
+    // Post('/shop/orders',payload)
+    // .then((response)=>{
+    //   console.log(response)
+    //   props.setOrderId(response.data.order?._id)
+    // })
+    // .catch((error)=>{
+    //   console.log(error)
+    // })
+    
+    setDefaultAdd(selectAddress)
     setActiveKey('1');
   }
-
+  
   const cartDetails=()=>{
     console.log('cart details')
     setCardShow(true)
@@ -79,22 +89,75 @@ export default function AccordionBuy(props) {
       cvv:props.paymentDetails.cvv
     }
 
-    Put(`/shop/orders/confirm/${props.orderId}`,payload)
-      .then((response)=>{
-        console.log(response)
-        toast.success(response.data.message)
+    // Put(`/shop/orders/confirm/${props.orderId}`,payload)
+    //   .then((response)=>{
+    //     console.log(response)
+    //     toast.success(response.data.message)
+    //   })
+    //   .catch((error)=>{
+    //     console.log(error)
+    //     toast.error(error.response.data.message)
+    //   })
+    }
+    const [editAddress, setEditAddress] = useState();
+    const [addressShow,setAddressShow]=useState(false)
+    const onEditAddress = (item) => {
+    console.log(item)
+    setEditAddress(item)
+    setAddressShow(true)
+  }
+  const onDeleteAddress = (id) => {
+    console.log('delete address',id)
+    
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: "btn btn-success",
+        cancelButton: "btn btn-danger",
+      },
+      buttonsStyling: false,
+    });
+
+    swalWithBootstrapButtons
+    .fire({
+        title: "Are you sure?",
+        html: `You won't be able to revert Address!</p>`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel!",
+        reverseButtons: true,
       })
-      .catch((error)=>{
-        console.log(error)
-        toast.error(error.response.data.message)
-      })
+      .then((result) => {
+          if (result.isConfirmed) {
+          Delete(`/customers/address/${id}`)
+          .then((response) => {
+              console.log(response)
+              setAddress((prev)=>prev.filter((item)=>item._id!==id))
+              swalWithBootstrapButtons.fire(
+                "Deleted!",
+                `Your Address has been deleted.`,
+                "success"
+              );
+              Navigate("/profile");
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          swalWithBootstrapButtons.fire(
+            "Cancelled",
+            `Your Address is safe :)</p>`,
+            "error"
+          );
+        }
+      });
   }
   console.log(defaultAdd)
   console.log(activeKey)
   return (
     <><Accordion activeKey={activeKey}>
       <Accordion.Item eventKey="0">
-        <Accordion.Header>
+        <Accordion.Header onClick={()=>setActiveKey('0')}>
         {defaultAdd ?
         <div className='d-flex gap-5'>
           <div>1. Delivery address</div>
@@ -110,38 +173,49 @@ export default function AccordionBuy(props) {
           {address.map((item,i)=>{
             return(
                 <Form.Check key={i} style={{backgroundColor:'lightgrey',margin:'10px',padding:'5px'}}>
-                  <Form.Check.Input type='radio' name='group1' className='mx-1' onChange={()=>setDefaultAdd(item)}/>
-                  <Form.Check.Label>
-                    {`${item.addressLine2}, ${item.street}, ${item.city}, ${item.state}-${item.pin}`}
+                <Form.Check.Input type='radio' name='group1' className='mx-1' onChange={() => {
+                  setSelectAddress(item)
+                  setAddressDisabled(false)
+                }} />
+                  <Form.Check.Label className='d-flex justify-content-between'>
+                    <div>{`${item.addressLine2}, ${item.street}, ${item.city}, ${item.state}-${item.pin}`}</div>
+                    <div>
+                      <AiFillEdit className='mx-1' onClick={()=>onEditAddress(item)}/>
+                      <AiFillDelete onClick={()=>onDeleteAddress(item._id)}/>
+                    </div>
                   </Form.Check.Label>
               </Form.Check>
               )
             })}
           </Form>
           <div className='d-flex justify-content-between'>
-            <Button className='btn-sm m-2' onClick={createOrder}>use this Address</Button>
+            <Button className='btn-sm m-2' onClick={createOrder}
+              disabled={addressDisabled ? true : false}
+            >use this Address</Button>
             <Button className='btn-secondary btn-sm m-2' onClick={()=>setShow(true)}>Add Address</Button>
           </div>
           <div>
-            <Address show={show} setShow={setShow}/>
+            <Address show={show} setShow={setShow} setAddress={setAddress} />
           </div>
         </Accordion.Body>
       </Accordion.Item>
       <Accordion.Item eventKey="1">
-        <Accordion.Header>2. Select a payment method</Accordion.Header>
+        <Accordion.Header onClick={()=>setActiveKey('1')}>2. Select a payment method</Accordion.Header>
         <Accordion.Body>
           <Form>
             <Form.Check style={{backgroundColor:'lightgrey',margin:'10px',padding:'5px'}} className='d-flex' >
-              <Form.Check.Input type='radio' name='group1' className='mx-1'/>
+              <Form.Check.Input type='radio' name='group1' className='mx-1' onChange={()=>setPayWithCard(true)}/>
               <Form.Check.Label>
                 <div>Pay with Debit/Credit/ATM Cards</div>
                 <div style={{fontSize:'80%'}}>You can save your cards as per new RBI guidelines!</div>
                 {/* <div>
                   <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTg-aIbegXTuKD72gcbiDOahjEhV63kZbZLAg&usqp=CAU'/>
                 </div> */}
-                <div>
-                  <Button className='btn btn-primary btn-sm' onClick={()=>cartDetails()}>Enter Card Details</Button>
-                </div>
+                {payWithCard ?
+                  <div>
+                    <Button className='btn btn-primary btn-sm' onClick={() => cartDetails()}>Enter Card Details</Button>
+                  </div>
+                : ""}  
               </Form.Check.Label>
             </Form.Check>
             <Form.Check style={{backgroundColor:'lightgrey',margin:'10px',padding:'5px'}} className='d-flex' >
@@ -180,12 +254,14 @@ export default function AccordionBuy(props) {
                 <div style={{fontSize:'80%'}}>Cash/Pay on Delivery available for this order...</div>
               </Form.Check.Label>
             </Form.Check>
-            <Button className='btn btn-warning m-2' onClick={()=>setActiveKey('2')}>Use this payment method</Button>
+            <Button className='btn btn-warning m-2' onClick={() => setActiveKey('2')}
+                disabled={paymentDisabled ? true : false}
+            >Use this payment method</Button>
           </Form>
         </Accordion.Body>
       </Accordion.Item>
       <Accordion.Item eventKey="2">
-        <Accordion.Header>3. Items and delivery</Accordion.Header>
+        <Accordion.Header onClick={()=>setActiveKey('2')}>3. Items and delivery</Accordion.Header>
         <Accordion.Body>
           <div>
             <div>
@@ -222,13 +298,13 @@ export default function AccordionBuy(props) {
                         <h6>Choose a delivery option:</h6>
                         <Form>
                           <Form.Check style={{backgroundColor:'lightgrey',margin:'10px',padding:'5px'}} className='d-flex' >
-                            <Form.Check.Input type='radio' name='group1' className='mx-1'/>
+                            <Form.Check.Input type='radio' name='group1' className='mx-1' onChange={()=>props.setDeliveryCharges(0)}/>
                             <Form.Check.Label>
                               Tomorrow  — FREE FREE Delivery on eligible orders
                             </Form.Check.Label>
                           </Form.Check>
                           <Form.Check style={{backgroundColor:'lightgrey',margin:'10px',padding:'5px'}} className='d-flex' >
-                            <Form.Check.Input type='radio' name='group1' className='mx-1'/>
+                            <Form.Check.Input type='radio' name='group1' className='mx-1' onChange={()=>props.setDeliveryCharges(40)}/>
                             <Form.Check.Label>
                               Today  — Delivery Charges Rs. 40.
                             </Form.Check.Label>
@@ -244,14 +320,29 @@ export default function AccordionBuy(props) {
       </Accordion.Item>
     </Accordion>
       <div style={{backgroundColor:'lightgrey',margin:'10px',padding:'5px'}} className='d-flex align-items-center gap-4'>
-        <div><Button className='btn btn-warning' onClick={()=>placeYourOrder()}>Place your order</Button></div>
+        <div><Button className='btn btn-warning' onClick={() => placeYourOrder()} style={{width:'200px'}}
+          disabled={addressDisabled && paymentDisabled ? true : false}
+        >Place your order</Button></div>
         <div>
-          <div className='d-flex'><h6>Order Total:</h6><p style={{color:'#B12704'}}><FaRupeeSign /> {price}</p> </div>
+        <div className='d-flex my-2 mb-0'><h6>Order Total:</h6><p style={{color:'#B12704'}}><FaRupeeSign /> {price}</p> </div>
           <span style={{fontSize:'80%'}}>By placing your order, you agree to Amazon's privacy notice and conditions of use.</span>
         </div>
       </div>
       <div>
-        <CardModal show={cardShow} setShow={setCardShow} setPaymentDetails={props.setPaymentDetails}/>
+        <CardModal
+          show={cardShow}
+          setShow={setCardShow}
+          setPaymentDetails={props.setPaymentDetails}
+          setpaymentDisabled={setpaymentDisabled}
+        />
+        {editAddress ?
+        <UpdateAddressModal 
+            show={addressShow}
+            setShow={setAddressShow}
+            updateAdd={editAddress}
+            setAddress={setAddress}
+        />
+        :''}
       </div></>
   );
 }

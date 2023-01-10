@@ -1,4 +1,4 @@
-import { NavLink,useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FaRupeeSign } from "react-icons/fa";
 import { useSelector } from "react-redux";
 
@@ -6,20 +6,21 @@ import { useSelector } from "react-redux";
 export default function OrdersDisplay(props){
 
     const navigate=useNavigate();
-    const state=useSelector((state)=>state);
-
+    const state = useSelector((state) => state);
+    
     return(
         <div>
            <div>
             {props.orders.map((item,i)=>{
                 return(
                 item.status===props.status ?
-                <div key={i} style={{boredr:'1px solid grey',borderRadius:'10%'}}>
-                    <div style={{backgroundColor:'lightgrey',padding:'10px'}} className='d-flex justify-content-between'>
+                <div key={i} style={{boredr:'1px solid grey',borderRadius:'10%'}} >
+                    <div style={{backgroundColor:'lightgrey',padding:'10px',marginTop:'20px'}} className='d-flex justify-content-between'>
                         <div className="d-flex gap-4">
-                            <div className="d-flex flex-column">
-                                <span>ORDER PLACED</span>
-                                <span>{item.createdAt}</span>
+                            <div className="d-flex">
+                                <div style={{color:'#0a58ca'}}>{i+1}</div>
+                                <div className="d-flex flex-column"><span>:ORDER PLACED</span>
+                                <span>{item.createdAt}</span></div>
                             </div>
                             <div className="d-flex flex-column">
                                 <span>TOTAL</span>

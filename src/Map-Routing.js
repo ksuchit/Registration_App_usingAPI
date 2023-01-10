@@ -2,10 +2,10 @@ import { lazy } from "react";
 
 const VerifyEmail =lazy(() => import('./Seller/Auth/auth-Operation/Verify-Email'))
 const ChangePasswordModal =lazy(() => import('./Seller/CompanyDetails/company-Portal/Change-Password-Modal'))
-const Products =lazy(() => import('./Seller/CompanyDetails/products/Products'))
+const Products =lazy(() => import('./Seller/CompanyDetails/Products/Products'))
 const UpdateCompany =lazy(() => import('./Seller/CompanyDetails/company-Portal/Update-Company'))
 const MyProfile =lazy(() => import('./Seller/CompanyDetails/company-Portal/MyProfile'))
-const ProductDetails =lazy(() => import('./Seller/CompanyDetails/products/Product-Details'))
+const ProductDetails =lazy(() => import('./Seller/CompanyDetails/Products/Product-Details'))
 
 export default function MapRouting() {
 
