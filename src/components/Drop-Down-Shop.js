@@ -8,7 +8,7 @@ import { clearShopLocalStorage } from "../Shopping/services/Token-Service";
 import {CgProfile} from 'react-icons/cg'
 import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
-import { FiTruck } from 'react-icons/fi'
+import { FiTruck, FiHeart } from 'react-icons/fi'
 
 export default function DropDownShop() {
   const [, setShopIsLive] = useContext(shopLoginContext);
@@ -47,6 +47,10 @@ export default function DropDownShop() {
           <Dropdown.Item onClick={()=>navigate("/orders")}>
             <FiTruck className="mx-2" />
             My-Orders
+          </Dropdown.Item>
+          <Dropdown.Item onClick={()=>navigate("/wishlist")}>
+            <FiHeart className="mx-2" />
+            Wish-List
           </Dropdown.Item>
           <Dropdown.Divider />
           <Dropdown.Item onClick={logOutClicked}>

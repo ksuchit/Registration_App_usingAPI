@@ -10,6 +10,7 @@ import Cart from './Shopping/Cart/Cart'
 import Buy from './Shopping/buy/Buy'
 import MyOrders from './Shopping/buy/My-Orders'
 import OrderDetails from './Shopping/buy/Order-Details'
+import Wishlist from './Shopping/Cart/Wishlist'
 // const Home =lazy(() => import('./Shopping/Home/Home'))
 // const Login =lazy(() => import('./Shopping/auth/Login'))
 // const Registration =lazy(() => import('./Shopping/auth/Registration'))
@@ -67,6 +68,10 @@ export default function MapRoutingCustomer(){
         {
             path:'orders/order-details',
             element:<OrderDetails />
+        },
+        {
+            path:'wishlist',
+            element:<Wishlist />
         }
     ]
 

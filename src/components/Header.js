@@ -2,7 +2,7 @@ import React, { useContext  } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { loginContext, shopLoginContext } from "../App";
 import DropDown from "./Drop-Down";
-import logo from '../images/logo.png' 
+import logo from '../Images/logo.png' 
 import DropDownShop from "./Drop-Down-Shop";
 import { BsCart } from 'react-icons/bs'
 import { useSelector } from "react-redux";
