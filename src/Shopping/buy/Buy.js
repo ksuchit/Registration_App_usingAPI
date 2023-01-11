@@ -22,14 +22,14 @@ export default function Buy(){
         else
             setBuyProduct(state.CartSelectItemReducer.selectedItem)
      
-    },[])
-
-    let price=0
-    state.cartReducer.cart.map((item) => {
-        if(state.CartSelectItemReducer.selectedItem.find((data)=>data._id===item._id))
-        price+=item.price * item.quantity
-        return item
-    })
+        },[])
+        
+        let price=0
+        state.CartSelectItemReducer.selectedItem.map((item) => {
+            price += item.price * item.quantity
+            return item
+        })
+    
     console.log(buyProduct)
 
     const placeYourOrder=()=>{
@@ -69,6 +69,7 @@ export default function Buy(){
                         paymentDetails={paymentDetails}
                         setDeliveryCharges={setDeliveryCharges}
                         deliveryCharges={deliveryCharges}
+                        price={price}
                     />
                 </div>
                 <div className="col-3 mx-5 p-2" style={{border:'1px solid black',height:'300px'}}>

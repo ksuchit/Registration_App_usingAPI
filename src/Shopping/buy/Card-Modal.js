@@ -2,10 +2,13 @@ import { useState } from 'react';
 import { Form } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+import { Put } from '../services/Http-Service';
 
 export default function CardModal(props) {
-    const [moreDetails,setMoreDetails]=useState(false);
-    const date=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31];
+    const [moreDetails, setMoreDetails] = useState(false);
+  const [errorMessage, setErrorMessage] = useState();
+    const date=[1,2,3,4,5,6,7,8,9,10,11,12];
     const year=[2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040];
     const {register,
             handleSubmit,
@@ -14,11 +17,47 @@ export default function CardModal(props) {
   
     const makePayment=(data)=>{
 
-      props.setShow(false)
-      setMoreDetails(false)
-      console.log(data)
-      props.setPaymentDetails(data)
-      props.setpaymentDisabled(false)
+      const payload={
+        nameOnCard:data.nameOnCard,
+        cardNumber:data.cardNumber,
+        expiry:`${data.month}/${data.year}`,
+        cvv:data.cvv
+      }
+
+       Put(`/shop/orders/confirm/${props.orderId}`,payload)
+      .then((response)=>{
+        console.log(response)
+        props.setShow(false)
+        setMoreDetails(false)
+        console.log(data)
+        props.setPaymentDetails(data)
+        props.setpaymentDisabled(false)
+        if (response.data.message === "Your order is successfully placed!!") {
+          props.setOrders((prev) => prev.map((item) => {
+            if (item._id === props.orderId) {
+              item.paymentStatus = 'Paid'
+              item.status = 'Confirmed'
+            }
+            return item
+          }))
+        }
+        toast.success(response.data.message)
+      })
+      .catch((error)=>{
+        console.log(error)
+        if (error.response.data.message ==="Declined due to insufficient funds" || error.response.data.message==="Declined due to incorrect CVV") {
+          props.setShow(true)
+          setErrorMessage(error.response.data.message)
+          toast.error(error.response.data.message)
+        }
+        else {
+          toast.error(error.message)
+          props.setShow(false)
+        }
+        setMoreDetails(false)
+        
+      })
+
     }
     const onSubmit=(data)=>{
       console.log(data)
@@ -36,6 +75,7 @@ export default function CardModal(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        {errorMessage ? <p style={{color:'red'}}>{errorMessage}</p> : ""}
         {moreDetails ?
          <div>
          <Form onSubmit={handleSubmit(makePayment)}>

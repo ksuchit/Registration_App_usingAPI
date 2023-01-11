@@ -36,12 +36,6 @@ export default function AccordionBuy(props) {
     })
   },[])
 
-  let price=0
-  state.cartReducer.cart.map((item) => {
-      if(state.CartSelectItemReducer.selectedItem.find((data)=>data._id===item._id))
-      price+=item.price * item.quantity
-      return item
-    })
     
     const createOrder=()=>{
       console.log('Order created')
@@ -58,18 +52,18 @@ export default function AccordionBuy(props) {
     const payload={
       items:itemProduct,
       deliveryFee:props.deliveryCharges,
-      total:price+props.deliveryCharges,
+      total:props.price+props.deliveryCharges,
       address:selectAddress
     }
     console.log(payload)
-    // Post('/shop/orders',payload)
-    // .then((response)=>{
-    //   console.log(response)
-    //   props.setOrderId(response.data.order?._id)
-    // })
-    // .catch((error)=>{
-    //   console.log(error)
-    // })
+    Post('/shop/orders',payload)
+    .then((response)=>{
+      console.log(response)
+      props.setOrderId(response.data.order?._id)
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
     
     setDefaultAdd(selectAddress)
     setActiveKey('1');
@@ -324,7 +318,7 @@ export default function AccordionBuy(props) {
           disabled={addressDisabled && paymentDisabled ? true : false}
         >Place your order</Button></div>
         <div>
-        <div className='d-flex my-2 mb-0'><h6>Order Total:</h6><p style={{color:'#B12704'}}><FaRupeeSign /> {price}</p> </div>
+        <div className='d-flex my-2 mb-0'><h6>Order Total:</h6><p style={{color:'#B12704'}}><FaRupeeSign /> {props.price}</p> </div>
           <span style={{fontSize:'80%'}}>By placing your order, you agree to Amazon's privacy notice and conditions of use.</span>
         </div>
       </div>
@@ -334,6 +328,7 @@ export default function AccordionBuy(props) {
           setShow={setCardShow}
           setPaymentDetails={props.setPaymentDetails}
           setpaymentDisabled={setpaymentDisabled}
+          orderId={props.orderId}
         />
         {editAddress ?
         <UpdateAddressModal 

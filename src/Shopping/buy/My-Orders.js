@@ -38,10 +38,10 @@ export default function MyOrders(){
                     className="mb-3"
                     >
                     <Tab eventKey="orders" title="Orders">
-                        <Orders abc={key} orders={orders}/>
+                        <Orders abc={key} orders={orders} setOrders={setOrders} />
                     </Tab>
                     <Tab eventKey="pending" title="Pending">
-                        <Orders abc={key} orders={orders}/>
+                        <Orders abc={key} orders={orders} setOrders={setOrders}/>
                     </Tab>
                     <Tab eventKey="notYetShipped" title="Not Yet Shipped">
                         <Orders abc={key} orders={orders}/>

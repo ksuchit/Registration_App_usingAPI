@@ -17,7 +17,6 @@ import { FcLike } from "react-icons/fc";
 // let cnt = 0;
 export default function Products() {
   const [products, setProducts] = useState([]);
-  const [shopLive,] = useContext(shopLoginContext);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -102,14 +101,11 @@ export default function Products() {
   const state = useSelector((state) => state);   //it will give us state in which array of selected products
   // console.log(state.cartReducer.cart)
   const addingItemToCart = (item) => {
-    if (shopLive)
-    {
+
       item.quantity = 1;
       item.subTotal=item.quantity * item.price
       dispatch(addItemToCart(item));
-    }
-    else
-      setLoginShow(true)
+    
   }
 
   return (

@@ -3,18 +3,22 @@ import { useDispatch, useSelector } from "react-redux";
 // import ImgCarousal from "../home/Img-Carousal";
 import {AiTwotoneDelete} from 'react-icons/ai'
 import { minusItem, plusItem } from "../redux/actions/Cart-Item-Actions";
-import { deleteItemFromCart } from "../redux/actions/Cart-Actions";
+import { clearCart, deleteItemFromCart } from "../redux/actions/Cart-Actions";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useEffect } from "react";
-import { NavLink } from "react-bootstrap";
+import { useContext, useEffect } from "react";
 import { diSelectAllItems, selectAllItems, selectItem } from "../redux/actions/Cart-Select-Item-Actions";
 import { useState } from "react";
+import { shopLoginContext } from "../../App";
+import LoginModal from "../Home/Login-Modal";
 
 export default function Cart() {
 
     const [selected,setSelected]=useState(false);
     const [searchParams,] = useSearchParams();
+    const [loginShow, setLoginShow] = useState(false)
+
     // console.log(searchParams.get('id'))
+    const [shopLive,] = useContext(shopLoginContext);
     
     useEffect(() => {
         if (searchParams.get('id'))
@@ -42,6 +46,14 @@ export default function Cart() {
     const onDiSelectAllItems=()=>{
         dispatch(diSelectAllItems())
         setSelected((prev)=>!prev)
+    }
+    const onProceedToBuy = () => {
+        if (shopLive) {
+            navigate('/buy')
+            dispatch(clearCart())
+        }
+        else
+            setLoginShow(true)
     }
     return ( 
         <div className="row mt-3">
@@ -155,7 +167,7 @@ export default function Cart() {
                 <div className="d-flex justify-content-center">
                     <button className="btn btn-warning"
                         disabled={state.CartSelectItemReducer.selectedItem.length===0 ? true : false}            
-                        onClick={()=>navigate('/buy')}
+                        onClick={onProceedToBuy}
                     >Proceed To Buy ({state.CartSelectItemReducer.selectedItem.length} items)</button>
                 </div>
                 <div>
@@ -169,6 +181,12 @@ export default function Cart() {
                <h3>Cart is Empty</h3>
            </div>
         }
+        <div>
+            <LoginModal
+            show={loginShow}
+            setShow={setLoginShow}
+            />        
+        </div>   
         </div>
     )
 }

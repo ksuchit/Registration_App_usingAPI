@@ -47,8 +47,8 @@ export default function Header() {
                     </NavLink>
                     <NavLink to='/cart' style={{ textDecoration: 'none', color: 'white' }}
                         className='my-auto mx-2'
-                                ><BsCart size={25} /> {length>0 ? length : ""}
-                    </NavLink>            
+                            ><BsCart size={25} /> {length>0 ? length : ""}
+                    </NavLink>      
                     <DropDownShop /> 
                     </>
                 :
@@ -57,6 +57,10 @@ export default function Header() {
                         className='my-auto mx-2'
                         >HOME
                         </NavLink>
+                        <NavLink to='/cart' style={{ textDecoration: 'none', color: 'white' }}
+                            className='my-auto mx-2'
+                                ><BsCart size={25} /> {length>0 ? length : ""}
+                        </NavLink>              
                         <NavLink to='/auth/login' style={{ textDecoration: 'none', color: 'white' }}
                         className='my-auto mx-2'
                         >LOGIN

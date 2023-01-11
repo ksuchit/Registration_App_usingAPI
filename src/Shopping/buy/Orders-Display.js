@@ -1,13 +1,78 @@
 import { useNavigate } from "react-router-dom";
 import { FaRupeeSign } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import { NavLink } from "react-bootstrap";
+import { useState } from "react";
+import CardModal from "./Card-Modal";
+import Swal from "sweetalert2";
+import { Patch } from "../services/Http-Service";
 
 
 export default function OrdersDisplay(props){
 
     const navigate=useNavigate();
     const state = useSelector((state) => state);
-    
+    const [cardShow,setCardShow]=useState(false)
+    const [orderId, setOrderId] = useState();
+
+    const onPendingPayment = (orderId) => {
+        console.log(orderId)
+        setOrderId(orderId)
+        setCardShow(true)
+    }
+
+    const onCancelOrder = (orderId) => {
+        console.log(orderId)
+
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+              confirmButton: "btn btn-success",
+              cancelButton: "btn btn-danger",
+            },
+            buttonsStyling: false,
+          });
+      
+          swalWithBootstrapButtons
+          .fire({
+              title: "Are you sure?",
+              html: `You won't be able to revert Order!</p>`,
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonText: "Yes, delete it!",
+              cancelButtonText: "No, cancel!",
+              reverseButtons: true,
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                Patch(`/shop/orders/cancel/${orderId}`)
+                .then((response) => {
+                    console.log(response)
+                    props.setOrders((prev) => prev.map((item) => {
+                        if (item._id === response.data.order?._id) {
+                            item=response.data.order
+                        }
+                        return item
+                    }))
+                    swalWithBootstrapButtons.fire(
+                      "Deleted!",
+                      `Your Order has been deleted.`,
+                      "success"
+                    );
+                    // navigate("/home");
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                  });
+              } else if (result.dismiss === Swal.DismissReason.cancel) {
+                swalWithBootstrapButtons.fire(
+                  "Cancelled",
+                  `Your Order is safe :)</p>`,
+                  "error"
+                );
+              }
+            });
+    }
+
     return(
         <div>
            <div>
@@ -20,7 +85,7 @@ export default function OrdersDisplay(props){
                             <div className="d-flex">
                                 <div style={{color:'#0a58ca'}}>{i+1}</div>
                                 <div className="d-flex flex-column"><span>:ORDER PLACED</span>
-                                <span>{item.createdAt}</span></div>
+                                <span>{item.createdAt.slice(0,10)}</span></div>
                             </div>
                             <div className="d-flex flex-column">
                                 <span>TOTAL</span>
@@ -30,6 +95,16 @@ export default function OrdersDisplay(props){
                                 <span>SHIP TO</span>
                                 <span>{item.address.city}</span>
                             </div>
+                            <div className="d-flex flex-column">
+                                <span>PAYMENT</span>
+                                        {item.paymentStatus === "Paid" ?
+                                            <span style={{color:'green'}}>{item.paymentStatus}</span>
+                                            :
+                                            <NavLink className="btn btn-link"
+                                                style={{ color: 'red' }} disabled={item.status==="Cancelled" ? true :false}
+                                                onClick={() => onPendingPayment(item._id)}>{item.paymentStatus}</NavLink>
+                                        }
+                            </div>        
                         </div>
                         <div className="d-flex flex-column">
                             <span>ORDER#{item._id}</span>
@@ -52,10 +127,12 @@ export default function OrdersDisplay(props){
                                     <FaRupeeSign /> {product.subTotal}
                                 </div>
                             </div>
+                            {j === 0 && props.status!=="Cancelled" ?
                             <div className="d-flex flex-column gap-3 my-2">
-                                <button className="btn btn-warning btn-sm" style={{width:'250px'}}>Track package</button>
-                                <button className="btn btn-light btn-sm">Cancel Item</button>
+                                <button className="btn btn-warning btn-sm" style={{ width: '250px' }}>Track package</button>
+                                <button className="btn btn-light btn-sm" onClick={()=>onCancelOrder(item._id)}>Cancel Order</button>
                             </div>
+                            : ""}
                         </div>
                         )
                     })}
@@ -63,6 +140,14 @@ export default function OrdersDisplay(props){
                 : ""
                 )
             })}
+            </div>
+            <div>
+            <CardModal
+                show={cardShow}
+                setShow={setCardShow}
+                orderId={orderId}
+                setOrders={props.setOrders}    
+            />
             </div>
         </div>
     )
