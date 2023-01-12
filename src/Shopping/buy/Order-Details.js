@@ -1,8 +1,10 @@
 import { useEffect ,useState} from "react"
 import Get from "../services/Http-Service"
-import {useSearchParams} from 'react-router-dom'
+import {NavLink, useSearchParams} from 'react-router-dom'
 import {FaRupeeSign} from 'react-icons/fa'
 import { useSelector } from "react-redux";
+import { FaGreaterThan } from 'react-icons/fa'
+import { style } from "@mui/system";
 
 export default function OrderDetails(){
 
@@ -28,7 +30,12 @@ export default function OrderDetails(){
         <div className="row">
             {data && <>
             <div className="col-2"></div>
-                    <div className="col-7">
+                <div className="col-7">
+                    <div style={{paddingBottom:'10px'}}>
+                        <NavLink to={'/home'} style={{textDecoration:'none'}}>home</NavLink><FaGreaterThan size={10} className='mx-1'/>
+                        <NavLink to={'/orders'} style={{textDecoration:'none'}}>Your Orders</NavLink><FaGreaterThan size={10} className='mx-1'/>
+                        <NavLink to={'/orders'} style={{color:'#c45500',textDecoration:'none'}}>Your Details</NavLink>
+                    </div>
                     <h4>Order Details</h4>
                     <div className="d-flex justify-content-between">
                         <span>Ordered on {data.createdAt}</span>
@@ -87,7 +94,7 @@ export default function OrderDetails(){
                                         <FaRupeeSign /> {product.subTotal}
                                     </div>
                                 </div>
-                                {j===0 ?
+                                {j===0 && data.status!=='Cancelled'?
                                 <div className="d-flex flex-column gap-3 my-2">
                                     <button className="btn btn-warning btn-sm" style={{width:'250px'}}>Track package</button>
                                     <button className="btn btn-light btn-sm">Cancel data</button>

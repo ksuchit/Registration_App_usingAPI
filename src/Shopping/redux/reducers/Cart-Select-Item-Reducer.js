@@ -28,6 +28,10 @@ const CartSelectItemReducer=(state=initialSelectItemState,action)=>{
             return{
                 selectedItem:[]
             }
+        case 'SELECT-BUY-ONE-ITEM':
+            return {
+                selectedItem:[action.payload]
+            }
         default:
             return state
     }

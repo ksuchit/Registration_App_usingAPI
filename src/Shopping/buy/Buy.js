@@ -1,37 +1,23 @@
 import { useState } from "react";
-import { useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { FaRupeeSign } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import { useSearchParams } from "react-router-dom"
 import { Put } from "../services/Http-Service";
 import AccordionBuy from "./Accordion-Buy";
 
 export default function Buy(){
-    const [searchParams,]=useSearchParams();
-    console.log(searchParams.get('id'));
-    const [buyProduct,setBuyProduct]=useState();
     const state=useSelector((state)=>state)
     const [orderId,setOrderId]=useState();
     const [paymentDetails, setPaymentDetails] = useState();
     const [deliveryCharges, setDeliveryCharges] = useState(0);
-    useEffect(()=>{
-        if(searchParams.get('id')){
-            setBuyProduct(state.CartSelectItemReducer.selectedItem.find((item)=>item._id===searchParams.get('id')))
-        }
-        else
-            setBuyProduct(state.CartSelectItemReducer.selectedItem)
-     
-        },[])
         
-        let price=0
+    let price = 0
+        if(state.CartSelectItemReducer.selectedItem.length>0){ 
         state.CartSelectItemReducer.selectedItem.map((item) => {
             price += item.price * item.quantity
             return item
         })
-    
-    console.log(buyProduct)
-
+    }
     const placeYourOrder=()=>{
         console.log('placeYourOrder')
         console.log(paymentDetails)
@@ -80,8 +66,9 @@ export default function Buy(){
                         <span style={{fontSize:'80%'}}>By placing your order, you agree to READER'S PALACE privacy notice and conditions of use.</span>
                     </div>
                     <hr></hr>
+                    {price && <>
                     <div>
-                       <h6>Order Summary</h6>
+                        <h6>Order Summary</h6>
                        <div className="d-flex justify-content-between">
                         <span>Items:</span>
                         <span><FaRupeeSign /> {price}</span>
@@ -100,6 +87,7 @@ export default function Buy(){
                         <h6>Order Total:</h6>
                         <h6><FaRupeeSign /> {price+deliveryCharges}</h6>
                     </div>
+                    </>}
                 </div>
             </div>
         </div>

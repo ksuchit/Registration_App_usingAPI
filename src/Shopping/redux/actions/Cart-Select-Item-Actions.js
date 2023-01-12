@@ -25,3 +25,10 @@ export const diSelectAllItems=()=>{
         type:'DISELECT-ALL-ITEMS',
     }
 }
+
+export const selectBuyOneItem = (item) => {
+    return {
+        type: 'SELECT-BUY-ONE-ITEM',
+        payload:item
+    }
+}

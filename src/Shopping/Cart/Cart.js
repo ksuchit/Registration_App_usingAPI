@@ -28,7 +28,6 @@ export default function Cart() {
     
     const navigate = useNavigate();
     const state = useSelector((state) => state);
-    // console.log(state.cartReducer.cart)
     console.log(state)
 
     const dispatch = useDispatch();
@@ -50,7 +49,7 @@ export default function Cart() {
     const onProceedToBuy = () => {
         if (shopLive) {
             navigate('/buy')
-            dispatch(clearCart())
+            // dispatch(clearCart())
         }
         else
             setLoginShow(true)

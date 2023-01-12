@@ -2,7 +2,7 @@ import axios from "axios";
 import Loader from "../Loader/Loader";
 
 // import setLoader from "../Services/LoaderService";
-import getToken, { removeToken } from "../Seller/services/Token-Service";
+import getToken, { clearLocalStorage } from "../Seller/services/Token-Service";
 import getShopToken from "../Shopping/services/Token-Service";
 const axiosInstance = axios.create({
   baseURL: `https://shop-api.ngminds.com/`,
@@ -13,7 +13,7 @@ const axiosInstance = axios.create({
   
   
   axiosInstance.interceptors.request.use((request) => {
-     // spinning start to show
+  // spinning start to show
   // UPDATE: Add this code to show global loading indicator
   document.body.classList.add('loading-indicator');
 
@@ -53,7 +53,7 @@ const axiosInstance = axios.create({
       // setLoader(false)
       document.body.classList.remove('loading-indicator');
       if (err.response.request.status === 401) {
-        removeToken();
+        clearLocalStorage();
         // toast.success('LogOut Due to Token Expired')
       }
       return Promise.reject(err)

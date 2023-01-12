@@ -9,10 +9,11 @@ import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
 import { shopLoginContext } from "../../App";
 import { useDispatch, useSelector } from "react-redux";
-import { addItemToCart } from "../redux/actions/Cart-Actions";
+import { addItemToCart, clearCart } from "../redux/actions/Cart-Actions";
 import { addToFavorite, removeFromFavorite } from "../redux/actions/Favorite-Action";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { FcLike } from "react-icons/fc";
+import BuySingleProductModal from "./BuySingleProduct";
 
 // let cnt = 0;
 export default function Products() {
@@ -28,6 +29,9 @@ export default function Products() {
   const [name, setName] = useState("");
   const [searchByName, setSearchByName] = useState('')
   const [loginShow, setLoginShow] = useState(false)
+  const [buyShow, setBuyShow] = useState(false);
+  const [singleProduct, setSingleProduct] = useState();
+
   const cookies = new Cookies();
   useEffect(()=>{
     if (cookies.get('registered')) {
@@ -103,11 +107,21 @@ export default function Products() {
   const addingItemToCart = (item) => {
 
       item.quantity = 1;
-      item.subTotal=item.quantity * item.price
+      item.subTotal = item.quantity * item.price
       dispatch(addItemToCart(item));
     
   }
 
+  const BuySingleProduct = (item) => {
+    // navigate(`/buy?id=${item._id}`)
+    // dispatch(clearCart());
+    console.log(item)
+    setSingleProduct(item)
+    setBuyShow(true)
+    item.quantity = 1;
+    item.subTotal = item.quantity * item.price
+    dispatch(addItemToCart(item));
+  }
   return (
     <div className="productImages-container">
       <div className="d-flex justify-content-between">
@@ -156,11 +170,12 @@ export default function Products() {
                 {/* state.cartReducer.cart its used because state refreses when we come back to home page from anywhere   */}
                 {
                   state.cartReducer.cart.find((prev)=>prev._id===item._id) ?
-                    <button onClick={()=>navigate(`/cart?id=${item._id}`)} className="btn btn-primary btn-sm">Go to Cart</button>
+                    <button onClick={()=>navigate(`/cart?id=${item._id}`)} className="btn btn-primary btn-sm mx-1">Go to Cart</button>
                     : 
-                    <button className="btn btn-warning btn-sm"
+                    <button className="btn btn-warning btn-sm mx-1"
                       onClick={()=>addingItemToCart(item)}>Add to Cart</button>
                 }
+                <button className="btn btn-dark btn-sm" onClick={()=>BuySingleProduct(item)}>Buy</button>
               </div>
             </div>
           );
@@ -210,6 +225,15 @@ export default function Products() {
           setShow={setLoginShow}
         />
       </div>
+      {singleProduct &&
+        <div>
+          <BuySingleProductModal
+            show={buyShow}
+            setShow={setBuyShow}
+            singleProduct={singleProduct}
+          />
+        </div>
+      }
     </div>
   );
 }

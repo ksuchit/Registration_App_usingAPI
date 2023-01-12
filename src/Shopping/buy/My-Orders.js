@@ -4,6 +4,8 @@ import Tabs from 'react-bootstrap/Tabs';
 import Orders from "./Orders";
 import Get from "../services/Http-Service"
 import Pagination from '../Home/Pagination'
+import { NavLink } from "react-router-dom";
+import { FaGreaterThan } from "react-icons/fa";
 export default function MyOrders(){
 
     const [key, setKey] = useState ('orders');
@@ -28,7 +30,11 @@ export default function MyOrders(){
     return(
         <div className="row">
            <div className="col-2"></div>
-           <div className="col-8">
+            <div className="col-8">
+            <div style={{paddingBottom:'10px'}}>
+                        <NavLink to={'/home'} style={{textDecoration:'none'}}>home</NavLink><FaGreaterThan size={10} className='mx-1'/>
+                        <NavLink to={'/orders'} style={{textDecoration:'none',color:'#c45500'}}>Your Orders</NavLink>
+                    </div>
             <div><h3>Your Orders</h3></div>
             <div className="mb-2">
                 <Tabs

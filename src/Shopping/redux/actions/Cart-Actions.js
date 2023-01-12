@@ -14,8 +14,10 @@ export const deleteItemFromCart = (item) => {
     }
 }
 
-export const clearCart = () => {
+export const clearCart = (item) => {
+    console.log(item)
     return {
-        type: "CLEAR_CART"
+        type: "CLEAR_CART",
+        payload:item
     }
 }

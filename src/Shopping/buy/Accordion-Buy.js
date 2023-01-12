@@ -3,7 +3,7 @@ import { Button, Form } from 'react-bootstrap';
 import Accordion from 'react-bootstrap/Accordion';
 import { toast } from 'react-hot-toast';
 import { FaRupeeSign } from 'react-icons/fa';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Address from '../Profile/Address';
 import Get, { Delete, Post, Put } from '../services/Http-Service';
 import CardModal from './Card-Modal'
@@ -11,8 +11,10 @@ import { AiFillEdit ,AiFillDelete} from 'react-icons/ai'
 import { Navigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import UpdateAddressModal from '../Profile/Update-Address-Modal';
+import { clearCart } from '../redux/actions/Cart-Actions';
 
 export default function AccordionBuy(props) {
+  const dispatch = useDispatch();
   const [address, setAddress] = useState([]);
   const [defaultAdd, setDefaultAdd] = useState();
   const [show,setShow]=useState(false)
@@ -56,15 +58,16 @@ export default function AccordionBuy(props) {
       address:selectAddress
     }
     console.log(payload)
-    Post('/shop/orders',payload)
-    .then((response)=>{
-      console.log(response)
-      props.setOrderId(response.data.order?._id)
-    })
-    .catch((error)=>{
-      console.log(error)
-    })
+    // Post('/shop/orders',payload)
+    // .then((response)=>{
+    //   console.log(response)
+    //   props.setOrderId(response.data.order?._id)
+    // })
+    // .catch((error)=>{
+    //   console.log(error)
+    // })
     
+    dispatch(clearCart(state.CartSelectItemReducer.selectedItem))
     setDefaultAdd(selectAddress)
     setActiveKey('1');
   }
@@ -185,7 +188,7 @@ export default function AccordionBuy(props) {
           <div className='d-flex justify-content-between'>
             <Button className='btn-sm m-2' onClick={createOrder}
               disabled={addressDisabled ? true : false}
-            >use this Address</Button>
+            >use this Address & Create Order</Button>
             <Button className='btn-secondary btn-sm m-2' onClick={()=>setShow(true)}>Add Address</Button>
           </div>
           <div>
