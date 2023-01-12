@@ -46,7 +46,6 @@ export default function CardModal(props) {
       .catch((error)=>{
         console.log(error)
         if (error.response.data.message ==="Declined due to insufficient funds" || error.response.data.message==="Declined due to incorrect CVV") {
-          props.setShow(true)
           setErrorMessage(error.response.data.message)
           toast.error(error.response.data.message)
         }
@@ -54,6 +53,7 @@ export default function CardModal(props) {
           toast.error(error.message)
           props.setShow(false)
         }
+        props.setShow(true)
         setMoreDetails(false)
         
       })

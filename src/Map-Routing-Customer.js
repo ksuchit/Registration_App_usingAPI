@@ -24,8 +24,8 @@ import Wishlist from './Shopping/Cart/Wishlist'
 
 export default function MapRoutingCustomer(){
     
-    const customerRoute=[
-        {
+    const customerRoute={
+        public:[{
             path:'/auth/login',
             element:<Login />
         },
@@ -42,6 +42,11 @@ export default function MapRoutingCustomer(){
             element:<Home />
         },
         {
+            path: 'cart',
+            element:<Cart />
+        }
+        ],
+        protected:[{
             path: 'profile',
             element:<Profile />
         },
@@ -52,10 +57,6 @@ export default function MapRoutingCustomer(){
         {
             path: 'change-password',
             element:<ChangePassword />
-        },
-        {
-            path: 'cart',
-            element:<Cart />
         },
         {
             path: 'buy',
@@ -73,7 +74,8 @@ export default function MapRoutingCustomer(){
             path:'wishlist',
             element:<Wishlist />
         }
-    ]
+        ]
+    }
 
     return customerRoute
 }

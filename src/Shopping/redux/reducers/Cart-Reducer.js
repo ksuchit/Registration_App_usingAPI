@@ -47,9 +47,7 @@ const cartReducer = (state = initialCartState, action) => {
         case "CLEAR_CART":
             /* Removing the selected item from the cart. */
             console.log('clear cart')
-            console.log(state.cart.filter((item) => item._id !== (action.payload.find((data) => data?._id === item?._id))?._id))
-            // console.log(state.cart.filter((item, i, itemarr) => action.payload.find((data)=> itemarr)))
-            const removeSelectedOnly = state.cart.filter((item) => item._id !== (action.payload.find((data) => data._id === item._id))._id)
+            const removeSelectedOnly = state.cart.filter((item) => item._id !== (action.payload.find((data) => data?._id === item?._id))?._id)
             return {
                 cart:removeSelectedOnly
             }

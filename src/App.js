@@ -10,6 +10,8 @@ import MapRouting from "./Map-Routing";
 import MapRoutingCustomer from "./Map-Routing-Customer";
 import getShopToken from "./Shopping/services/Token-Service";
 import { Suspense } from "react";
+import PublicRoutingShop from "./Shopping/Auth/Public-Routing-Shop";
+import ProtectedRoutingShop from "./Shopping/Auth/Protected-Routing-Shop";
 // import Cookies from "universal-cookie";
 
 const Login=lazy(()=>import('./Seller/Auth/Login'))
@@ -50,10 +52,16 @@ function App() {
         {/* {progress && <Loader />} */}
         <Routes>
 
-          <Route>
-              {customerRouteData.map((item,i)=>{
-                return <Route path={item.path} element={item.element} key={i}/>
-              })}
+         
+          <Route element={<PublicRoutingShop />}>
+            {customerRouteData?.public.map((item,i)=>{
+              return <Route path={item.path} element={item.element} key={i} />
+            })}
+          </Route>
+          <Route element={<ProtectedRoutingShop />}>
+            {customerRouteData?.protected.map((item,i)=>{
+              return <Route path={item.path} element={item.element} key={i} />
+            })}
           </Route>
 
            {/* PublicRouting   */}
