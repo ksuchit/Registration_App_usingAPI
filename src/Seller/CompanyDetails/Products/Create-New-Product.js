@@ -8,11 +8,15 @@ import axios from 'axios';
 import getToken from '../../services/Token-Service';
 import toast from 'react-hot-toast';
 import { Form } from 'react-bootstrap';
-
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import parse from 'html-react-parser'
 export default function CreateNewProduct(props) {
 
   const [selectedImage, setSelectedImage] = useState([]);
   const [images, setImages] = useState([]);
+  const [text, setText] = useState('');
+
   const formData = new FormData();
   const {
     register,
@@ -30,7 +34,7 @@ export default function CreateNewProduct(props) {
     }
 
     formData.append('name', data.name)
-    formData.append('description', data.description)
+    formData.append('description', parse(text))
     formData.append('price', data.price)
     
     console.log(formData.getAll('images'))
@@ -134,10 +138,20 @@ export default function CreateNewProduct(props) {
           </Form.Group>
           {errors.name && <p style={{color: "red"}}>Name is Required</p>}
           <Form.Group className='d-flex flex-column'>
-              <Form.Label style={{color:'white'}}>Discription</Form.Label>
-            <textarea type='text' placeholder='Enter details about Image'
+            <Form.Label style={{ color: 'white' }}>Discription</Form.Label>
+              <CKEditor
+                  editor={ ClassicEditor }
+                  data={text}
+                  onChange={ ( event, editor ) => {
+                      const data = editor.getData();
+                      // console.log({ event, editor, data });
+                      setText(data)
+                  }} 
+                 
+              />
+            {/* <textarea type='text' placeholder='Enter details about Image'
               {...register('description')}
-            />  
+            />   */}
           </Form.Group>
           {/* {errors.description && <p style={{color: "red"}}>Description is Required</p>} */}
           <Form.Group className='d-flex flex-column'>

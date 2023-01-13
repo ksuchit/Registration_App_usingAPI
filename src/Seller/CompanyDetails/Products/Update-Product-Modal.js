@@ -3,9 +3,14 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useForm } from 'react-hook-form';
 import { UpdateProduct } from '../../services/Http-Service';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import parse from 'html-react-parser'
+import { useState } from 'react';
 
 export default function UpdateProductModal(props) {
     console.log(props.data)
+    const [text,setText]=useState(props.data?.description)
     const {
         register,
         handleSubmit,
@@ -14,7 +19,7 @@ export default function UpdateProductModal(props) {
         {
             defaultValues:{
                 name: props.data.name,
-                description: props.data?.description,
+                description: parse(props.data?.description),
                 price:props.data.price
             }
         }
@@ -22,7 +27,7 @@ export default function UpdateProductModal(props) {
     
     const onSubmit = (data) => {
         console.log(data)
-
+        data.description = text;
         UpdateProduct(`/products/${props.data._id}`, data)
             .then((response) => {
                 console.log(response)
@@ -53,9 +58,15 @@ export default function UpdateProductModal(props) {
                 </Form.Group>
                 <Form.Group className='d-flex flex-column'>
                     <Form.Label>Description</Form.Label>
-                    <textarea type='text' defaultValue={props.data.description}
-                        {...register('description')}
-                    />                   
+                    <CKEditor
+                        editor={ ClassicEditor }
+                        data={text}
+                        onChange={ ( event, editor ) => {
+                            const data = editor.getData();
+                            // console.log({ event, editor, data });
+                            setText(data)
+                        }} 
+                    />          
                 </Form.Group> 
                 <Form.Group className='d-flex flex-column'>
                     <Form.Label>Price of Product</Form.Label>

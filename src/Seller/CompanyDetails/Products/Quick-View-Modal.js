@@ -4,6 +4,7 @@ import  Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
 import { getProductDetails } from "../../services/Http-Service";
 import { FaRupeeSign } from 'react-icons/fa'
+import parse from 'html-react-parser'
 
 export default function QuickViewModal(props) {
   const [data, setData] = useState();
@@ -66,7 +67,7 @@ console.log(props.id)
                     }
                     <div className="mx-2">
                         <h2>{data.name}</h2>
-                        <p>{data.description}</p>
+                        <p>{parse(data.description)}</p>
                         <p className='fw-bolder'><FaRupeeSign />{data.price}</p>  
                     </div>
                         </>

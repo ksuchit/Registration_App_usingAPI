@@ -5,6 +5,7 @@ import { DeleteProduct, getProductDetails } from "../../services/Http-Service";
 import UpdateImageModal from "./Update-Image-Modal";
 import UpdateProductModal from "./Update-Product-Modal";
 import { FaRupeeSign } from "react-icons/fa";
+import parse from 'html-react-parser'
 
 export default function ProductDetails() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -115,7 +116,7 @@ export default function ProductDetails() {
                         />
                       </div>
                       <h2>{data.name}</h2>
-                      <p>{data.description}</p>
+                      <p>{parse(data.description)}</p>
                       <p className="fw-bolder">
                         <FaRupeeSign />
                         {data.price}
