@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useForm } from 'react-hook-form';
@@ -11,12 +11,30 @@ import { Form } from 'react-bootstrap';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import parse from 'html-react-parser'
+import DragNDrop from './DragNDrop';
+import cuid from '@ckeditor/ckeditor5-build-classic'
 export default function CreateNewProduct(props) {
 
   const [selectedImage, setSelectedImage] = useState([]);
-  const [images, setImages] = useState([]);
   const [text, setText] = useState('');
+  const [images, setImages] = useState([]);
+  
+  const onDrop = useCallback((acceptedFiles) => {
+    console.log('onDrop')
+    acceptedFiles.map((file) => {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        setSelectedImage((prevState) => [
+          ...prevState,
+          { id: cuid(), src: e.target.result },
+        ]);
+      };
+      reader.readAsDataURL(file);
+      return file;
+    });
+  }, []);
 
+  console.log(selectedImage)
   const formData = new FormData();
   const {
     register,
@@ -84,7 +102,7 @@ export default function CreateNewProduct(props) {
   return (
     <div >
       <Modal {...props} onExit={exitModal}
-      size="md"
+      size="lg"
       centered
       backdrop="static"
     >
@@ -92,13 +110,13 @@ export default function CreateNewProduct(props) {
       <Modal.Body>
       <div className='createProduct-container'>
         <div>
-          <h5 style={{ color: 'white' }}>Image Preview</h5>
+          <h5>Image Preview</h5>
           <div className='d-flex flex-wrap gap-1'>
             {selectedImage && (
               selectedImage.map((item,i)=>{
                 return (<div key={i}>
                 <div className='d-flex'>
-                  <img alt="not found" width={"70px"} height={'70px'} src={item} />
+                  <img alt="not found" width={"70px"} height={'70px'} src={item.path} />
                     <CiCircleRemove onClick={() => removeImage(i)}
                       style={{ backgroundColor: 'white',borderRadius:'50%' }} />
                 </div>
@@ -113,7 +131,7 @@ export default function CreateNewProduct(props) {
      
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Form.Group className='d-flex flex-column'>
-              <Form.Label style={{color:'white'}}>Select Image *</Form.Label>
+              <Form.Label>Select Image *</Form.Label>
                 <Form.Control type='file'
                  
                 multiple
@@ -127,10 +145,18 @@ export default function CreateNewProduct(props) {
              }}
               // {...register('images',{required:true})}
             /> 
+            <DragNDrop onDrop={onDrop} accept={"image/*"} setSelectedImage={setSelectedImage}/>
+            {images?.map((item,i)=>{
+              return(
+                <div key={i}>
+                  <img src={item.path} />
+                </div>
+              )
+            })}
             </Form.Group>
           {errors.images && <p style={{color: "red"}}>Image is Required</p>}
           <Form.Group className='d-flex flex-column'>
-              <Form.Label style={{color:'white'}}>Name *</Form.Label>
+              <Form.Label >Name *</Form.Label>
                 <Form.Control type='text' placeholder='Enter Name'
                  
               {...register('name',{required:true})}
@@ -138,7 +164,7 @@ export default function CreateNewProduct(props) {
           </Form.Group>
           {errors.name && <p style={{color: "red"}}>Name is Required</p>}
           <Form.Group className='d-flex flex-column'>
-            <Form.Label style={{ color: 'white' }}>Discription</Form.Label>
+            <Form.Label >Discription</Form.Label>
               <CKEditor
                   editor={ ClassicEditor }
                   data={text}
@@ -155,7 +181,7 @@ export default function CreateNewProduct(props) {
           </Form.Group>
           {/* {errors.description && <p style={{color: "red"}}>Description is Required</p>} */}
           <Form.Group className='d-flex flex-column'>
-              <Form.Label style={{color:'white'}}>Price *</Form.Label>
+              <Form.Label>Price *</Form.Label>
             <Form.Control type='number' placeholder='Enter Price' min={0}
               {...register('price',{required:true})}
             />  

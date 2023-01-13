@@ -153,12 +153,12 @@ body{
   z-index: 2;
 }
 .createProduct-container{
-  background-image: url('https://w0.peakpx.com/wallpaper/31/750/HD-wallpaper-cup-coffee-books-pen-laptop.jpg');
-  background-repeat: no-repeat;
+  /* background-image: url('https://w0.peakpx.com/wallpaper/31/750/HD-wallpaper-cup-coffee-books-pen-laptop.jpg'); */
+  /* background-repeat: no-repeat; */
   padding: 5%;
-  object-fit: cover;
-  max-width: fit-content;
-  margin: 0% auto;
+  /* object-fit: cover; */
+  /* max-width: fit-content; */
+  /* margin: 0% auto; */
 }
 
 .price-details{
@@ -192,4 +192,11 @@ body{
   text-align:center;
   font-weight:bold;
   font-size:1.5rem;        
+}
+.dropzone{
+    text-align: center;
+    padding: 20px;
+    border: 3px blue dashed;
+    width: 60%;
+    margin: auto;
 }
