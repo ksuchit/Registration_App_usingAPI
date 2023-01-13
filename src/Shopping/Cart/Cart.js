@@ -27,7 +27,7 @@ export default function Cart() {
     }, [])
     
     const navigate = useNavigate();
-    const state = useSelector((state) => state);
+    const state = (useSelector((state) => state) || JSON.stringify(localStorage.getItem('store')));
     console.log(state)
 
     const dispatch = useDispatch();

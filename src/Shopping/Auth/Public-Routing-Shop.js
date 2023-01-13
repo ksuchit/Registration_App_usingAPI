@@ -6,5 +6,5 @@ import { shopLoginContext } from "../../App";
 export default function PublicRoutingShop(){
     const [shopLive,]=useContext(shopLoginContext);
 
-    return(shopLive ? <Navigate to='home' /> : <Outlet />)
+    return(shopLive ? <Navigate to='/home' /> : <Outlet />)
 }

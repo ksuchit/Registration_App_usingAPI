@@ -12,7 +12,7 @@ import { addToFavorite, removeFromFavorite } from "../redux/actions/Favorite-Act
 export default function Wishlist(){
 
   const navigate = useNavigate();
-    const state = useSelector((state) => state)
+  const state = useSelector((state) => state) || JSON.stringify(localStorage.getItem('store'));
     const dispatch = useDispatch();
     console.log(state)
     const [products, setProducts] = useState();

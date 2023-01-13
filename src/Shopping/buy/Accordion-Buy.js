@@ -19,14 +19,14 @@ export default function AccordionBuy(props) {
   const [defaultAdd, setDefaultAdd] = useState();
   const [show,setShow]=useState(false)
   const [cardShow,setCardShow]=useState(false)
-  const state=useSelector((state)=>state)
   const [activeKey,setActiveKey]=useState('0');
   const [payWithCard, setPayWithCard] = useState(false)
   const [addressDisabled,setAddressDisabled]=useState(true)
   const [paymentDisabled,setpaymentDisabled]=useState(true)
   const [selectAddress, setSelectAddress] = useState();
-  console.log(state.CartSelectItemReducer.selectedItem)
   
+  const state = useSelector((state) => state) || JSON.stringify(localStorage.getItem('store'));
+  console.log(state.CartSelectItemReducer.selectedItem)
   useEffect(()=>{
     Get('/customers/address')
     .then((response) => {

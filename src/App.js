@@ -53,7 +53,7 @@ function App() {
         <Routes>
 
          
-          <Route element={<PublicRoutingShop />}>
+          {/* <Route element={<PublicRoutingShop />}>
             {customerRouteData?.public.map((item,i)=>{
               return <Route path={item.path} element={item.element} key={i} />
             })}
@@ -62,8 +62,11 @@ function App() {
             {customerRouteData?.protected.map((item,i)=>{
               return <Route path={item.path} element={item.element} key={i} />
             })}
-          </Route>
-
+          </Route> */}
+          {customerRouteData.map((item, i) => {
+            return <Route path={item.path} element={item.element} key={i} />
+          })}
+                
            {/* PublicRouting   */}
           <Route element={<PublicRouting />}>
             <Route path="/seller/auth/login" element={<Login />} />

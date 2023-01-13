@@ -6,7 +6,7 @@ import { Put } from "../services/Http-Service";
 import AccordionBuy from "./Accordion-Buy";
 
 export default function Buy(){
-    const state=useSelector((state)=>state)
+    const state = useSelector((state) => state) || JSON.stringify(localStorage.getItem('store'));
     const [orderId,setOrderId]=useState();
     const [paymentDetails, setPaymentDetails] = useState();
     const [deliveryCharges, setDeliveryCharges] = useState(0);

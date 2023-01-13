@@ -10,7 +10,7 @@ export default function OrderDetails(){
 
     const [searchParams, ] = useSearchParams();
     const [data,setData]=useState(false);
-    const state=useSelector((state)=>state)
+    const state = useSelector((state) => state) || JSON.stringify(localStorage.getItem('store'));
     
     useEffect(() => {
         console.log("dcns;lcsm;ldm;lmd;l") 

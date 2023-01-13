@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Get from "../services/Http-Service";
 import ImgCarousal from "./Img-Carousal";
 import Pagination from "./Pagination";
@@ -7,9 +7,8 @@ import Footer from "../../components/Footer";
 import LoginModal from "./Login-Modal";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
-import { shopLoginContext } from "../../App";
 import { useDispatch, useSelector } from "react-redux";
-import { addItemToCart, clearCart } from "../redux/actions/Cart-Actions";
+import { addItemToCart } from "../redux/actions/Cart-Actions";
 import { addToFavorite, removeFromFavorite } from "../redux/actions/Favorite-Action";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { FcLike } from "react-icons/fc";
@@ -102,7 +101,7 @@ export default function Products() {
     console.log(searchByName)
     
   }
-  const state = useSelector((state) => state);   //it will give us state in which array of selected products
+  const state = useSelector((state) => state) || JSON.stringify(localStorage.getItem('store'));//it will give us state in which array of selected products
   // console.log(state.cartReducer.cart)
   const addingItemToCart = (item) => {
 
@@ -171,11 +170,12 @@ export default function Products() {
                 {
                   state.cartReducer.cart.find((prev)=>prev._id===item._id) ?
                     <button onClick={()=>navigate(`/cart?id=${item._id}`)} className="btn btn-primary btn-sm mx-1">Go to Cart</button>
-                    : 
+                    : <>
                     <button className="btn btn-warning btn-sm mx-1"
                       onClick={()=>addingItemToCart(item)}>Add to Cart</button>
+                    <button className="btn btn-dark btn-sm" onClick={()=>BuySingleProduct(item)}>Buy</button>
+                    </>
                 }
-                <button className="btn btn-dark btn-sm" onClick={()=>BuySingleProduct(item)}>Buy</button>
               </div>
             </div>
           );

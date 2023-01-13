@@ -12,7 +12,7 @@ export default function BuySingleProduct(props) {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const state = useSelector((state) => state);
+    const state = useSelector((state) => state) || JSON.stringify(localStorage.getItem('store'));
     
     const onProceedToBuy = (item) => {
         console.log(item)

@@ -8,7 +8,7 @@ export default function Pagination(props) {
     const [pageList, setPageList] = useState(false)
     const optionValue = Math.floor(props.totalPages / 5);
     const dispatch=useDispatch();
-    const state=useSelector((state)=>state)
+    const state = useSelector((state) => state) || JSON.stringify(localStorage.getItem('store'));
     // console.log(optionValue , 'grgrgrgrdg')
     const options = [
         { value: '', label: 'select'},

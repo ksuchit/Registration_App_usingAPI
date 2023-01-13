@@ -11,7 +11,7 @@ import { Patch } from "../services/Http-Service";
 export default function OrdersDisplay(props){
 
     const navigate=useNavigate();
-    const state = useSelector((state) => state);
+    const state = useSelector((state) => state) || JSON.stringify(localStorage.getItem('store'));
     const [cardShow,setCardShow]=useState(false)
     const [orderId, setOrderId] = useState();
 
