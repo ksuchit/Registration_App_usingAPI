@@ -8,6 +8,7 @@ import Address from "./Address";
 import UpdateAddressModal from "./Update-Address-Modal";
 import UpdateProfileImgModal from "./Update-Profile-Img-Modal";
 import { BsThreeDotsVertical} from 'react-icons/bs'
+import ImgCrop from "./ImgCropper/ImgCrop";
 
 export default function UpdateProfile() {
     const [data, setData] = useState({})
@@ -16,6 +17,7 @@ export default function UpdateProfile() {
     const [addAddressShow,setAddAddressShow]=useState(false);
     const [address, setAddress] = useState([]);
     const [showAddresses, setShowAddresses] = useState(false)
+    const [img, setImg] = useState();
     const navigate = useNavigate();
     useEffect(() => {
     
@@ -41,7 +43,6 @@ export default function UpdateProfile() {
         
         
       }, [address.length]);
-    
     
     const {
         register,
@@ -192,7 +193,8 @@ export default function UpdateProfile() {
                                 <button className="btn btn-secondary" onClick={()=>setAddAddressShow(true)}>Add Address</button>
                             </div>
                             <div className="d-flex gap-5 row">
-                    
+                                {<ImgCrop setImg={setImg} />}
+                                {img}
                                 {address &&
                                     address.map((item, i) => {
                                         return (

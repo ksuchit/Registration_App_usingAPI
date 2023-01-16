@@ -5,6 +5,7 @@ import Modal from 'react-bootstrap/Modal';
 import { CiCircleRemove } from 'react-icons/ci'
 import getToken from '../../services/Token-Service';
 import {FaRupeeSign} from 'react-icons/fa'
+import DragNDrop from './DragNDrop';
 
 
 export default function UpdateImageModal(props) {
@@ -114,16 +115,8 @@ export default function UpdateImageModal(props) {
             </div>
         </div>
         <div>
-                  <p style={{color:'red'}}>If you want to add Images Select from here:</p>
-                  <input type='file' multiple
-                      onChange={(event) => {
-                          console.log(event.target.files)
-                          for (let i = 0; i < event.target.files.length; i++){
-                              setAddImages((prev)=>[...prev,event.target.files[i]])
-                          }
-                          
-                    }}
-                  /> 
+                
+                  <DragNDrop setSelectedImage={setAddImages} selectedImage={addImages} />
               </div> 
               <div className='d-flex'>
                 <p style={{ color: 'red' }}>Preview of Images To be Added:</p>

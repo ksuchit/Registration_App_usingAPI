@@ -96,32 +96,41 @@ export default function UpdateProfileImgModal(props) {
 };
 
   const getCroppedImg = async () => {
-    // try {
-        const canvas = document.createElement("canvas");
-        const scaleX = srcImg.naturalWidth / srcImg.width;
-        const scaleY = srcImg.naturalHeight / srcImg.height;
-        canvas.width = crop.width;
-        canvas.height = crop.height;
-        const ctx = canvas.getContext("2d");
-        ctx.drawImage(
-            srcImg,
-            crop.x * scaleX,
-            crop.y * scaleY,
-            crop.width * scaleX,
-            crop.height * scaleY,
-            0,
-            0,
-            crop.width,
-            crop.height
-        );
-
-        const base64Image = canvas.toDataURL("image/jpeg", 1);
-        setResult(base64Image);
-        console.log(result);
-    // } catch (e) {
-    //     console.log("crop the image");
-    // }
     console.log(crop)
+    let c = document.getElementById("myCanvas");
+    let ctx = c.getContext("2d");
+    let img = document.getElementById("scream");
+    ctx.drawImage(img,crop.x,crop.y,crop.width,crop.height);
+    // console.log(ctx.drawImage(img,crop.x,crop.y,crop.width,crop.height))
+    //  try {
+    //     const canvas = document.createElement("canvas");
+    //     const scaleX = image?.naturalWidth / image?.width;
+    //     const scaleY = image?.naturalHeight / image?.height;
+    //     canvas.width = crop?.width;
+    //     canvas.height = crop?.height;
+
+    //   const pixelRatio = window.devicePixelRatio
+    //   canvas.width = Math.floor(crop.width * scaleX * pixelRatio)
+    //   canvas.height = Math.floor(crop.height * scaleY * pixelRatio)
+    //     const ctx = canvas.getContext("2d");
+    //     ctx.drawImage(
+    //         image,
+    //         crop.x * scaleX,
+    //         crop.y * scaleY,
+    //         crop.width * scaleX,
+    //         crop.height * scaleY,
+    //         0,
+    //         0,
+    //         crop.width,
+    //         crop.height
+    //     );
+    // const base64Image = canvas.toDataURL("image/jpeg", 1);
+    // console.log(base64Image)
+    //     setResult(base64Image);
+    //      console.log(result);
+    //  } catch (e) {
+    //      console.log("crop the image");
+    //  }
 };
 
 const handleSubmit = async (event) => {
@@ -134,6 +143,7 @@ const handleSubmit = async (event) => {
       <Modal
         show={props.show}
         onHide={() => props.setShow(false)}
+        onExit={()=>setSrcImg('')}
         backdrop="static"
         keyboard={false}
       >
@@ -153,7 +163,7 @@ const handleSubmit = async (event) => {
                 <button className='btn btn-danger btn-sm' onClick={removeImg}>Remove</button>
               </div>
             </div>
-            <Form onSubmit={handleSubmit}>
+            <Form>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Select Image you want to crop</Form.Label>
                     <div>
@@ -173,10 +183,12 @@ const handleSubmit = async (event) => {
                                     crop={crop}
                                     onChange={c =>setCrop(c)}
                                   > 
-                                   <img src={srcImg} alt='oewfj'/>
+                                   <img src={srcImg} alt='oewfj' id="scream"/>
                                   </ReactCrop>
-                                <Button className="cropButton" onClick={getCroppedImg}
-                                >
+                                  <p>Canvas to fill:</p>
+                              <canvas id="myCanvas"
+                                style={{ border:"1px solid #d3d3d3"}}></canvas>
+                                  <Button className="cropButton" onClick={getCroppedImg}>
                                     crop
                                 </Button>
                             </div>
@@ -188,7 +200,7 @@ const handleSubmit = async (event) => {
                         )}
                     </div>
                 </Form.Group>
-                <Button variant="primary" type="submit">
+              <Button variant="primary" type='button' onClick={onSave}>
                     Submit
                 </Button>
             </Form>

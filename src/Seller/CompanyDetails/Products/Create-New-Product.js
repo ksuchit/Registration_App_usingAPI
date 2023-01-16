@@ -12,29 +12,15 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import parse from 'html-react-parser'
 import DragNDrop from './DragNDrop';
-import cuid from '@ckeditor/ckeditor5-build-classic'
 export default function CreateNewProduct(props) {
 
   const [selectedImage, setSelectedImage] = useState([]);
   const [text, setText] = useState('');
   const [images, setImages] = useState([]);
   
-  const onDrop = useCallback((acceptedFiles) => {
-    console.log('onDrop')
-    acceptedFiles.map((file) => {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        setSelectedImage((prevState) => [
-          ...prevState,
-          { id: cuid(), src: e.target.result },
-        ]);
-      };
-      reader.readAsDataURL(file);
-      return file;
-    });
-  }, []);
+ 
 
-  console.log(selectedImage)
+  console.log(parse(text))
   const formData = new FormData();
   const {
     register,
@@ -44,15 +30,14 @@ export default function CreateNewProduct(props) {
   } = useForm();
   
   const onSubmit = (data) => {
-    console.log(images)
     // data.images=formData
     // delete data.images
-    for (let i = 0; i < images.length; i++) {
-      formData.append('images', images[i])
+    for (let i = 0; i < selectedImage.length; i++) {
+      formData.append('images', selectedImage[i])
     }
 
     formData.append('name', data.name)
-    formData.append('description', parse(text))
+    formData.append('description', text)
     formData.append('price', data.price)
     
     console.log(formData.getAll('images'))
@@ -97,6 +82,7 @@ export default function CreateNewProduct(props) {
     reset();
     setSelectedImage([])
     setImages([])
+    callGetProducts();
   }
 
   return (
@@ -116,7 +102,7 @@ export default function CreateNewProduct(props) {
               selectedImage.map((item,i)=>{
                 return (<div key={i}>
                 <div className='d-flex'>
-                  <img alt="not found" width={"70px"} height={'70px'} src={item.path} />
+                  <img alt="not found" width={"70px"} height={'70px'} src={URL.createObjectURL(item)} />
                     <CiCircleRemove onClick={() => removeImage(i)}
                       style={{ backgroundColor: 'white',borderRadius:'50%' }} />
                 </div>
@@ -145,11 +131,11 @@ export default function CreateNewProduct(props) {
              }}
               // {...register('images',{required:true})}
             /> 
-            <DragNDrop onDrop={onDrop} accept={"image/*"} setSelectedImage={setSelectedImage}/>
+                <DragNDrop setSelectedImage={setSelectedImage} selectedImage={selectedImage} />
             {images?.map((item,i)=>{
               return(
                 <div key={i}>
-                  <img src={item.path} />
+                  <img src={item.path} alt='preview'/>
                 </div>
               )
             })}
@@ -174,7 +160,8 @@ export default function CreateNewProduct(props) {
                       setText(data)
                   }} 
                  
-              />
+                />
+                <p>{parse(text)}</p>
             {/* <textarea type='text' placeholder='Enter details about Image'
               {...register('description')}
             />   */}
