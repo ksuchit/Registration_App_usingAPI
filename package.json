@@ -29,6 +29,7 @@
     "react-hot-toast": "^2.4.0",
     "react-icons": "^4.6.0",
     "react-image-crop": "^10.0.9",
+    "react-image-magnify": "^2.7.4",
     "react-paginate": "^8.1.4",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.4.3",

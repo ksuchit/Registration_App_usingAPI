@@ -6,6 +6,7 @@ import UpdateImageModal from "./Update-Image-Modal";
 import UpdateProductModal from "./Update-Product-Modal";
 import { FaRupeeSign } from "react-icons/fa";
 import parse from 'html-react-parser'
+import ReactImageMagnify from "react-image-magnify";
 
 export default function ProductDetails() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -108,19 +109,35 @@ export default function ProductDetails() {
                   {" "}
                   {data.images.length > 0 ? (
                     <>
-                      <div>
-                        <img
+                      <div style={{ width: "300px" }}>
+                        {/* <img
                           src={data.images[index].url}
                           alt="1"
                           style={{ width: "400px", height: "400px" }}
+                        /> */}
+                        <ReactImageMagnify {...{
+                              smallImage: {
+                                  alt: 'Wristwatch by Ted Baker London',
+                                  isFluidWidth: true,
+                                  src:data.images[index].url 
+                              },
+                              largeImage: {
+                                  src:data.images[index].url ,
+                                  width: 800,
+                                  height: 1100
+                              },
+                         
+                        }}
                         />
                       </div>
-                      <h2>{data.name}</h2>
-                      <p>{parse(data.description)}</p>
-                      <p className="fw-bolder">
-                        <FaRupeeSign />
-                        {data.price}
-                      </p>
+                      <div style={{}}>
+                        <h2>{data.name}</h2>
+                        <p>{parse(data.description)}</p>
+                        <p className="fw-bolder">
+                          <FaRupeeSign />
+                          {data.price}
+                        </p>
+                      </div>
                     </>
                   ) : (
                     <div>
