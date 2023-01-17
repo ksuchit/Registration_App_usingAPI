@@ -8,13 +8,15 @@ import { Provider } from "react-redux";
 import store from './Store';
 
 store.subscribe(() =>{ console.log(store.getState())
-    localStorage.setItem('store', JSON.stringify({
-        cartReducer: { cart: store.getState()?.cartReducer?.cart },
-        CartSelectItemReducer: { selectedItem: store.getState()?.CartSelectItemReducer?.selectedItem },
-        FavoriteReducer: { favorite: store.getState()?.FavoriteReducer?.favorite },
-        allProductsReducer: { allProducts: store.getState()?.allProductsReducer?.allProducts }
-    }))
+    // localStorage.setItem('store', JSON.stringify({
+    //     cartReducer: { cart: store.getState()?.cartReducer?.cart },
+    //     CartSelectItemReducer: { selectedItem: store.getState()?.CartSelectItemReducer?.selectedItem },
+    //     FavoriteReducer: { favorite: store.getState()?.FavoriteReducer?.favorite },
+    //     allProductsReducer: { allProducts: store.getState()?.allProductsReducer?.allProducts }
+    // }))
+    
 })
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <Provider store={store}>

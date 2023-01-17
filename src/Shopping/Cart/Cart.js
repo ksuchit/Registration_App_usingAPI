@@ -10,6 +10,7 @@ import { diSelectAllItems, selectAllItems, selectItem } from "../redux/actions/C
 import { useState } from "react";
 import { shopLoginContext } from "../../App";
 import LoginModal from "../Home/Login-Modal";
+import parse from 'html-react-parser'
 
 export default function Cart() {
 
@@ -87,7 +88,7 @@ export default function Cart() {
                                     <p className='fw-bolder mb-0' > <FaRupeeSign />{item.price}</p>
                                 </div>
                             </div>
-                            <p className="mb-0">{item.description.length>40 ? `${item.description.slice(0,40)} ...`: item.description}</p>
+                            <p className="mb-0">{item.description.length>40 ? `${parse(item.description.slice(0,40))} ...`: parse(item.description) }</p>
                             {/* {item.quantity !== 1 ?
                                 <div className="d-flex">
                                     <p className='fw-bolder'>SubTotal:</p><p>{item.price} * {item.quantity} = </p><p className='fw-bolder'>{item.price * item.quantity} </p>

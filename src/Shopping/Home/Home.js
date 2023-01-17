@@ -13,6 +13,8 @@ import { addToFavorite, removeFromFavorite } from "../redux/actions/Favorite-Act
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { FcLike } from "react-icons/fc";
 import BuySingleProductModal from "./BuySingleProduct";
+import getCart from "../services/Redux-Service";
+import { async } from "q";
 
 // let cnt = 0;
 export default function Products() {
@@ -103,12 +105,19 @@ export default function Products() {
   }
   const state = useSelector((state) => state) || JSON.stringify(localStorage.getItem('store'));//it will give us state in which array of selected products
   // console.log(state.cartReducer.cart)
+
   const addingItemToCart = (item) => {
 
       item.quantity = 1;
       item.subTotal = item.quantity * item.price
       dispatch(addItemToCart(item));
-    
+      
+    //   localStorage.setItem('store', JSON.stringify({
+    //     cartReducer: { cart: [...cart] },
+    //     CartSelectItemReducer: { selectedItem: [...selectedItem] },
+    //     FavoriteReducer: { favorite: [...favorite] },
+    //     allProductsReducer: { allProducts:  [...allProducts] }
+    // }))
   }
 
   const BuySingleProduct = (item) => {
@@ -120,6 +129,13 @@ export default function Products() {
     item.quantity = 1;
     item.subTotal = item.quantity * item.price
     dispatch(addItemToCart(item));
+
+  //   localStorage.setItem('store', JSON.stringify({
+  //     cartReducer: { cart: [...cart,item] },
+  //     CartSelectItemReducer: { selectedItem: [...selectedItem] },
+  //     FavoriteReducer: { favorite: [...favorite] },
+  //     allProductsReducer: { allProducts:  [...allProducts] }
+  // }))
   }
   return (
     <div className="productImages-container">
