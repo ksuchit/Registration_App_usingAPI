@@ -6,9 +6,9 @@ export const selectItem = (item) => {
     }
 }
 
-export const diSelectItem = (item) => {
+export const deSelectItem = (item) => {
     return {
-        type: 'DISELECT-ITEM',
+        type: 'DESELECT-ITEM',
         payload:item
     }
 }

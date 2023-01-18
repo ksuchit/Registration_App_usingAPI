@@ -6,7 +6,7 @@ import { minusItem, plusItem } from "../redux/actions/Cart-Item-Actions";
 import { clearCart, deleteItemFromCart } from "../redux/actions/Cart-Actions";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useContext, useEffect } from "react";
-import { diSelectAllItems, selectAllItems, selectItem } from "../redux/actions/Cart-Select-Item-Actions";
+import { deSelectItem, diSelectAllItems, selectAllItems, selectItem } from "../redux/actions/Cart-Select-Item-Actions";
 import { useState } from "react";
 import { shopLoginContext } from "../../App";
 import LoginModal from "../Home/Login-Modal";
@@ -99,7 +99,10 @@ export default function Cart() {
                                     <div className="btn-group" role="group" aria-label="Basic outlined example">
                                         {item.quantity === 1 ?
                                             <button type="button" className="btn btn-outline-primary btn-sm"
-                                                onClick={()=>dispatch(deleteItemFromCart(item))}
+                                                onClick={() => {
+                                                    dispatch(deleteItemFromCart(item))
+                                                    dispatch(deSelectItem(item))
+                                                }}
                                             ><AiTwotoneDelete /></button>
                                             : 
                                             <button type="button" className="btn btn-outline-primary btn-sm"
@@ -113,7 +116,10 @@ export default function Cart() {
                                     </div>
                                     <div className="mx-2">
                                         <button className="btn btn-secondary btn-sm"
-                                            onClick={()=>dispatch(deleteItemFromCart(item))}
+                                            onClick={() => {
+                                                dispatch(deleteItemFromCart(item))
+                                                dispatch(deSelectItem(item))
+                                            }}
                                         >Delete</button>
                                     </div>
                                     {/* <div>

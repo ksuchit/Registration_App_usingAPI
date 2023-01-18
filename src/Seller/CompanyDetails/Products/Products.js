@@ -142,11 +142,14 @@ export default function Products() {
         setProducts={setProducts}
       />
       <div>
-        <Pagination
-          pageNum={pageNum}
-          setPageNum={setPageNum}
-          totalPages={totalPages}
-        />
+        {totalResults && 
+          <Pagination
+            pageNum={pageNum}
+            setPageNum={setPageNum}
+            totalPages={totalPages}
+            totalResults={totalResults}
+            />
+        }
         {/* we added ternary because when we click on quickView it will call fun and set id its working but before 
         that i think call goes to this modal  so we didn't get id in QuickModal so API not hitted   */}
         {id ?

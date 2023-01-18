@@ -30,7 +30,7 @@ console.log(props.id)
   return (
     <div>
     <Modal {...props} 
-      size="lg"
+      size="xl"
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >   
@@ -68,7 +68,7 @@ console.log(props.id)
                     <div className="mx-2">
                         <h2>{data.name}</h2>
                         <p>{parse(data.description)}</p>
-                        <p className='fw-bolder'><FaRupeeSign />{data.price}</p>  
+                      <p className='fw-bolder'><FaRupeeSign />{data.price}</p>
                     </div>
                         </>
                     }

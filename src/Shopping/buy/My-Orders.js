@@ -55,6 +55,9 @@ export default function MyOrders(){
                     <Tab eventKey="cancelledOrders" title="Cancelled Orders">
                         <Orders abc={key} orders={orders}/>
                     </Tab>
+                    <Tab eventKey="deliveredOrders" title="Deliverd Orders">
+                        <Orders abc={key} orders={orders}/>
+                    </Tab>    
                 </Tabs>
                 </div>
                 <div>

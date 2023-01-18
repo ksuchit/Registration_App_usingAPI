@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { Provider } from "react-redux";
 import store from './Store';
+import 'react-tooltip/dist/react-tooltip.css'
 
 store.subscribe(() =>{ console.log(store.getState())
     // localStorage.setItem('store', JSON.stringify({

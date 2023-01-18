@@ -1,4 +1,26 @@
-export default function Pagination(props) {
+import { useEffect } from "react"
+import { useDispatch } from "react-redux"
+import { addAllSellerProducts } from "../../../Shopping/redux/actions/Seller-Products";
+import { getProducts } from "../../services/Http-Service"
+
+export default function Pagination(props)
+{
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (props.totalResults) {
+            getProducts(`/products?limit=${props.totalResults}`)
+                .then((response) => {
+                    console.log(response)
+                    dispatch(addAllSellerProducts(response.data.results))
+                })
+                .catch((error) => {
+                console.log(error)
+            })
+        }
+                
+    },[])
+
     return (
         <div className="my-2 d-flex justify-content-center">
             {props.pageNum === 1 ? "" :

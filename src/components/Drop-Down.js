@@ -8,6 +8,7 @@ import { MdWork } from 'react-icons/md'
 import {BsFillKeyFill} from 'react-icons/bs'
 import {CgLogOff, CgProfile} from 'react-icons/cg'
 import { useNavigate } from "react-router-dom";
+import { FiTruck } from "react-icons/fi";
 
 export default function DropDown() {
   
@@ -40,7 +41,11 @@ export default function DropDown() {
         <Dropdown.Menu variant="dark" align={{ lg: 'end' }}>
           <Dropdown.Item onClick={()=>navigate("/seller/my-profile")} ><ImProfile className="mx-2"/>Profile</Dropdown.Item>
           <Dropdown.Item onClick={()=>navigate("/seller/my-profile/companyInfo")} ><MdWork className="mx-2"/>Company Info</Dropdown.Item>
-          <Dropdown.Item onClick={()=>navigate("/seller/auth/change-password")} ><BsFillKeyFill className="mx-2"/>Change Password</Dropdown.Item>
+          <Dropdown.Item onClick={() => navigate("/seller/auth/change-password")} ><BsFillKeyFill className="mx-2" />Change Password</Dropdown.Item>
+          <Dropdown.Item onClick={()=>navigate("/seller/orders")}>
+            <FiTruck className="mx-2" />
+            Orders
+          </Dropdown.Item>
           <Dropdown.Divider />
           <Dropdown.Item onClick={logOutClicked}><CgLogOff size={20} className="mx-2"/>Logout</Dropdown.Item>
         </Dropdown.Menu>

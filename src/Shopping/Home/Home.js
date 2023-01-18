@@ -14,8 +14,8 @@ import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { FcLike } from "react-icons/fc";
 import BuySingleProductModal from "./BuySingleProduct";
 import getCart from "../services/Redux-Service";
-import { async } from "q";
-
+import { Tooltip } from 'react-tooltip'
+import 'react-tooltip/dist/react-tooltip.css'
 // let cnt = 0;
 export default function Products() {
   const [products, setProducts] = useState([]);
@@ -172,7 +172,7 @@ export default function Products() {
                 <ImgCarousal imgData={item} />
                 <div className="position-absolute top-0 end-0">
                   {state.FavoriteReducer.favorite.find((data)=>data._id===item._id) ?
-                  <button onClick={()=>dispatch(removeFromFavorite(item))} style={{border:'none',borderRadius:'100%'}}><FcLike size={20}/></button>
+                    <button onClick={()=>dispatch(removeFromFavorite(item))} style={{border:'none',borderRadius:'100%'}}><FcLike size={20} /></button>
                   : <button onClick={()=>dispatch(addToFavorite(item))} style={{border:'none',borderRadius:'100%'}}><MdOutlineFavoriteBorder size={20} /></button>
                   }
                 </div>
@@ -180,6 +180,8 @@ export default function Products() {
               <h6 className="py-1 mb-0">{item.name.length>25 ? `${item.name.slice(0,25)} ...`: item.name}</h6>
               <div>
                 <p className='fw-bolder mb-0' > <FaRupeeSign />{item.price}</p>
+                <p id="my-anchor-element">Tooltip</p>
+                <Tooltip anchorId="my-anchor-element" content="hello world" place="top" />
               </div>
               <div className="mb-0 d-flex justify-content-center">
                 {/* state.cartReducer.cart its used because state refreses when we come back to home page from anywhere   */}

@@ -58,14 +58,14 @@ export default function AccordionBuy(props) {
       address:selectAddress
     }
     console.log(payload)
-    // Post('/shop/orders',payload)
-    // .then((response)=>{
-    //   console.log(response)
-    //   props.setOrderId(response.data.order?._id)
-    // })
-    // .catch((error)=>{
-    //   console.log(error)
-    // })
+    Post('/shop/orders',payload)
+    .then((response)=>{
+      console.log(response)
+      props.setOrderId(response.data.order?._id)
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
     
     dispatch(clearCart(state.CartSelectItemReducer.selectedItem))
     setDefaultAdd(selectAddress)
@@ -86,15 +86,15 @@ export default function AccordionBuy(props) {
       cvv:props.paymentDetails.cvv
     }
 
-    // Put(`/shop/orders/confirm/${props.orderId}`,payload)
-    //   .then((response)=>{
-    //     console.log(response)
-    //     toast.success(response.data.message)
-    //   })
-    //   .catch((error)=>{
-    //     console.log(error)
-    //     toast.error(error.response.data.message)
-    //   })
+    Put(`/shop/orders/confirm/${props.orderId}`,payload)
+      .then((response)=>{
+        console.log(response)
+        toast.success(response.data.message)
+      })
+      .catch((error)=>{
+        console.log(error)
+        toast.error(error.response.data.message)
+      })
     }
     const [editAddress, setEditAddress] = useState();
     const [addressShow,setAddressShow]=useState(false)

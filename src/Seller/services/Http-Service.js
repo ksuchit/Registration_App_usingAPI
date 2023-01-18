@@ -53,3 +53,7 @@ export function DeleteProduct(url) {
 export function UpdateProduct(url, data) {
     return(axiosInstance.patch(`${url}`,data))
 }
+
+export function Get(url) {
+    return(axiosInstance.get(`${url}`))
+}

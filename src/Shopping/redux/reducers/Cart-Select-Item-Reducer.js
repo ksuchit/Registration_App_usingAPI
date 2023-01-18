@@ -18,7 +18,11 @@ const CartSelectItemReducer=(state=initialSelectItemState,action)=>{
             return {
                 selectedItem:updatedArr
             }
-        
+        case 'DESELECT-ITEM':
+            const arr=state.selectedItem.filter((item)=>item._id!==action.payload._id)
+            return {
+                selectedItem:arr
+            }
         case 'SELECT-ALL-ITEMS':
             return{
                 selectedItem:action.payload
