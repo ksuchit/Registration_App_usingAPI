@@ -3,10 +3,13 @@ import { Form } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
+import { Navigate, useNavigate } from 'react-router';
 import { Put } from '../services/Http-Service';
 
 export default function CardModal(props) {
-    const [moreDetails, setMoreDetails] = useState(false);
+
+  const navigate=useNavigate();
+  const [moreDetails, setMoreDetails] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
     const date=[1,2,3,4,5,6,7,8,9,10,11,12];
     const year=[2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040];
@@ -33,6 +36,8 @@ export default function CardModal(props) {
         props.setPaymentDetails(data)
         props.setpaymentDisabled(false)
         if (response.data.message === "Your order is successfully placed!!") {
+          toast.success(response.data.message)
+          navigate('/')
           props.setOrders((prev) => prev.map((item) => {
             if (item._id === props.orderId) {
               item.paymentStatus = 'Paid'

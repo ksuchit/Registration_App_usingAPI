@@ -71,7 +71,7 @@ export default function Orders() {
                     </div>
                     {item.items.map((product,j)=>{
                         return(
-                        <div className='d-flex justify-content-between' style={{border:'1px solid grey',padding:'10px'}}>
+                        <div className='d-flex justify-content-between' style={{border:'1px solid grey',padding:'10px'}} key={j}>
                             <div className="d-flex">
                                 <div style={{width:'100px',height:'120px'}}>
                                     <img src={state.sellerProducts.sellerProducts.find((data)=>data._id===product.productId)?.images[0].url} style={{width:'100%',height:'100%'}} alt='product'/>

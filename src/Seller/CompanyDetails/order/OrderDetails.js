@@ -3,6 +3,7 @@ import { toast } from "react-hot-toast";
 import { FaGreaterThan, FaRupeeSign } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { NavLink, useSearchParams } from "react-router-dom"
+import Swal from "sweetalert2";
 import { Get, Patch } from "../../services/Http-Service"
 
 
@@ -26,7 +27,51 @@ export default function OrderDetails() {
     const callOrderAction = (id,action) => {
         console.log(id, action)
         
-        Patch(`/orders/${action}/${id}`)
+        if(action==='cancel'){
+        const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                  confirmButton: "btn btn-success",
+                  cancelButton: "btn btn-danger",
+                },
+                buttonsStyling: false,
+              });
+          
+              swalWithBootstrapButtons
+                .fire({
+                  title: "Are you sure?",
+                  html: `You won't be able to revert Address!</p>`,
+                  icon: "warning",
+                  showCancelButton: true,
+                  confirmButtonText: "Yes, delete it!",
+                  cancelButtonText: "No, cancel!",
+                  reverseButtons: true,
+                })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        Patch(`/orders/${action}/${id}`)
+                        .then((response) => {
+                        console.log(response)
+                        setData(response.data.order)
+                        swalWithBootstrapButtons.fire(
+                          "Deleted!",
+                          `Your Address has been deleted.`,
+                          "success"
+                        );
+                      })
+                      .catch((error) => {
+                        console.log(error);
+                      });
+                  } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    swalWithBootstrapButtons.fire(
+                      "Cancelled",
+                      `Your Address is safe :)</p>`,
+                      "error"
+                    );
+                  }
+                });
+        }
+        else{
+            Patch(`/orders/${action}/${id}`)
             .then((response) => {
                 console.log(response)
                 setData(response.data.order)
@@ -35,6 +80,7 @@ export default function OrderDetails() {
             .catch((error) => {
             console.log(error)
         })
+        }
     }
     
     

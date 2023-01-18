@@ -62,6 +62,7 @@ export default function AccordionBuy(props) {
     .then((response)=>{
       console.log(response)
       props.setOrderId(response.data.order?._id)
+      toast.success('Successfully Order Created')
     })
     .catch((error)=>{
       console.log(error)
@@ -197,7 +198,69 @@ export default function AccordionBuy(props) {
         </Accordion.Body>
       </Accordion.Item>
       <Accordion.Item eventKey="1">
-        <Accordion.Header onClick={()=>setActiveKey('1')}>2. Select a payment method</Accordion.Header>
+        <Accordion.Header onClick={()=>setActiveKey('1')}>2. Items and delivery</Accordion.Header>
+        <Accordion.Body>
+          <div>
+            <div>
+              <h5>Delivery Date:</h5>
+              <span><pre className='mb-0'>If you order in the next 5 hours and 27 minutes ( Details )</pre>
+                    <pre>Items dispatched by Us</pre>
+              </span>
+            </div>
+            {state.CartSelectItemReducer.selectedItem.map((item,i)=>{
+              return(
+                  <div style={{border:'1px solid black',borderRadius:'3px',padding:'10px',margin:'5px'}} className='d-flex gap-4' key={i}>
+                    <div style={{width:'100px',height:'120px'}}>
+                      <img src={item.images[0].url} style={{height:'100%',width:'100%'}} alt='delivery'/>
+                    </div>
+                    <div>
+                        <h6>{item.name}</h6>
+                        <span style={{color:'#B12704'}}><FaRupeeSign />{item.price}</span>
+                        <Form.Select aria-label="Default select example">
+                          <option value="1">One</option>
+                          <option value="2">Two</option>
+                          <option value="3">Three</option>
+                          <option value="4">Four</option>
+                          <option value="5">Five</option>
+                          <option value="6">Six</option>
+                          <option value="7">Seven</option>
+                          <option value="8">Eight</option>
+                          <option value="9">Nine</option>
+                          <option value="10">Ten</option><hr></hr>
+                          <option value="delete">delete</option>
+                        </Form.Select>
+                    </div>
+                    {i===0 ?
+                    <div>
+                        <h6>Choose a delivery option:</h6>
+                        <Form>
+                          <Form.Check style={{backgroundColor:'lightgrey',margin:'10px',padding:'5px'}} className='d-flex' >
+                            <Form.Check.Input type='radio' name='group1' className='mx-1' onChange={()=>props.setDeliveryCharges(0)}/>
+                            <Form.Check.Label>
+                              Tomorrow  — FREE FREE Delivery on eligible orders
+                            </Form.Check.Label>
+                          </Form.Check>
+                          <Form.Check style={{backgroundColor:'lightgrey',margin:'10px',padding:'5px'}} className='d-flex' >
+                            <Form.Check.Input type='radio' name='group1' className='mx-1' onChange={()=>props.setDeliveryCharges(40)}/>
+                            <Form.Check.Label>
+                              Today  — Delivery Charges Rs. 40.
+                            </Form.Check.Label>
+                          </Form.Check>
+                          <Button className='btn btn-primary btn-sm mx-2'
+                              onClick={()=>setActiveKey('2')}
+                              disabled={props.deliveryCharges<0 ? true : false}
+                          >Done</Button>
+                        </Form>
+                    </div>
+                    : ""}
+                  </div>
+               )
+            })}
+          </div>
+        </Accordion.Body>
+      </Accordion.Item>
+      <Accordion.Item eventKey="2">
+        <Accordion.Header onClick={()=>setActiveKey('2')}>3. Select a payment method</Accordion.Header>
         <Accordion.Body>
           <Form>
             <Form.Check style={{backgroundColor:'lightgrey',margin:'10px',padding:'5px'}} className='d-flex' >
@@ -257,64 +320,7 @@ export default function AccordionBuy(props) {
           </Form>
         </Accordion.Body>
       </Accordion.Item>
-      <Accordion.Item eventKey="2">
-        <Accordion.Header onClick={()=>setActiveKey('2')}>3. Items and delivery</Accordion.Header>
-        <Accordion.Body>
-          <div>
-            <div>
-              <h5>Delivery Date:</h5>
-              <span><pre className='mb-0'>If you order in the next 5 hours and 27 minutes ( Details )</pre>
-                    <pre>Items dispatched by Us</pre>
-              </span>
-            </div>
-            {state.CartSelectItemReducer.selectedItem.map((item,i)=>{
-              return(
-                  <div style={{border:'1px solid black',borderRadius:'3px',padding:'10px',margin:'5px'}} className='d-flex gap-4' key={i}>
-                    <div style={{width:'100px',height:'120px'}}>
-                      <img src={item.images[0].url} style={{height:'100%',width:'100%'}} alt='delivery'/>
-                    </div>
-                    <div>
-                        <h6>{item.name}</h6>
-                        <span style={{color:'#B12704'}}><FaRupeeSign />{item.price}</span>
-                        <Form.Select aria-label="Default select example">
-                          <option value="1">One</option>
-                          <option value="2">Two</option>
-                          <option value="3">Three</option>
-                          <option value="4">Four</option>
-                          <option value="5">Five</option>
-                          <option value="6">Six</option>
-                          <option value="7">Seven</option>
-                          <option value="8">Eight</option>
-                          <option value="9">Nine</option>
-                          <option value="10">Ten</option><hr></hr>
-                          <option value="delete">delete</option>
-                        </Form.Select>
-                    </div>
-                    {i===0 ?
-                    <div>
-                        <h6>Choose a delivery option:</h6>
-                        <Form>
-                          <Form.Check style={{backgroundColor:'lightgrey',margin:'10px',padding:'5px'}} className='d-flex' >
-                            <Form.Check.Input type='radio' name='group1' className='mx-1' onChange={()=>props.setDeliveryCharges(0)}/>
-                            <Form.Check.Label>
-                              Tomorrow  — FREE FREE Delivery on eligible orders
-                            </Form.Check.Label>
-                          </Form.Check>
-                          <Form.Check style={{backgroundColor:'lightgrey',margin:'10px',padding:'5px'}} className='d-flex' >
-                            <Form.Check.Input type='radio' name='group1' className='mx-1' onChange={()=>props.setDeliveryCharges(40)}/>
-                            <Form.Check.Label>
-                              Today  — Delivery Charges Rs. 40.
-                            </Form.Check.Label>
-                          </Form.Check>
-                        </Form>
-                    </div>
-                    : ""}
-                  </div>
-               )
-            })}
-          </div>
-        </Accordion.Body>
-      </Accordion.Item>
+      
     </Accordion>
       <div style={{backgroundColor:'lightgrey',margin:'10px',padding:'5px'}} className='d-flex align-items-center gap-4'>
         <div><Button className='btn btn-warning' onClick={() => placeYourOrder()} style={{width:'200px'}}

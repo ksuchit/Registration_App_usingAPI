@@ -9,7 +9,7 @@ export default function Buy(){
     const state = useSelector((state) => state) || JSON.stringify(localStorage.getItem('store'));
     const [orderId,setOrderId]=useState();
     const [paymentDetails, setPaymentDetails] = useState();
-    const [deliveryCharges, setDeliveryCharges] = useState(0);
+    const [deliveryCharges, setDeliveryCharges] = useState(-1);
         
     let price = 0
         if(state.CartSelectItemReducer.selectedItem.length>0){ 
