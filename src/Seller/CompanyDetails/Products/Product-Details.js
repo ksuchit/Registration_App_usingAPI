@@ -106,7 +106,6 @@ export default function ProductDetails() {
               //we required time to get response but till our page is rendered so i was getting error.
               data && (
                 <>
-                  {" "}
                   {data.images.length > 0 ? (
                     <>
                       <div style={{ width: "300px" }}>
@@ -130,14 +129,7 @@ export default function ProductDetails() {
                         }}
                         />
                       </div>
-                      <div style={{}}>
-                        <h2>{data.name}</h2>
-                        <p>{parse(data.description)}</p>
-                        <p className="fw-bolder">
-                          <FaRupeeSign />
-                          {data.price}
-                        </p>
-                      </div>
+                      
                     </>
                   ) : (
                     <div>
@@ -166,7 +158,18 @@ export default function ProductDetails() {
               )
             }
 
-            <div style={{ textAlign: "center" }}>
+            
+          </div>
+          <div style={{}}>
+            <h2>{data.name}</h2>
+            <p>{parse(data.description)}</p>
+            <p className="fw-bolder">
+            <FaRupeeSign />
+            {data.price}
+            </p>
+          </div>
+        </div>
+        <div style={{ textAlign: "center" }} className="my-3">
               <button onClick={onDeleteProduct} className="btn btn-danger">
                 Delete Product
               </button>
@@ -182,8 +185,6 @@ export default function ProductDetails() {
               >
                 Update Images
               </button>
-            </div>
-          </div>
         </div>
       </div>
       <div className="col-3"></div>

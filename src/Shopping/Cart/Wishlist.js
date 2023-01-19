@@ -54,7 +54,7 @@ export default function Wishlist(){
 
     return(
         <div>
-        <div className="productImages">
+        <div className="productImages my-5">
         {products && products.length>0 ?
         products.map((item, i) => {
           return (
@@ -69,9 +69,9 @@ export default function Wishlist(){
                   }
                 </div>
               </div>
-              <h6 className="py-1 mb-0">{item.name.length>25 ? `${item.name.slice(0,25)} ...`: item.name}</h6>
-              <div>
-                <p className='fw-bolder mb-0' > <FaRupeeSign />{item.price}</p>
+              <div className="text-center">
+                <h6 className="py-1 mb-0 fw-bolder">{item.name.length>25 ? `${item.name.slice(0,25)} ...`: item.name}</h6>
+                <p className='fw-bolder mb-0' style={{color:'rgb(196, 85, 0)'}} > <FaRupeeSign />{item.price}</p>
               </div>
               <div className="mb-0 d-flex justify-content-center">
                 {/* state.cartReducer.cart its used because state refreses when we come back to home page from anywhere   */}
@@ -82,6 +82,7 @@ export default function Wishlist(){
                     <button className="btn btn-warning btn-sm"
                       onClick={()=>addingItemToCart(item)}>Add to Cart</button>
                 }
+                <button className="btn btn-dark mx-2" onClick={()=>navigate('/buy')} >Buy</button>
               </div>
             </div>
           );

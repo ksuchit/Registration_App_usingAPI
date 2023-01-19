@@ -58,7 +58,7 @@ export default function Pagination(props) {
                             <select onChange={(e) => {
                                 props.setPageNum(parseInt(e.target.value))
                                 setPageList(false)
-                            }}>
+                            }} className="form-select">
                                 {
                                     options.map((item,i) => {
                                         return <option value={item.value}>{item.label}</option>

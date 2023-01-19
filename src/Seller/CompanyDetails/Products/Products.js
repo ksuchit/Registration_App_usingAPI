@@ -79,25 +79,24 @@ export default function Products() {
   
   return (
     <div className="productImages-container">
-      <div className="d-flex justify-content-between">
-        <div className="mx-2 my-2">
-            <input type='text' value={name}
+      <div className="d-flex justify-content-between my-3 mx-3">
+        <div className="d-flex ">
+            <input type='text' value={name} className="form-control"
               onChange={(e) => setName(e.target.value)} />
             <button className="btn btn-primary mx-2"
                 onClick={onSearchByName}
             >Search</button>
         </div>
-        <div className="mx-3 my-2">
-
-          <label className='fw-bolder'>SortBy-</label>
-          <select onChange={(e)=>setSortBy(e.target.value)}>
+        <div className="d-flex align-items-center" >
+          <label className='fw-bolder mx-2'>SortBy-</label>
+          <select className="form-select" onChange={(e)=>setSortBy(e.target.value)} >
             <option value={''}>Default</option>
             <option value='name'>Name</option>
             <option value='price'>Price</option>
           </select>
           
           <button onClick={onCreateProduct}
-           className='mx-2 btn btn-secondary'>Create Product</button>
+           className='mx-2 btn btn-secondary' style={{width:'300px'}}>Create Product</button>
         </div>
       </div>
       
@@ -125,10 +124,10 @@ export default function Products() {
                   alt="no data"
               />
               }
-              </div> */}
-              <h6 className="py-1">{item.name}</h6>
-              <div>
-                <p className='fw-bolder'> <FaRupeeSign />{item.price}</p>
+            </div> */}
+              <div className="text-center">
+                <h6 className="py-1 fw-bolder">{item.name}</h6>
+                <p className='fw-bolder' style={{color:'rgb(196, 85, 0)'}}> <FaRupeeSign />{item.price}</p>
               </div>
             </div>
           );
@@ -160,7 +159,7 @@ export default function Products() {
           />
           : ""}
       </div>
-      <div>
+      <div className="d-flex justify-content-between">
         <div>
           <label className='fw-bolder'>Items Per Page-</label>
           <select onChange={(e)=>setItemPerPage(e.target.value)}>
