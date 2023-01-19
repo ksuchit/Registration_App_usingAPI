@@ -143,7 +143,8 @@ export default function Cart() {
                     </div>
                 )
             })
-        }
+            }
+        <div><h6>Similar Products...</h6></div>
         </div>
         <div className="col-3 price-details">
             <div style={{border:'1px solid black',padding:'3%'}}>
