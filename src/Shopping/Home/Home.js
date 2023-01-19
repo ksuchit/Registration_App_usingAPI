@@ -10,12 +10,12 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addItemToCart } from "../redux/actions/Cart-Actions";
 import { addToFavorite, removeFromFavorite } from "../redux/actions/Favorite-Action";
-import { MdOutlineFavoriteBorder } from "react-icons/md";
-import { FcLike } from "react-icons/fc";
 import BuySingleProductModal from "./BuySingleProduct";
 import getCart from "../services/Redux-Service";
 import { Tooltip } from 'react-tooltip'
 import 'react-tooltip/dist/react-tooltip.css'
+import QuickViewModal from "../../Seller/CompanyDetails/Products/Quick-View-Modal";
+import { BsArrowLeftCircleFill, BsFillArrowRightCircleFill, BsFillHeartFill, BsHeart } from "react-icons/bs";
 // let cnt = 0;
 export default function Products() {
   const [products, setProducts] = useState([]);
@@ -32,7 +32,8 @@ export default function Products() {
   const [loginShow, setLoginShow] = useState(false)
   const [buyShow, setBuyShow] = useState(false);
   const [singleProduct, setSingleProduct] = useState();
-
+  const [quickView, setQuickView] = useState(false);
+  const [id, setId] = useState();
   const cookies = new Cookies();
   useEffect(()=>{
     if (cookies.get('registered')) {
@@ -137,71 +138,79 @@ export default function Products() {
   //     allProductsReducer: { allProducts:  [...allProducts] }
   // }))
   }
+
+  const onQuickView = (id) => {
+    setQuickView(true)
+    console.log(id)
+    setId(id)
+  }
   return (
     <div className="productImages-container">
-      <div className="d-flex justify-content-between">
-        <div className="mx-2 my-2">
-          {/* <div>
-            <h1>Product List</h1>
-          </div> */}
-          <div>
-            <input type='text' value={name}
+      <div className="d-flex justify-content-between my-2 mx-2">
+          <div className="d-flex">
+            <input type='text' value={name} className="form-control"
               onChange={(e) => setName(e.target.value)} />
             <button className="btn btn-primary mx-2"
                 onClick={onSearchByName}
             >Search</button>
           </div>
-        </div>
-        <div className="mx-3 my-2">
-          <lable className='fw-bolder'>SortBy-</lable>
-          <select onChange={(e)=>setSortBy(e.target.value)}>
+        <div className="d-flex align-items-center mx-3">
+          <lable className='fw-bolder mx-2'>SortBy-</lable>
+          <select className="form-select"  onChange={(e)=>setSortBy(e.target.value)} >
             <option value=''>Default</option>
             <option value='name'>Name</option>
             <option value='price'>Price</option>
           </select>
-        </div>
       </div>
-      
-      <div className="productImages">
-        {products.length>0 ?
-        products.map((item, i) => {
-          return (
-            <div key={i} className='productCard'>
-              {/* <div> */}
-              <div className='position-relative'>
-                <ImgCarousal imgData={item} />
-                <div className="position-absolute top-0 end-0">
-                  {state.FavoriteReducer.favorite.find((data)=>data._id===item._id) ?
-                    <button onClick={()=>dispatch(removeFromFavorite(item))} style={{border:'none',borderRadius:'100%'}}><FcLike size={20} /></button>
-                  : <button onClick={()=>dispatch(addToFavorite(item))} style={{border:'none',borderRadius:'100%'}}><MdOutlineFavoriteBorder size={20} /></button>
+      </div>
+      <div className="d-flex align-items-center">
+        {pageNum !== 1 ?
+          <div onClick={() => setPageNum((prev) => prev - 1)}><BsArrowLeftCircleFill size={40} style={{ marginLeft: '30%' }} /></div>
+        : ""}
+        <div className="productImages">
+          {products.length>0 ?
+          products.map((item, i) => {
+            return (
+              <div key={i} className='productCard'>
+                {/* <div> */}
+                <div className='position-relative'>
+                  <ImgCarousal imgData={item} />
+                  <div className="d-flex justify-content-center productCard-btn">
+                      <button className="btn btn-secondary btn-sm " onClick={() => onQuickView(item._id)}>QUICK VIEW</button>
+                  </div>
+                  <div className="position-absolute top-0 end-0">
+                    {state.FavoriteReducer.favorite.find((data)=>data._id===item._id) ?
+                      <BsFillHeartFill size={18} className="mx-2" style={{color:'red'}} onClick={()=>dispatch(removeFromFavorite(item))}/>
+                    : <BsHeart size={18} className="mx-2" style={{color:'red'}} onClick={()=>dispatch(addToFavorite(item))} />
+                    }
+                  </div>
+                </div>
+                <div className="d-flex flex-column align-items-center">
+                  <h6 className="py-1 mb-0 fw-bolder">{item.name.length>15 ? `${item.name.slice(0,15)} ...`: item.name}</h6>
+                  <p className='fw-bolder mb-0' style={{color:'rgb(196, 85, 0)'}}> <FaRupeeSign />{item.price}</p>
+                  {/* <p id="my-anchor-element">Tooltip</p>
+                  <Tooltip anchorId="my-anchor-element" content="hello world" place="top" /> */}
+                </div>
+                <div className="mb-0 d-flex justify-content-center">
+                  {/* state.cartReducer.cart its used because state refreses when we come back to home page from anywhere   */}
+                  {
+                    state.cartReducer.cart.find((prev)=>prev._id===item._id) ?
+                      <button onClick={()=>navigate(`/cart?id=${item._id}`)} className="btn btn-primary btn-sm mx-1">Go to Cart</button>
+                      : <>
+                      <button className="btn btn-warning btn-sm mx-1"
+                        onClick={()=>addingItemToCart(item)}>Add to Cart</button>
+                      <button className="btn btn-dark btn-sm" onClick={()=>BuySingleProduct(item)}>Buy</button>
+                      </>
                   }
                 </div>
               </div>
-              <h6 className="py-1 mb-0">{item.name.length>25 ? `${item.name.slice(0,25)} ...`: item.name}</h6>
-              <div>
-                <p className='fw-bolder mb-0' > <FaRupeeSign />{item.price}</p>
-                <p id="my-anchor-element">Tooltip</p>
-                <Tooltip anchorId="my-anchor-element" content="hello world" place="top" />
-              </div>
-              <div className="mb-0 d-flex justify-content-center">
-                {/* state.cartReducer.cart its used because state refreses when we come back to home page from anywhere   */}
-                {
-                  state.cartReducer.cart.find((prev)=>prev._id===item._id) ?
-                    <button onClick={()=>navigate(`/cart?id=${item._id}`)} className="btn btn-primary btn-sm mx-1">Go to Cart</button>
-                    : <>
-                    <button className="btn btn-warning btn-sm mx-1"
-                      onClick={()=>addingItemToCart(item)}>Add to Cart</button>
-                    <button className="btn btn-dark btn-sm" onClick={()=>BuySingleProduct(item)}>Buy</button>
-                    </>
-                }
-              </div>
-            </div>
-          );
-        })
-      :<p style={{color:'red'}}>No data Found</p>
-      }
+            );
+          })
+        :<p style={{color:'red'}}>No data Found</p>
+        }
+        </div>
+        <div onClick={()=>setPageNum((prev)=>prev+1)}><BsFillArrowRightCircleFill size={40} style={{marginRight:'30%'}}/></div>
       </div>
-      
       <div>
         {totalResults && 
         <Pagination
@@ -216,7 +225,7 @@ export default function Products() {
         that i think call goes to this modal  so we didn't get id in QuickModal so API not hitted   */}
         
       </div>
-      <div>
+      <div className="d-flex justify-content-between">
         <div>
           <lable className='fw-bolder'>Items Per Page-</lable>
           <select onChange={(e) => {
@@ -251,6 +260,16 @@ export default function Products() {
             singleProduct={singleProduct}
           />
         </div>
+      }
+
+      {id ?
+          <QuickViewModal
+            show={quickView}
+            setShow={setQuickView}
+            id={id}
+            from="home"
+          />
+        : ""
       }
     </div>
   );

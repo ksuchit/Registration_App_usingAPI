@@ -5,13 +5,15 @@ import {FaRupeeSign} from 'react-icons/fa'
 import { useSelector } from "react-redux";
 import { FaGreaterThan } from 'react-icons/fa'
 import { style } from "@mui/system";
+import TrackPackage from "./Track-Package";
 
 export default function OrderDetails(){
 
     const [searchParams, ] = useSearchParams();
     const [data,setData]=useState(false);
     const state = useSelector((state) => state) || JSON.stringify(localStorage.getItem('store'));
-    
+    const [trackPackageShow, setTrackPackageShow] = useState(false);
+
     useEffect(() => {
         console.log("dcns;lcsm;ldm;lmd;l") 
         console.log(searchParams.get('id')) 
@@ -25,7 +27,11 @@ export default function OrderDetails(){
         })
     },[])
     
-    console.log(data)
+    const onTrackPackage = (data) => {
+        console.log(data)
+        setTrackPackageShow(true)
+    }
+
     return (
         <div className="row">
             {data && <>
@@ -59,7 +65,7 @@ export default function OrderDetails(){
                         </div>
                         <div>
                             <h6>Status</h6>
-                                {data.status === "Confirmed" ?
+                                {data.status === "Confirmed" || data.status==="Delivered"?
                                     <span style={{color:'green'}}>{data.status}</span>
                                     : data.status === "Pending" ?
                                     <span style={{color:'red'}}>{data.status}</span>
@@ -96,7 +102,9 @@ export default function OrderDetails(){
                                 </div>
                                 {j===0 && data.status!=='Cancelled'?
                                 <div className="d-flex flex-column gap-3 my-2">
-                                    <button className="btn btn-warning btn-sm" style={{width:'250px'}}>Track package</button>
+                                        <button className="btn btn-warning btn-sm" style={{ width: '250px' }}
+                                            onClick={()=>onTrackPackage(data)}
+                                        >Track package</button>
                                     <button className="btn btn-light btn-sm">Cancel data</button>
                                 </div>
                                 : ""}
@@ -104,7 +112,13 @@ export default function OrderDetails(){
                         )
                     })}
                 </div>
-                </>}
+            </>}
+            <div>
+                <TrackPackage
+                    show={trackPackageShow}
+                    setShow={setTrackPackageShow}
+                />
+            </div>
         </div>
     )
 }

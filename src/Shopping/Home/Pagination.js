@@ -38,7 +38,7 @@ export default function Pagination(props) {
     },[])
 
     return (
-        <div className="my-2 d-flex justify-content-center">
+        <div className="d-flex justify-content-center" style={{marginTop:'2%'}}>
             {props.pageNum === 1 ? "" :
                 <button onClick={() => props.setPageNum((prev) => prev - 1)}
                     className='btn btn-secondary'                
@@ -47,11 +47,11 @@ export default function Pagination(props) {
             {
                 props.pageNum <= props.totalPages - 3 ?
                     <div className='fw-bolder mx-2 d-flex align-items-center'>
-                        <div><button className="btn btn-primary" onClick={()=>props.setPageNum(props.pageNum)} style={{border:'none'}}>{props.pageNum}</button></div>
-                        <div className="mx-1"><button onClick={()=>props.setPageNum(props.pageNum+1)} style={{border:'none'}}>{props.pageNum + 1}</button></div>
-                        <div className="mx-1"><button onClick={()=>props.setPageNum(props.pageNum+2)} style={{border:'none'}}>{props.pageNum + 2}</button></div>
+                        <div><button className="btn btn-primary" onClick={()=>props.setPageNum(props.pageNum)} >{props.pageNum}</button></div>
+                        <div><button className="mx-1 btn btn-light" onClick={()=>props.setPageNum(props.pageNum+1)} >{props.pageNum + 1}</button></div>
+                        <div><button className="mx-1 btn btn-light" onClick={()=>props.setPageNum(props.pageNum+2)} >{props.pageNum + 2}</button></div>
                         {
-                            pageList ? "": <div className="mx-1"><button onClick={()=>setPageList((prev)=>!prev)} style={{border:'none'}}>...</button></div>
+                            pageList ? "": <div><button className="mx-1 btn btn-light" onClick={()=>setPageList((prev)=>!prev)} >...</button></div>
                         }
                         
                         {pageList &&
@@ -66,7 +66,7 @@ export default function Pagination(props) {
                                }
                             </select>  
                             }   
-                        <div><button onClick={()=>props.setPageNum(props.totalPages)} style={{border:'none'}}>{props.totalPages}</button></div>
+                        <div><button className="mx-1 btn btn-light" onClick={()=>props.setPageNum(props.totalPages)} >{props.totalPages}</button></div>
                     </div>
                 :
                     <div className='fw-bolder mx-2 d-flex align-items-center'>

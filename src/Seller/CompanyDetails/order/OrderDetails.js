@@ -95,9 +95,15 @@ export default function OrderDetails() {
                         <NavLink to={'/seller/orders/order-details'} style={{color:'#c45500',textDecoration:'none'}}>Order-Details</NavLink>
                     </div>
                     <h4>Order Details</h4>
-                    <div className="d-flex justify-content-between">
-                        <span>Ordered on {data.createdAt}</span>
-                        <span className="mx-2">Order# {data._id}</span>
+                    <div className="d-flex justify-content-between" style={{backgroundColor:'lightgray',padding:'10px'}}>
+                        <div className="d-flex flex-column">
+                            <span>Ordered on- {data.createdAt}</span>
+                            <span>Seller Id- {data.sellerId}</span>
+                        </div>
+                        <div className="d-flex flex-column">
+                            <span className="mx-2">OrderId- {data._id}</span>
+                            <span className="mx-2">TransactionNo- {data.transactionNo}</span>
+                        </div>
                     </div>
                     <div className="d-flex justify-content-between my-3" style={{border:'1px solid grey',borderRadius:'5px',padding:'10px'}}>
                         <div>
