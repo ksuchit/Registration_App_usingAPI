@@ -12,9 +12,9 @@ import { addItemToCart } from "../redux/actions/Cart-Actions";
 import { addToFavorite, removeFromFavorite } from "../redux/actions/Favorite-Action";
 import BuySingleProductModal from "./BuySingleProduct";
 import getCart from "../services/Redux-Service";
-import QuickViewModal from "../../Seller/CompanyDetails/Products/Quick-View-Modal";
 import { BsArrowLeftCircleFill, BsFillArrowRightCircleFill, BsFillHeartFill, BsHeart } from "react-icons/bs";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import QuickView from "./QuickView";
 // let cnt = 0;
 export default function Products() {
   const [products, setProducts] = useState([]);
@@ -32,7 +32,7 @@ export default function Products() {
   const [buyShow, setBuyShow] = useState(false);
   const [singleProduct, setSingleProduct] = useState();
   const [quickView, setQuickView] = useState(false);
-  const [id, setId] = useState();
+  const [data, setData] = useState();
   const cookies = new Cookies();
   useEffect(()=>{
     if (cookies.get('registered')) {
@@ -138,10 +138,10 @@ export default function Products() {
   // }))
   }
 
-  const onQuickView = (id) => {
+  const onQuickView = (item) => {
     setQuickView(true)
-    console.log(id)
-    setId(id)
+    console.log(item)
+    setData(item)
   }
   return (
     <div className="productImages-container">
@@ -175,7 +175,7 @@ export default function Products() {
                 <div className='position-relative'>
                   <ImgCarousal imgData={item} />
                   <div className="d-flex justify-content-center productCard-btn">
-                      <button className="btn btn-secondary btn-sm " onClick={() => onQuickView(item._id)}>QUICK VIEW</button>
+                      <button className="btn btn-secondary btn-sm " onClick={() => onQuickView(item)}>QUICK VIEW</button>
                   </div>
                   <div className="position-absolute top-0 end-0">
                     {state.FavoriteReducer.favorite.find((data) => data._id === item._id) ?
@@ -277,12 +277,11 @@ export default function Products() {
         </div>
       }
 
-      {id ?
-          <QuickViewModal
+      {data ?
+          <QuickView
             show={quickView}
             setShow={setQuickView}
-            id={id}
-            from="home"
+            data={data}
           />
         : ""
       }

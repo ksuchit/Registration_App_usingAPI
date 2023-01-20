@@ -4,11 +4,11 @@ import { BsFillHeartFill, BsHeart } from "react-icons/bs";
 import { FaGreaterThan, FaRupeeSign } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
-import QuickViewModal from "../../Seller/CompanyDetails/Products/Quick-View-Modal";
 import ImgCarousal from "../Home/Img-Carousal";
 import { addItemToCart } from "../redux/actions/Cart-Actions";
 import { addToFavorite, removeFromFavorite } from "../redux/actions/Favorite-Action";
 import BuySingleProductModal from '../Home/BuySingleProduct'
+import QuickView from "../Home/QuickView";
 
 export default function SeeMore() {
 
@@ -18,7 +18,7 @@ export default function SeeMore() {
     const state = useSelector((state) => state);
     const [data, setData] = useState([]);
     const navigate = useNavigate();
-    const [id, setId] = useState();
+    const [dataQV, setDataQV] = useState();
     const [quickView, setQuickView] = useState(false);
     const [buyShow, setBuyShow] = useState(false);
     const [singleProduct, setSingleProduct] = useState();
@@ -46,10 +46,10 @@ export default function SeeMore() {
         dispatch(addItemToCart(item));
     }
     
-    const onQuickView = (id) => {
+    const onQuickView = (item) => {
         setQuickView(true)
-        console.log(id)
-        setId(id)
+        console.log(item)
+        setDataQV(item)
       }
     return (
         <div>
@@ -67,7 +67,7 @@ export default function SeeMore() {
                             <div className='position-relative'>
                                 <ImgCarousal imgData={item} />
                                 <div className="d-flex justify-content-center productCard-btn">
-                                    <button className="btn btn-secondary btn-sm " onClick={() => onQuickView(item._id)}>QUICK VIEW</button>
+                                    <button className="btn btn-secondary btn-sm " onClick={() => onQuickView(item)}>QUICK VIEW</button>
                                 </div>
                                 <div className="position-absolute top-0 end-0">
                                     {state.FavoriteReducer.favorite.find((data) => data._id === item._id) ?
@@ -116,12 +116,11 @@ export default function SeeMore() {
                 : ""}
             
             <div>
-            {id ?
-                <QuickViewModal
+            {dataQV ?
+                <QuickView
                     show={quickView}
                     setShow={setQuickView}
-                    id={id}
-                    from="home"
+                    data={dataQV}
                 />
                 : ""
                 }
