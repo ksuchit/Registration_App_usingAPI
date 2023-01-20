@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { FaRupeeSign } from "react-icons/fa";
-import { FcLike } from "react-icons/fc";
-import { MdOutlineFavoriteBorder } from "react-icons/md";
+import { BsFillHeartFill, BsHeart} from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -64,8 +64,23 @@ export default function Wishlist(){
                 <ImgCarousal imgData={item} />
                 <div className="position-absolute top-0 end-0">
                   {state.FavoriteReducer.favorite.find((data)=>data._id===item._id) ?
-                  <button onClick={()=>onRemoveFromFavorite(item)} style={{border:'none',borderRadius:'100%'}}><FcLike size={20}/></button>
-                  : <button onClick={()=>dispatch(addToFavorite(item))} style={{border:'none',borderRadius:'100%'}}><MdOutlineFavoriteBorder size={20} /></button>
+                    <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip id="button-tooltip-2">Remove from Favorite</Tooltip>}
+                     >
+                      {({ ref, ...triggerHandler }) => (
+                          <span {...triggerHandler} ref={ref}><BsFillHeartFill size={18} className="mx-2" style={{color:'red'}} onClick={()=>dispatch(removeFromFavorite(item))}/></span>
+                      )}
+                    </OverlayTrigger>     
+                  :
+                    <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip id="button-tooltip-2">Add to Favorite</Tooltip>}
+                    >
+                      {({ ref, ...triggerHandler }) => (
+                          <span {...triggerHandler} ref={ref}><BsHeart size={18} className="mx-2" style={{ color: 'red' }} onClick={() => dispatch(addToFavorite(item))} /></span>
+                      )}
+                    </OverlayTrigger>  
                   }
                 </div>
               </div>
@@ -87,7 +102,7 @@ export default function Wishlist(){
             </div>
           );
         })
-      :<p style={{color:'red'}}>No data Found</p>
+      :<p>Empty WishList</p>
       }
       </div>
         </div>

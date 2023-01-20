@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, Image, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import Accordion from 'react-bootstrap/Accordion';
 import { toast } from 'react-hot-toast';
 import { FaRupeeSign } from 'react-icons/fa';
@@ -178,8 +178,39 @@ export default function AccordionBuy(props) {
                   <Form.Check.Label className='d-flex justify-content-between'>
                     <div>{`${item.addressLine2}, ${item.street}, ${item.city}, ${item.state}-${item.pin}`}</div>
                     <div>
-                      <AiFillEdit className='mx-1' onClick={()=>onEditAddress(item)}/>
-                      <AiFillDelete onClick={()=>onDeleteAddress(item._id)}/>
+                    <OverlayTrigger
+                                placement="top"
+                                overlay={<Tooltip id="button-tooltip-2">Edit Address</Tooltip>}
+                              >
+                      {({ ref, ...triggerHandler }) => (
+                        
+                          // <Image
+                          // {...triggerHandler}
+                          //   ref={ref}
+                          //   roundedCircle
+                          //   src={<AiFillEdit />}
+                          // />
+                          <span {...triggerHandler} ref={ref}><AiFillEdit className='mx-1' onClick={()=>onEditAddress(item)} /></span>
+                      
+                      )}
+                    </OverlayTrigger>                      
+                    <OverlayTrigger
+                                placement="top"
+                                overlay={<Tooltip id="button-tooltip-2">Remove Address</Tooltip>}
+                              >
+                      {({ ref, ...triggerHandler }) => (
+                        
+                          // <Image
+                          // {...triggerHandler}
+                          //   ref={ref}
+                          //   roundedCircle
+                          //   src={<AiFillEdit />}
+                          // />
+                          <span {...triggerHandler} ref={ref}><AiFillDelete onClick={()=>onDeleteAddress(item._id)}/></span>
+                      
+                      )}
+                    </OverlayTrigger>     
+                      
                     </div>
                   </Form.Check.Label>
               </Form.Check>

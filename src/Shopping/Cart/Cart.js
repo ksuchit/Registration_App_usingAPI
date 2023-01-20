@@ -129,7 +129,7 @@ export default function Cart() {
                                 <div className="d-flex justify-content-between">
                                     <div>
                                         <button className="btn btn-secondary btn-sm"
-                                            onClick={()=>navigate('/')}
+                                            onClick={()=>navigate(`/cart/similar-products?id=${item._org._id}`)}
                                         >See more like this</button>
                                     </div>
                                     {item.quantity !== 1 ?

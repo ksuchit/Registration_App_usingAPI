@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Dropdown, Form } from "react-bootstrap";
+import { Button, Dropdown, Form, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -146,13 +146,22 @@ export default function UpdateProfile() {
         <div className="d-flex my-2 justify-content-center gap-3" >
             <div className="d-flex flex-column justify-content-center">
                 <div>
-                    <img
-                    src={data.picture}
-                    alt="menProfile-Logo"
-                    className="profile-img"
-                    style={{ display: "block", width: 100, height: 100 }}
-                    onClick={()=>setShow(true)}    
-                    ></img>
+                        <OverlayTrigger
+                            placement="top"
+                            overlay={<Tooltip id="button-tooltip-2">click to update</Tooltip>}
+                            >
+                        {({ ref, ...triggerHandler }) => (
+                                <img
+                                {...triggerHandler} ref={ref}
+                                src={data.picture}
+                                alt="menProfile-Logo"
+                                className="profile-img"
+                                style={{ display: "block", width: 100, height: 100 }}
+                                onClick={()=>setShow(true)}    
+                                ></img>
+                        )}
+                        </OverlayTrigger>     
+                   
                 </div>
                  
             </div>

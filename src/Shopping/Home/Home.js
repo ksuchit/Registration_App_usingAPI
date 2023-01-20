@@ -12,10 +12,9 @@ import { addItemToCart } from "../redux/actions/Cart-Actions";
 import { addToFavorite, removeFromFavorite } from "../redux/actions/Favorite-Action";
 import BuySingleProductModal from "./BuySingleProduct";
 import getCart from "../services/Redux-Service";
-import { Tooltip } from 'react-tooltip'
-import 'react-tooltip/dist/react-tooltip.css'
 import QuickViewModal from "../../Seller/CompanyDetails/Products/Quick-View-Modal";
 import { BsArrowLeftCircleFill, BsFillArrowRightCircleFill, BsFillHeartFill, BsHeart } from "react-icons/bs";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 // let cnt = 0;
 export default function Products() {
   const [products, setProducts] = useState([]);
@@ -179,9 +178,25 @@ export default function Products() {
                       <button className="btn btn-secondary btn-sm " onClick={() => onQuickView(item._id)}>QUICK VIEW</button>
                   </div>
                   <div className="position-absolute top-0 end-0">
-                    {state.FavoriteReducer.favorite.find((data)=>data._id===item._id) ?
-                      <BsFillHeartFill size={18} className="mx-2" style={{color:'red'}} onClick={()=>dispatch(removeFromFavorite(item))}/>
-                    : <BsHeart size={18} className="mx-2" style={{color:'red'}} onClick={()=>dispatch(addToFavorite(item))} />
+                    {state.FavoriteReducer.favorite.find((data) => data._id === item._id) ?
+                      <OverlayTrigger
+                      placement="top"
+                      overlay={<Tooltip id="button-tooltip-2">Remove from Favorite</Tooltip>}
+                       >
+                        {({ ref, ...triggerHandler }) => (
+                            <span {...triggerHandler} ref={ref}><BsFillHeartFill size={18} className="mx-2" style={{color:'red'}} onClick={()=>dispatch(removeFromFavorite(item))}/></span>
+                        )}
+                      </OverlayTrigger>     
+                    :
+                      <OverlayTrigger
+                      placement="top"
+                      overlay={<Tooltip id="button-tooltip-2">Add to Favorite</Tooltip>}
+                      >
+                        {({ ref, ...triggerHandler }) => (
+                            <span {...triggerHandler} ref={ref}><BsHeart size={18} className="mx-2" style={{ color: 'red' }} onClick={() => dispatch(addToFavorite(item))} /></span>
+                        )}
+                      </OverlayTrigger>  
+                      
                     }
                   </div>
                 </div>
