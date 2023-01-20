@@ -11,7 +11,7 @@ export default function MyOrders(){
     const [key, setKey] = useState ('orders');
     const [orders,setOrders]=useState([]);
     const [pageNum, setPageNum] = useState(1);
-    const [totalPages,setTotalPages]=useState();
+    const [totalPages,setTotalPages]=useState(1);
     const [itemPerPage, setItemPerPage] = useState(10);
     
     useEffect(()=>{
