@@ -167,12 +167,12 @@ body{
 }
 
 .price-details{
-  position:fixed;
+  /* position:fixed; */
   top:10;
   right: 0;
   margin-right: 4%;
   width:100%;
-  z-index:100;
+  /* z-index:100; */
 }
 /* loader */
 .loading-indicator:before {
@@ -223,4 +223,14 @@ body{
   padding: 1%;
   display: flex;
   justify-content: center;
+}
+.gradient-custom {
+  /* fallback for old browsers */
+  background: #f6d365;
+
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1));
+
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1))
 }

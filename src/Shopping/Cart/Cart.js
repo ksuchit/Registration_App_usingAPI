@@ -1,9 +1,8 @@
 import { FaRupeeSign } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-// import ImgCarousal from "../home/Img-Carousal";
 import {AiTwotoneDelete} from 'react-icons/ai'
 import { minusItem, plusItem } from "../redux/actions/Cart-Item-Actions";
-import { clearCart, deleteItemFromCart } from "../redux/actions/Cart-Actions";
+import { addItemToCart, clearCart, deleteItemFromCart } from "../redux/actions/Cart-Actions";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import { deSelectItem, diSelectAllItems, selectAllItems, selectItem } from "../redux/actions/Cart-Select-Item-Actions";
@@ -11,27 +10,40 @@ import { useState } from "react";
 import { shopLoginContext } from "../../App";
 import LoginModal from "../Home/Login-Modal";
 import parse from 'html-react-parser'
+import { set } from "react-hook-form";
+import ImgCarousal from "../Home/Img-Carousal";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { BsFillHeartFill, BsHeart } from "react-icons/bs";
+import { addToFavorite, removeFromFavorite } from "../redux/actions/Favorite-Action";
+import BuySingleProductModal from '../Home/BuySingleProduct'
 
 export default function Cart() {
 
     const [selected,setSelected]=useState(false);
     const [searchParams,] = useSearchParams();
     const [loginShow, setLoginShow] = useState(false)
+    const [similar,setSimilar]=useState([]);
 
     // console.log(searchParams.get('id'))
     const [shopLive,] = useContext(shopLoginContext);
+    const navigate = useNavigate();
+    const state = (useSelector((state) => state) || JSON.stringify(localStorage.getItem('store')));
+    console.log(state)
+    const dispatch = useDispatch();
     
     useEffect(() => {
         if (searchParams.get('id'))
         document.getElementById(searchParams.get('id')).scrollIntoView({ behavior: "smooth" },1000)
         onSelectAllItems();
+        // setSimilar(state.cartReducer.cart.map((item)=> item._org._id))
+        removeDuplicate(state.cartReducer.cart.map((item)=> item._org._id))
     }, [])
     
-    const navigate = useNavigate();
-    const state = (useSelector((state) => state) || JSON.stringify(localStorage.getItem('store')));
-    console.log(state)
+    const removeDuplicate=(arr)=>{
+        setSimilar([...new Set(arr)])
+    }
+    console.log(similar)
 
-    const dispatch = useDispatch();
     let price=0
     state.cartReducer.cart.map((item) => {
         if(state.CartSelectItemReducer.selectedItem.find((data)=>data._id===item._id))
@@ -55,6 +67,27 @@ export default function Cart() {
         else
             setLoginShow(true)
     }
+    const addingItemToCart = (item) => {
+
+        item.quantity = 1;
+        item.subTotal = item.quantity * item.price
+        dispatch(addItemToCart(item));
+        
+    }
+  const [singleProduct,setSingleProduct]=useState();
+  const [buyShow,setBuyShow]=useState(false);
+    const BuySingleProduct = (item) => {
+      // navigate(`/buy?id=${item._id}`)
+      // dispatch(clearCart());
+      console.log(item)
+      setSingleProduct(item)
+      setBuyShow(true)
+      item.quantity = 1;
+      item.subTotal = item.quantity * item.price
+      dispatch(addItemToCart(item));
+  
+    }
+  
     return ( 
         <div className="row mt-3">
         <div className="col-1"></div>
@@ -73,12 +106,12 @@ export default function Cart() {
             
            { state.cartReducer.cart.map((item,i) => {
                 return (
-                    <div key={item._id} id={item._id} className='d-flex p-2' style={{backgroundColor:'lightGrey',borderRadius:'2px'}}>
+                    <div key={item._id} id={item._id} className='d-flex p-2' style={{backgroundColor:'lightGrey',borderRadius:'7px'}}>
                         <div style={{width:'100px',height:'120px'}} className='d-flex gap-1'>
                             <input type='checkbox' onChange={()=>dispatch((selectItem(item)))}
                             checked={state.CartSelectItemReducer.selectedItem.find((data)=>data._id===item._id) ? true :false}
                             />
-                            <img src={item.images[0].url} alt='cartItem' style={{height:'100%',width:'100%'}}/>
+                            <img src={item.images[0].url} alt='cartItem' style={{height:'100%',width:'100%',borderRadius:'7px'}}/>
                         </div>
                         <div className="d-flex flex-column" style={{paddingLeft:'40px',width:'400px'}}> 
                         {/* onClick={()=>navigate(`/buy?id=${item._id}`)} */}
@@ -98,21 +131,45 @@ export default function Cart() {
                                 <div className="d-flex my-1">
                                     <div className="btn-group" role="group" aria-label="Basic outlined example">
                                         {item.quantity === 1 ?
-                                            <button type="button" className="btn btn-outline-primary btn-sm"
-                                                onClick={() => {
-                                                    dispatch(deleteItemFromCart(item))
-                                                    dispatch(deSelectItem(item))
-                                                }}
-                                            ><AiTwotoneDelete /></button>
+                                            <OverlayTrigger
+                                            placement="top"
+                                            overlay={<Tooltip id="button-tooltip-2">Remove item from cart</Tooltip>}
+                                            >
+                                            {({ ref, ...triggerHandler }) => (
+                                               <button type="button" className="btn btn-outline-primary btn-sm"
+                                               onClick={() => {
+                                                   dispatch(deleteItemFromCart(item))
+                                                   dispatch(deSelectItem(item))
+                                               }}
+                                               {...triggerHandler} ref={ref} 
+                                           ><AiTwotoneDelete /></button>
+                                                )}
+                                        </OverlayTrigger>
+                                            
                                             : 
-                                            <button type="button" className="btn btn-outline-primary btn-sm"
-                                                onClick={()=>dispatch(minusItem(item))}
-                                            >-</button>
+                                            <OverlayTrigger
+                                                placement="top"
+                                                overlay={<Tooltip id="button-tooltip-2">Decrease quantity</Tooltip>}
+                                                >
+                                                {({ ref, ...triggerHandler }) => (
+                                                    <button type="button" className="btn btn-outline-primary btn-sm"
+                                                    {...triggerHandler} ref={ref} onClick={()=>dispatch(minusItem(item))}
+                                                    >-</button>
+                                                    )}
+                                            </OverlayTrigger>
+                                            
                                         }
                                         <button type="button" className="btn btn-outline-primary btn-sm" disabled>{item.quantity}</button>
-                                        <button type="button" className="btn btn-outline-primary btn-sm"
-                                            onClick={()=>dispatch(plusItem(item))}
-                                        >+</button>
+                                        <OverlayTrigger
+                                        placement="top"
+                                        overlay={<Tooltip id="button-tooltip-2">Increase quantity</Tooltip>}
+                                        >
+                                            {({ ref, ...triggerHandler }) => (
+                                                <button type="button" className="btn btn-outline-primary btn-sm"
+                                                {...triggerHandler} ref={ref}  onClick={()=>dispatch(plusItem(item))}
+                                              >+</button>
+                                            )}
+                                        </OverlayTrigger>
                                     </div>
                                     <div className="mx-2">
                                         <button className="btn btn-secondary btn-sm"
@@ -120,7 +177,7 @@ export default function Cart() {
                                                 dispatch(deleteItemFromCart(item))
                                                 dispatch(deSelectItem(item))
                                             }}
-                                        >Delete</button>
+                                        >Remove from Cart</button>
                                     </div>
                                     {/* <div>
                                         <button className="btn btn-warning btn-sm" onClick={()=>navigate(`/buy?id=${item._id}`)}>Buy</button>
@@ -193,7 +250,75 @@ export default function Cart() {
             show={loginShow}
             setShow={setLoginShow}
             />        
-        </div>   
+        </div> 
+        <div>
+        <div className="productImages">
+          {similar.length>0 ?
+          state.allProductsReducer.allProducts.map((item, i) => {
+            if(similar.find((data,j)=>data===item._org._id))
+            return (
+              <div key={i} className='productCard'>
+                {/* <div> */}
+                <div className='position-relative'>
+                  <ImgCarousal imgData={item} />
+                  <div className="d-flex justify-content-center productCard-btn">
+                      {/* <button className="btn btn-secondary btn-sm " onClick={() => onQuickView(item)}>QUICK VIEW</button> */}
+                  </div>
+                  <div className="position-absolute top-0 end-0">
+                    {state.FavoriteReducer.favorite.find((data) => data._id === item._id) ?
+                      <OverlayTrigger
+                      placement="top"
+                      overlay={<Tooltip id="button-tooltip-2">Remove from Favorite</Tooltip>}
+                       >
+                        {({ ref, ...triggerHandler }) => (
+                            <span {...triggerHandler} ref={ref}><BsFillHeartFill size={18} className="mx-2" style={{color:'red'}} onClick={()=>dispatch(removeFromFavorite(item))}/></span>
+                        )}
+                      </OverlayTrigger>     
+                    :
+                      <OverlayTrigger
+                      placement="top"
+                      overlay={<Tooltip id="button-tooltip-2">Add to Favorite</Tooltip>}
+                      >
+                        {({ ref, ...triggerHandler }) => (
+                            <span {...triggerHandler} ref={ref}><BsHeart size={18} className="mx-2" style={{ color: 'red' }} onClick={() => dispatch(addToFavorite(item))} /></span>
+                        )}
+                      </OverlayTrigger>  
+                      
+                    }
+                  </div>
+                </div>
+                <div className="d-flex flex-column align-items-center">
+                  <h6 className="py-1 mb-0 fw-bolder">{item.name.length>15 ? `${item.name.slice(0,15)} ...`: item.name}</h6>
+                  <p className='fw-bolder mb-0' style={{color:'rgb(196, 85, 0)'}}> <FaRupeeSign />{item.price}</p>
+                  {/* <p id="my-anchor-element">Tooltip</p>
+                  <Tooltip anchorId="my-anchor-element" content="hello world" place="top" /> */}
+                </div>
+                <div className="mb-0 d-flex justify-content-center">
+                  {/* state.cartReducer.cart its used because state refreses when we come back to home page from anywhere   */}
+                  {
+                    state.cartReducer.cart.find((prev)=>prev._id===item._id) ?
+                      <button onClick={()=>navigate(`/cart?id=${item._id}`)} className="btn btn-primary btn-sm mx-1">Go to Cart</button>
+                      : <>
+                      <button className="btn btn-warning btn-sm mx-1"
+                        onClick={()=>addingItemToCart(item)}>Add to Cart</button>
+                      <button className="btn btn-dark btn-sm" onClick={()=>BuySingleProduct(item)}>Buy</button>
+                      </>
+                  }
+                </div>
+              </div>
+            );
+          })
+        :<p style={{color:'red'}}>No data Found</p>
+        }
+        </div>
+        {singleProduct &&
+          <BuySingleProductModal
+            show={buyShow}
+            setShow={setBuyShow}
+            singleProduct={singleProduct}
+          />
+      }
+        </div>  
         </div>
     )
 }
