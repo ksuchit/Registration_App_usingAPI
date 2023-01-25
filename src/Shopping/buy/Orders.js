@@ -4,6 +4,7 @@ export default function Orders(props){
 
     return(
         <div>
+            <h6 data-testid="orders">ORDERS</h6>
             {props.abc==='orders'?
              <OrdersDisplay status="Confirmed" orders={props.orders} setOrders={props.setOrders}/> : "" }
             {props.abc==='cancelledOrders' ?

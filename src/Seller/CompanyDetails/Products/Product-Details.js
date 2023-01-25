@@ -160,14 +160,16 @@ export default function ProductDetails() {
 
             
           </div>
-          <div style={{}}>
-            <h2>{data.name}</h2>
-            <p>{parse(data.description)}</p>
-            <p className="fw-bolder">
-            <FaRupeeSign />
-            {data.price}
-            </p>
-          </div>
+          {data &&
+            <div>
+              <h2>{data.name}</h2>
+              <p>{parse(data.description)}</p>
+              <p className="fw-bolder">
+                <FaRupeeSign />
+                {data.price}
+              </p>
+            </div>
+          }
         </div>
         <div style={{ textAlign: "center" }} className="my-3">
               <button onClick={onDeleteProduct} className="btn btn-danger">

@@ -36,6 +36,16 @@ const CartSelectItemReducer=(state=initialSelectItemState,action)=>{
             return {
                 selectedItem:[action.payload]
             }
+        case "CHANGE-QUANTITY":
+            const changeArr = state.selectedItem.map((item) => {
+                if (item._id === action.payload.item._id) {
+                    item.quantity=action.payload.quantity
+                }
+                return item
+            })
+            return {
+                selectedItem:changeArr
+            }
         default:
             return state
     }

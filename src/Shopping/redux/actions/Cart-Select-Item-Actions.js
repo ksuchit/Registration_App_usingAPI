@@ -32,3 +32,13 @@ export const selectBuyOneItem = (item) => {
         payload:item
     }
 }
+
+export function changeQuantity(item, quantity) {
+    return {
+        type: "CHANGE-QUANTITY",
+        payload: {
+            item: item,
+            quantity:quantity
+        }
+    }
+}

@@ -147,6 +147,7 @@ export default function Products() {
     <div className="productImages-container">
       <div className="d-flex justify-content-between my-2 mx-2">
           <div className="d-flex">
+            <h6 data-testid="home">HOME</h6>
             <input type='text' value={name} className="form-control"
               onChange={(e) => setName(e.target.value)} />
             <button className="btn btn-primary mx-2"

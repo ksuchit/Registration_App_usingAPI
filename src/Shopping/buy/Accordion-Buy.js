@@ -8,13 +8,15 @@ import Address from '../Profile/Address';
 import Get, { Delete, Post, Put } from '../services/Http-Service';
 import CardModal from './Card-Modal'
 import { AiFillEdit ,AiFillDelete} from 'react-icons/ai'
-import { Navigate } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import UpdateAddressModal from '../Profile/Update-Address-Modal';
 import { clearCart } from '../redux/actions/Cart-Actions';
+import { changeQuantity } from '../redux/actions/Cart-Select-Item-Actions';
 
 export default function AccordionBuy(props) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [address, setAddress] = useState([]);
   const [defaultAdd, setDefaultAdd] = useState();
   const [show,setShow]=useState(false)
@@ -136,7 +138,7 @@ export default function AccordionBuy(props) {
                 `Your Address has been deleted.`,
                 "success"
               );
-              Navigate("/profile");
+              navigate("/profile");
             })
             .catch((error) => {
               console.log(error);
@@ -247,7 +249,16 @@ export default function AccordionBuy(props) {
                     <div>
                         <h6>{item.name}</h6>
                         <span style={{color:'#B12704'}}><FaRupeeSign />{item.price}</span>
-                        <Form.Select aria-label="Default select example">
+                    <Form.Select aria-label="Default select example" onChange={(e) => {
+                      console.log(e.target.value)
+                      if (e.target.value === '11')
+                        navigate('/cart')
+                      else
+                        dispatch(changeQuantity(item, e.target.value))
+                        
+                    }}
+                    >
+                      <option defaultValue={item.quantity}>{item.quantity}</option>
                           <option value="1">One</option>
                           <option value="2">Two</option>
                           <option value="3">Three</option>
@@ -257,7 +268,16 @@ export default function AccordionBuy(props) {
                           <option value="7">Seven</option>
                           <option value="8">Eight</option>
                           <option value="9">Nine</option>
-                          <option value="10">Ten</option><hr></hr>
+                          <option value="10">Ten</option>
+                          <OverlayTrigger
+                            placement="top"
+                            overlay={<Tooltip id="button-tooltip-2">Decrease quantity</Tooltip>}
+                          >
+                          {({ ref, ...triggerHandler }) => (
+                            <option value="11" {...triggerHandler} ref={ref} >Ten+</option>
+                          )}
+                          </OverlayTrigger>
+                          <hr></hr>
                           <option value="delete">delete</option>
                         </Form.Select>
                     </div>

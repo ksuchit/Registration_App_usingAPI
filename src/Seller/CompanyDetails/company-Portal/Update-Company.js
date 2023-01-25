@@ -11,7 +11,6 @@ import EditUser from "../crud/Edit-User";
 import EditRole from "../crud/Edit-Role";
 import DeleteUserModal from "../crud/Delete-User-Modal";
 import Pagination from "./Pagination";
-import { hover } from "@testing-library/user-event/dist/hover";
 
 export default function UpdateCompany() {
     
