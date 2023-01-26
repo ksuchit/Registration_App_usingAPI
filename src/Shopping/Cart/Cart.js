@@ -37,7 +37,7 @@ export default function Cart() {
         onSelectAllItems();
         // setSimilar(state.cartReducer.cart.map((item)=> item._org._id))
         removeDuplicate(state.cartReducer.cart.map((item)=> item._org._id))
-    }, [])
+    }, [state.cartReducer.cart.length])
     
     const removeDuplicate=(arr)=>{
         setSimilar([...new Set(arr)])
