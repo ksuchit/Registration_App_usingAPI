@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Button  from "react-bootstrap/Button";
 import  Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
-import { getProductDetails } from "../../services/Http-Service";
+import { Get } from "../../services/Http-Service";
 import { FaRupeeSign } from 'react-icons/fa'
 import parse from 'html-react-parser'
 import ReactImageMagnify from "react-image-magnify";
@@ -14,7 +14,7 @@ export default function QuickViewModal(props) {
 
 console.log(props.id)
   useEffect(() => {
-    getProductDetails(`/products/${props.id}`)
+    Get(`/products/${props.id}`)
       .then((response) => {
         console.log(response);
         setData(response.data);

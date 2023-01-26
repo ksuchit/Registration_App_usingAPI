@@ -2,7 +2,7 @@ import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useForm } from 'react-hook-form';
-import { UpdateProduct } from '../../services/Http-Service';
+import { Patch } from '../../services/Http-Service';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import parse from 'html-react-parser'
@@ -28,7 +28,7 @@ export default function UpdateProductModal(props) {
     const onSubmit = (data) => {
         console.log(data)
         data.description = text;
-        UpdateProduct(`/products/${props.data._id}`, data)
+        Patch(`/products/${props.data._id}`, data)
             .then((response) => {
                 console.log(response)
                 props.setData(response.data)

@@ -4,7 +4,7 @@ export default function Post(url,data) {
    return (axiosInstance.post(`${url}`, data))
 }
 
-export function secureGet(url) {
+export function Get(url) {
     return( axiosInstance.get(`${url}`))
 }
 
@@ -12,11 +12,7 @@ export function Patch(url,data) {
     return( axiosInstance.patch(`${url}`,data))
 }
 
-export function getUsers(url) {
-    return(axiosInstance.get(`${url}`))
-}
-
-export function DeleteUser(url) {
+export function Delete(url) {
     return(axiosInstance.delete(`${url}`))
 }
 
@@ -26,10 +22,6 @@ export function EmailVerification(url){
 
 export function VerifyAccount(url) {
     return(axiosInstance.post(`${url}`))
-}
-
-export function getProducts(url) {
-    return (axiosInstance.get(`${url}`))
 }
 
 export function CreateProduct(url,formData) {
@@ -42,18 +34,3 @@ export function CreateProduct(url,formData) {
     ))
 }
 
-export function getProductDetails(url) {
-    return(axiosInstance.get(`${url}`))
-}
-
-export function DeleteProduct(url) {
-    return(axiosInstance.delete(`${url}`))
-}
-
-export function UpdateProduct(url, data) {
-    return(axiosInstance.patch(`${url}`,data))
-}
-
-export function Get(url) {
-    return(axiosInstance.get(`${url}`))
-}

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getProducts } from "../../services/Http-Service";
+import { Get } from "../../services/Http-Service";
 import CreateNewProduct from "./Create-New-Product";
 import ImgCarousal from "./Img-Carousal";
 import Pagination from "./Pagination";
@@ -23,7 +23,7 @@ export default function Products() {
   useEffect(() => {
 
     sortBy ?
-    getProducts(`/products?&limit=${itemPerPage}&page=${pageNum}&sortBy=${sortBy}`)
+    Get(`/products?&limit=${itemPerPage}&page=${pageNum}&sortBy=${sortBy}`)
       .then((response) => {
         console.log(response);
         setProducts(response.data.results);
@@ -34,7 +34,7 @@ export default function Products() {
         console.log(error);
       })
     : 
-    getProducts(`/products?&limit=${itemPerPage}&page=${pageNum}`)
+    Get(`/products?&limit=${itemPerPage}&page=${pageNum}`)
       .then((response) => {
         console.log(response);
         setProducts(response.data.results);
@@ -46,7 +46,7 @@ export default function Products() {
       });
     
     searchByName &&
-    getProducts(`/products?&limit=${itemPerPage}&page=${pageNum}&name=${searchByName}`)
+    Get(`/products?&limit=${itemPerPage}&page=${pageNum}&name=${searchByName}`)
     .then((response) => {
       console.log(response);
       setProducts(response.data.results);

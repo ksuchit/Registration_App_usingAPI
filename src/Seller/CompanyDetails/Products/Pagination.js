@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { addAllSellerProducts } from "../../../Shopping/redux/actions/Seller-Products";
-import { getProducts } from "../../services/Http-Service"
+import { Get } from "../../services/Http-Service"
 
 export default function Pagination(props)
 {
@@ -9,7 +9,7 @@ export default function Pagination(props)
 
     useEffect(() => {
         if (props.totalResults) {
-            getProducts(`/products?limit=${props.totalResults}`)
+            Get(`/products?limit=${props.totalResults}`)
                 .then((response) => {
                     console.log(response)
                     dispatch(addAllSellerProducts(response.data.results))

@@ -5,7 +5,7 @@ import { FaUserAlt } from "react-icons/fa";
 import { AiFillCloseCircle } from "react-icons/ai";
 import toast from "react-hot-toast";
 import { loginContext } from "../../../App";
-import { EmailVerification, secureGet } from "../../services/Http-Service";
+import { EmailVerification, Get } from "../../services/Http-Service";
 
 export default function MyProfile(props) {
   const [ ,setIsLive] = useContext(loginContext);
@@ -15,7 +15,7 @@ export default function MyProfile(props) {
   useEffect(() => {
     
     // axios get
-      secureGet("/auth/self")
+      Get("/auth/self")
         .then((response) => {
           console.log(response.data);
           setData(response.data);

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import { FaUserAlt } from "react-icons/fa";
 import { MdWork, MdEmail} from "react-icons/md";
-import {  getUsers, secureGet } from "../../services/Http-Service";
+import {  Get } from "../../services/Http-Service";
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
 import { ImProfile } from 'react-icons/im'
 import CreateUserModal from "../crud/Create-User-Modal";
@@ -37,7 +37,7 @@ export default function UpdateCompany() {
     useEffect(() => {
         const fetchData = async () => {
             // axios get
-            await secureGet("/auth/self")
+            await Get("/auth/self")
                 .then((response) => {
                     console.log(response.data);
                     setCurrentUser(response.data);
@@ -52,7 +52,7 @@ export default function UpdateCompany() {
          
             userRole ?
               //axios getUsers for employees details
-              await getUsers(`/users?&role=${userRole}&limit=${itemsPerPage}&page=${pageNum}&sortBy=${sortBy}`)
+              await Get(`/users?&role=${userRole}&limit=${itemsPerPage}&page=${pageNum}&sortBy=${sortBy}`)
                 .then((response) => {
                   console.log(response)
                   setUsers(response.data.results)
@@ -63,7 +63,7 @@ export default function UpdateCompany() {
                   console.log(error)
                 })
               :
-              await getUsers(`/users?&limit=${itemsPerPage}&page=${pageNum}&sortBy=${sortBy}`)
+              await Get(`/users?&limit=${itemsPerPage}&page=${pageNum}&sortBy=${sortBy}`)
                 .then((response) => {
                   console.log(response)
                   setUsers(response.data.results)
@@ -75,8 +75,8 @@ export default function UpdateCompany() {
                 })
           
         //   userName ?
-        //   //axios getUsers for employees details
-        //   await getUsers(`/users?&name=${searchByName}&limit=${itemsPerPage}&page=${pageNum}&sortBy=${sortBy}`)
+        //   //axios Get for employees details
+        //   await Get(`/users?&name=${searchByName}&limit=${itemsPerPage}&page=${pageNum}&sortBy=${sortBy}`)
         //     .then((response) => {
         //       console.log(response)
         //       setUsers(response.data.results)
@@ -85,7 +85,7 @@ export default function UpdateCompany() {
         //       console.log(error)
         //     })
         //   :
-        //   await getUsers(`/users?&limit=${itemsPerPage}&page=${pageNum}&sortBy=${sortBy}`)
+        //   await Get(`/users?&limit=${itemsPerPage}&page=${pageNum}&sortBy=${sortBy}`)
         //     .then((response) => {
         //       console.log(response)
         //       setUsers(response.data.results)

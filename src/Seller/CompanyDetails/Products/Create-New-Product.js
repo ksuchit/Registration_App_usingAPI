@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useForm } from 'react-hook-form';
-import { getProducts } from '../../services/Http-Service';
+import { Get } from '../../services/Http-Service';
 import {CiCircleRemove} from 'react-icons/ci'
 import axios from 'axios';
 import getToken from '../../services/Token-Service';
@@ -66,7 +66,7 @@ export default function CreateNewProduct(props) {
   }
   
   const callGetProducts = () => {
-    getProducts(`/products`)
+    Get(`/products`)
       .then((response) => {
         props.setProducts(response.data.results);
       })

@@ -1,12 +1,12 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
-import { DeleteUser } from '../../services/Http-Service';
+import { Delete } from '../../services/Http-Service';
 
 export default function DeleteUserModal(props) {
 
   const deleteUser = () => {
     console.log(props.editUser?._id)
-    DeleteUser(`/users/${props.editUser?._id}`)
+    Delete(`/users/${props.editUser?._id}`)
       .then((response) => {
         console.log(response)
         props.setUsers((prev)=> prev.filter((item)=>item._id!==props.editUser?._id))

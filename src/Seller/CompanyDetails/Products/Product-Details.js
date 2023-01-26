@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Swal from "sweetalert2";
-import { DeleteProduct, getProductDetails } from "../../services/Http-Service";
+import { Delete, Get } from "../../services/Http-Service";
 import UpdateImageModal from "./Update-Image-Modal";
 import UpdateProductModal from "./Update-Product-Modal";
 import { FaRupeeSign } from "react-icons/fa";
@@ -17,7 +17,7 @@ export default function ProductDetails() {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    getProductDetails(`/products/${searchParams.get("productId")}`)
+    Get(`/products/${searchParams.get("productId")}`)
       .then((response) => {
         console.log(response);
         setData(response.data);
@@ -52,7 +52,7 @@ export default function ProductDetails() {
       })
       .then((result) => {
         if (result.isConfirmed) {
-          DeleteProduct(`/products/${searchParams.get("productId")}`)
+          Delete(`/products/${searchParams.get("productId")}`)
             .then((response) => {
               console.log(response);
               swalWithBootstrapButtons.fire(
