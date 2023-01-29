@@ -1,16 +1,15 @@
-import { FaRupeeSign } from "react-icons/fa";
+import { FaGreaterThan, FaRupeeSign } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import {AiTwotoneDelete} from 'react-icons/ai'
 import { minusItem, plusItem } from "../redux/actions/Cart-Item-Actions";
 import { addItemToCart, clearCart, deleteItemFromCart } from "../redux/actions/Cart-Actions";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import { deSelectItem, diSelectAllItems, selectAllItems, selectItem } from "../redux/actions/Cart-Select-Item-Actions";
 import { useState } from "react";
 import { shopLoginContext } from "../../App";
 import LoginModal from "../Home/Login-Modal";
 import parse from 'html-react-parser'
-import { set } from "react-hook-form";
 import ImgCarousal from "../Home/Img-Carousal";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { BsFillHeartFill, BsHeart } from "react-icons/bs";
@@ -206,7 +205,7 @@ export default function Cart() {
         <div className="col-3 price-details">
             <div style={{border:'1px solid black',padding:'3%'}}>
                 <h6>PRICE DETAILS</h6>
-                <hr></hr>
+                <hr/>
                 <div className="d-flex justify-content-between">
                     <p>Total Items:</p>
                     <p>{state.CartSelectItemReducer.selectedItem.length}</p>    
@@ -223,7 +222,7 @@ export default function Cart() {
                     <p>Delivery Charges:</p>
                     <p style={{color:'green'}}>FREE</p>    
                 </div>
-                <hr></hr>    
+                <hr/>    
                 <div className="d-flex justify-content-between">
                     <p>Total Amount:</p>
                     <p><FaRupeeSign />{price>1000 ? price-1000 : price}</p>    
@@ -254,59 +253,92 @@ export default function Cart() {
         <div>
         <div className="productImages">
           {similar.length>0 ?
-          state.allProductsReducer.allProducts.map((item, i) => {
-            if(similar.find((data,j)=>data===item._org._id))
-            return (
-              <div key={i} className='productCard'>
-                {/* <div> */}
-                <div className='position-relative'>
-                  <ImgCarousal imgData={item} />
-                  <div className="d-flex justify-content-center productCard-btn">
-                      {/* <button className="btn btn-secondary btn-sm " onClick={() => onQuickView(item)}>QUICK VIEW</button> */}
-                  </div>
-                  <div className="position-absolute top-0 end-0">
-                    {state.FavoriteReducer.favorite.find((data) => data._id === item._id) ?
-                      <OverlayTrigger
-                      placement="top"
-                      overlay={<Tooltip id="button-tooltip-2">Remove from Favorite</Tooltip>}
-                       >
-                        {({ ref, ...triggerHandler }) => (
-                            <span {...triggerHandler} ref={ref}><BsFillHeartFill size={18} className="mx-2" style={{color:'red'}} onClick={()=>dispatch(removeFromFavorite(item))}/></span>
-                        )}
-                      </OverlayTrigger>     
-                    :
-                      <OverlayTrigger
-                      placement="top"
-                      overlay={<Tooltip id="button-tooltip-2">Add to Favorite</Tooltip>}
-                      >
-                        {({ ref, ...triggerHandler }) => (
-                            <span {...triggerHandler} ref={ref}><BsHeart size={18} className="mx-2" style={{ color: 'red' }} onClick={() => dispatch(addToFavorite(item))} /></span>
-                        )}
-                      </OverlayTrigger>  
-                      
-                    }
-                  </div>
-                </div>
-                <div className="d-flex flex-column align-items-center">
-                  <h6 className="py-1 mb-0 fw-bolder">{item.name.length>15 ? `${item.name.slice(0,15)} ...`: item.name}</h6>
-                  <p className='fw-bolder mb-0' style={{color:'rgb(196, 85, 0)'}}> <FaRupeeSign />{item.price}</p>
-                  {/* <p id="my-anchor-element">Tooltip</p>
-                  <Tooltip anchorId="my-anchor-element" content="hello world" place="top" /> */}
-                </div>
-                <div className="mb-0 d-flex justify-content-center">
-                  {/* state.cartReducer.cart its used because state refreses when we come back to home page from anywhere   */}
-                  {
-                    state.cartReducer.cart.find((prev)=>prev._id===item._id) ?
-                      <button onClick={()=>navigate(`/cart?id=${item._id}`)} className="btn btn-primary btn-sm mx-1">Go to Cart</button>
-                      : <>
-                      <button className="btn btn-warning btn-sm mx-1"
-                        onClick={()=>addingItemToCart(item)}>Add to Cart</button>
-                      <button className="btn btn-dark btn-sm" onClick={()=>BuySingleProduct(item)}>Buy</button>
-                      </>
-                  }
-                </div>
-              </div>
-            );
+          similar.map((data,j)=>{
+            let cnt=0;
+            return  state.allProductsReducer.allProducts.map((item, i) => {
+                  if(data===item._org._id && cnt<3){
+                    cnt++
+                    return (
+                      <div key={i} className='productCard'>
+                        {/* <div> */}
+                        <div className='position-relative'>
+                          <ImgCarousal imgData={item} />
+                          <div className="d-flex justify-content-center productCard-btn">
+                              {/* <button className="btn btn-secondary btn-sm " onClick={() => onQuickView(item)}>QUICK VIEW</button> */}
+                          </div>
+                          <div className="position-absolute top-0 end-0">
+                            {state.FavoriteReducer.favorite.find((data) => data._id === item._id) ?
+                              <OverlayTrigger
+                              placement="top"
+                              overlay={<Tooltip id="button-tooltip-2">Remove from Favorite</Tooltip>}
+                               >
+                                {({ ref, ...triggerHandler }) => (
+                                    <span {...triggerHandler} ref={ref}><BsFillHeartFill size={18} className="mx-2" style={{color:'red'}} onClick={()=>dispatch(removeFromFavorite(item))}/></span>
+                                )}
+                              </OverlayTrigger>     
+                            :
+                              <OverlayTrigger
+                              placement="top"
+                              overlay={<Tooltip id="button-tooltip-2">Add to Favorite</Tooltip>}
+                              >
+                                {({ ref, ...triggerHandler }) => (
+                                    <span {...triggerHandler} ref={ref}><BsHeart size={18} className="mx-2" style={{ color: 'red' }} onClick={() => dispatch(addToFavorite(item))} /></span>
+                                )}
+                              </OverlayTrigger>  
+                              
+                            }
+                          </div>
+                        </div>
+                        <div className="d-flex flex-column align-items-center">
+                          <h6 className="py-1 mb-0 fw-bolder">{item.name.length>15 ? `${item.name.slice(0,15)} ...`: item.name}</h6>
+                          <p className='fw-bolder mb-0' style={{color:'rgb(196, 85, 0)'}}> <FaRupeeSign />{item.price}</p>
+                          {/* <p id="my-anchor-element">Tooltip</p>
+                          <Tooltip anchorId="my-anchor-element" content="hello world" place="top" /> */}
+                        </div>
+                        <div className="mb-0 d-flex justify-content-center">
+                          {/* state.cartReducer.cart its used because state refreses when we come back to home page from anywhere   */}
+                          {
+                            state.cartReducer.cart.find((prev)=>prev._id===item._id) ?
+                              <button onClick={()=>navigate(`/cart?id=${item._id}`)} className="btn btn-primary btn-sm mx-1">Go to Cart</button>
+                              : <>
+                              <button className="btn btn-warning btn-sm mx-1"
+                                onClick={()=>addingItemToCart(item)}>Add to Cart</button>
+                              <button className="btn btn-dark btn-sm" onClick={()=>BuySingleProduct(item)}>Buy</button>
+                              </>
+                          }
+                        </div>
+                      </div>
+                    );
+                }
+                if(cnt===3){
+                    cnt++
+                    return(
+                        <div className="productCard">
+                            <h6>Organisation Details</h6>
+                            <div>
+                                <h6>name:</h6>
+                                <p>{item._org.name}</p>
+                            </div>
+                            <div>
+                                <h6>Id:</h6>
+                                <p>{item._org._id}</p>
+                            </div>
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={<Tooltip id="button-tooltip-2">Click to see more like this</Tooltip>}
+                            >
+                                {({ ref, ...triggerHandler }) => (
+                                    <button {...triggerHandler} ref={ref} className="btn btn-link"
+                                        onClick={()=>navigate(`/cart/similar-products?id=${item._org._id}`) }
+                                    >see more <FaGreaterThan size={10}/><FaGreaterThan size={10}/> </button>
+                                    
+                                )}
+                            </OverlayTrigger>
+                        </div>
+                        )
+                }
+            })
+    
           })
         :<p style={{color:'red'}}>No data Found</p>
         }

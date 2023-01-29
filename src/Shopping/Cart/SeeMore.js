@@ -12,9 +12,9 @@ import QuickView from "../Home/QuickView";
 
 export default function SeeMore() {
 
-    // const [searchParams,] = useSearchParams();
+    const [searchParams,] = useSearchParams();
     const dispatch = useDispatch();
-    // console.log(searchParams.get('id'))
+    console.log(searchParams.get('id'))
     const state = useSelector((state) => state);
     const [data, setData] = useState([]);
     const navigate = useNavigate();
@@ -24,7 +24,7 @@ export default function SeeMore() {
     const [singleProduct, setSingleProduct] = useState();
 
     useEffect(() => { 
-        setData(state.allProductsReducer.allProducts.filter((item)=>item))
+        setData(state.allProductsReducer.allProducts.filter((item)=>item._org._id===searchParams.get('id')))
     }, [])
     console.log(data)
 
@@ -59,7 +59,6 @@ export default function SeeMore() {
                 <NavLink to={'/cart/similar-products'} style={{color:'#c45500',textDecoration:'none'}}>Similar-Products</NavLink>
             </div>
         <div className="productImages">
-            <h4 data-testid="product">Products</h4>
             {data.length > 0 ?
                 data.map((item, i) => {
                     return (

@@ -25,18 +25,12 @@ import SeeMore from './Shopping/Cart/SeeMore'
 
 export default function MapRoutingCustomer(){
     
-    const customerRoute = [
-        {
-            path:'/auth/login',
-            element:<Login />
-        },
+    const customerRoute = {
+    global:[
+
         {
             path: "/",
             element: < Navigate to={ "/home"} />
-        },
-        {
-            path:'/auth/registration',
-            element:<Registration />
         },
         {
             path: '/home',
@@ -46,6 +40,22 @@ export default function MapRoutingCustomer(){
             path: 'cart',
             element:<Cart />
         },
+        {
+            path: '/cart/similar-products',
+            element:<SeeMore />
+        }
+    ],
+    public:    [
+        {
+            path:'/auth/login',
+            element:<Login />
+        },
+        {
+            path:'/auth/registration',
+            element:<Registration />
+        },
+    ],
+    protected:[
         {
             path: 'profile',
             element:<Profile />
@@ -74,11 +84,8 @@ export default function MapRoutingCustomer(){
             path:'wishlist',
             element:<Wishlist />
         },
-        {
-            path: '/cart/similar-products',
-            element:<SeeMore />
-        }
-        ]
+    
+    ]}
     
 
     return customerRoute

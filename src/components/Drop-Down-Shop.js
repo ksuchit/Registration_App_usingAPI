@@ -9,6 +9,7 @@ import {CgProfile} from 'react-icons/cg'
 import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 import { FiTruck, FiHeart } from 'react-icons/fi'
+import { toast } from "react-hot-toast";
 
 export default function DropDownShop() {
   const [, setShopIsLive] = useContext(shopLoginContext);
@@ -19,6 +20,7 @@ export default function DropDownShop() {
     clearShopLocalStorage();
     cookies.set('registered', 'false');
     navigate("/home")
+    toast.success("Logout Successfully")
   };
   return (
     <>

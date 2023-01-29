@@ -12,6 +12,7 @@ import getShopToken from "./Shopping/services/Token-Service";
 import { Suspense } from "react";
 import PublicRoutingShop from "./Shopping/Auth/Public-Routing-Shop";
 import ProtectedRoutingShop from "./Shopping/Auth/Protected-Routing-Shop";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 // import Cookies from "universal-cookie";
 
 const Login=lazy(()=>import('./Seller/Auth/Login'))
@@ -53,7 +54,7 @@ function App() {
         <Routes>
 
          
-          {/* <Route element={<PublicRoutingShop />}>
+          <Route element={<PublicRoutingShop />}>
             {customerRouteData?.public.map((item,i)=>{
               return <Route path={item.path} element={item.element} key={i} />
             })}
@@ -62,10 +63,13 @@ function App() {
             {customerRouteData?.protected.map((item,i)=>{
               return <Route path={item.path} element={item.element} key={i} />
             })}
-          </Route> */}
-          {customerRouteData.map((item, i) => {
+          </Route>
+         {customerRouteData.global.map((item,i)=>{
+          return <Route path={item.path} element={item.element} key={i}/>
+         })}
+          {/* {customerRouteData.map((item, i) => {
             return <Route path={item.path} element={item.element} key={i} />
-          })}
+          })} */}
                 
            {/* PublicRouting   */}
           <Route element={<PublicRouting />}>
@@ -73,7 +77,6 @@ function App() {
             <Route path="/seller/auth/registration" element={<Registration />} />
             <Route path="/seller/auth/reset-password" element={<ResetPasswordModal /> } />
           </Route>
-
           {/* ProtectedRouting */}
           <Route element={<ProtectedRouting />}>
               {routesData.map((item,i) => {

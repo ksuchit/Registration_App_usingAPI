@@ -11,8 +11,8 @@ import { AiFillEdit ,AiFillDelete} from 'react-icons/ai'
 import {useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import UpdateAddressModal from '../Profile/Update-Address-Modal';
-import { clearCart } from '../redux/actions/Cart-Actions';
-import { changeQuantity } from '../redux/actions/Cart-Select-Item-Actions';
+import { clearCart, deleteItemFromCart } from '../redux/actions/Cart-Actions';
+import { changeQuantity, deSelectItem } from '../redux/actions/Cart-Select-Item-Actions';
 
 export default function AccordionBuy(props) {
   const dispatch = useDispatch();
@@ -253,6 +253,27 @@ export default function AccordionBuy(props) {
                       console.log(e.target.value)
                       if (e.target.value === '11')
                         navigate('/cart')
+                      else if(e.target.value === 'delete'){
+                        dispatch(deleteItemFromCart(item))
+                        Swal.fire({
+                          title: 'Are you sure?',
+                          text: "You won't be able to revert this!",
+                          icon: 'warning',
+                          showCancelButton: true,
+                          confirmButtonColor: '#3085d6',
+                          cancelButtonColor: '#d33',
+                          confirmButtonText: 'Yes, delete it!'
+                        }).then((result) => {
+                          if (result.isConfirmed) {
+                            dispatch(deSelectItem(item))
+                            Swal.fire(
+                              'Deleted!',
+                              'Your file has been deleted.',
+                              'success'
+                            )
+                          }
+                        })
+                      }
                       else
                         dispatch(changeQuantity(item, e.target.value))
                         
@@ -271,7 +292,7 @@ export default function AccordionBuy(props) {
                           <option value="10">Ten</option>
                           <OverlayTrigger
                             placement="top"
-                            overlay={<Tooltip id="button-tooltip-2">Decrease quantity</Tooltip>}
+                            overlay={<Tooltip id="button-tooltip-2">For more than 10 Qty got to CART</Tooltip>}
                           >
                           {({ ref, ...triggerHandler }) => (
                             <option value="11" {...triggerHandler} ref={ref} >Ten+</option>
