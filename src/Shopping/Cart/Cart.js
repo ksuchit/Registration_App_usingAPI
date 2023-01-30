@@ -32,7 +32,7 @@ export default function Cart() {
     
     useEffect(() => {
         if (searchParams.get('id'))
-        document.getElementById(searchParams.get('id')).scrollIntoView({ behavior: "smooth" },1000)
+        document.getElementById(searchParams.get('id'))?.scrollIntoView({ behavior: "smooth" },1000)
         onSelectAllItems();
         // setSimilar(state.cartReducer.cart.map((item)=> item._org._id))
         removeDuplicate(state.cartReducer.cart.map((item)=> item._org._id))
@@ -102,7 +102,8 @@ export default function Cart() {
                     {/* <p>Price</p> */}
                 </div>
             </div>
-            
+                    
+        {/* ***************cart Items************** */}
            { state.cartReducer.cart.map((item,i) => {
                 return (
                     <div key={item._id} id={item._id} className='d-flex p-2' style={{backgroundColor:'lightGrey',borderRadius:'7px'}}>
@@ -202,8 +203,9 @@ export default function Cart() {
             }
         <div><h6>Similar Products...</h6></div>
         </div>
+        {/* ********Price Details*********         */}
         <div className="col-3 price-details">
-            <div style={{border:'1px solid black',padding:'3%'}}>
+            <div style={{border:'1px solid black',padding:'3%',borderRadius:'5px'}}>
                 <h6>PRICE DETAILS</h6>
                 <hr/>
                 <div className="d-flex justify-content-between">
@@ -250,6 +252,7 @@ export default function Cart() {
             setShow={setLoginShow}
             />        
         </div> 
+        {/* ************Similar Products***********     */}
         <div>
         <div className="productImages">
           {similar.length>0 ?
