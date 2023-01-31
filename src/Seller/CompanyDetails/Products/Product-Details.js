@@ -9,7 +9,7 @@ import parse from 'html-react-parser'
 import ReactImageMagnify from "react-image-magnify";
 
 export default function ProductDetails() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [data, setData] = useState();
   const navigate = useNavigate();
   const [upShow, setUPShow] = useState(); //update product show
