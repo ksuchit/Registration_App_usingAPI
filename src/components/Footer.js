@@ -5,7 +5,8 @@ import React from 'react';
 import { CDBFooter, CDBBox, CDBBtn, CDBIcon } from 'cdbreact';
 import { NavLink } from 'react-router-dom';
 
- const Footer = () => {
+const Footer = () => {
+  console.log("footer")
      return (
          <div style={{backgroundColor:'grey'}}>
     <CDBFooter className="shadow">

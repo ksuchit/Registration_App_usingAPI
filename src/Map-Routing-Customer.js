@@ -1,27 +1,27 @@
 import {Navigate} from 'react-router-dom'
-// import { lazy } from 'react'
-import Login from './Shopping/Auth/Login'
-import Registration from './Shopping/Auth/Registration'
-import Home from './Shopping/Home/Home'
-import Profile from './Shopping/Profile/Profile'
-import UpdateProfile from './Shopping/Profile/Update-Profile'
-import ChangePassword from './Shopping/Auth/Change-Password'
-import Cart from './Shopping/Cart/Cart'
-import Buy from './Shopping/buy/Buy'
-import MyOrders from './Shopping/buy/My-Orders'
-import OrderDetails from './Shopping/buy/Order-Details'
+import { lazy } from 'react'
+// import Login from './Shopping/Auth/Login'
+// import Registration from './Shopping/Auth/Registration'
+// import Home from './Shopping/Home/Home'
+// import Profile from './Shopping/Profile/Profile'
+// import UpdateProfile from './Shopping/Profile/Update-Profile'
+// import ChangePassword from './Shopping/Auth/Change-Password'
+// import Cart from './Shopping/Cart/Cart'
+// import Buy from './Shopping/buy/Buy'
+// import MyOrders from './Shopping/buy/My-Orders'
+// import OrderDetails from './Shopping/buy/Order-Details'
 import Wishlist from './Shopping/Cart/Wishlist'
 import SeeMore from './Shopping/Cart/SeeMore'
-// const Home =lazy(() => import('./Shopping/Home/Home'))
-// const Login =lazy(() => import('./Shopping/auth/Login'))
-// const Registration =lazy(() => import('./Shopping/auth/Registration'))
-// const Profile =lazy(() => import('./Shopping/profile/Profile'))
-// const UpdateProfile =lazy(() => import('./Shopping/profile/Update-Profile'))
-// const ChangePassword =lazy(() => import('./Shopping/auth/Change-Password'))
-// const Cart =lazy(() => import('./Shopping/cart/Cart'))
-// const Buy=lazy(()=>import('./Shopping/buy/Buy'));
-// const MyOrders = lazy(() => import('./Shopping/buy/My-Orders'));
-// const OrderDetails = lazy(() => import('./Shopping/buy/Order-Details'));
+const Home =lazy(() => import('./Shopping/Home/Home'))
+const Login =lazy(() => import('./Shopping/Auth/Login'))
+const Registration =lazy(() => import('./Shopping/Auth/Registration'))
+const Profile =lazy(() => import('./Shopping/Profile/Profile'))
+const UpdateProfile =lazy(() => import('./Shopping/Profile/Update-Profile'))
+const ChangePassword =lazy(() => import('./Shopping/Auth/Change-Password'))
+const Cart =lazy(() => import('./Shopping/Cart/Cart'))
+const Buy=lazy(()=>import('./Shopping/buy/Buy'));
+const MyOrders = lazy(() => import('./Shopping/buy/My-Orders'));
+const OrderDetails = lazy(() => import('./Shopping/buy/Order-Details'));
 
 export default function MapRoutingCustomer(){
     
