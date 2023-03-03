@@ -11,7 +11,9 @@ import { BiHide, BiShow } from "react-icons/bi";
 export default function Login() {
     const navigate = useNavigate();
     const[,setShopIsLive]=useContext(shopLoginContext)
-    const[showPassword,setShowPassword]=useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [isCapsLockOn, setIsCapsLockOn] = useState(false)
+    
     const {
         register,
         handleSubmit,
@@ -40,6 +42,14 @@ export default function Login() {
         console.log('forgot password clicked')
         navigate('/home')
     }
+
+    const checkCapsLok = (event) => {
+        if (event.getModifierState('CapsLock'))
+            setIsCapsLockOn(true)
+        else
+            setIsCapsLockOn(false)
+    }
+
     return (
         <div className="loginContainer">
         <div className="loginPage w-25 h-auto p-2">
@@ -58,7 +68,9 @@ export default function Login() {
                     <Form.Label>Password</Form.Label>
                     <div className="position-relative">
                         <Form.Control placeholder="Enter Password" className="p-2"
-                         type={showPassword ? 'text' : 'password'}
+                           type={showPassword ? 'text' : 'password'}
+                                onKeyUp={(e)=>checkCapsLok(e)}
+                                 
                         {...register("password",{required:true , minLength:8 })}
                         />
                     
@@ -71,6 +83,7 @@ export default function Login() {
                 </Form.Group>
                 {errors.password?.type === 'required' && <p style={{ color: "red" }}>password is Required</p>}
                 {errors.password?.type === 'minLength' && <p style={{ color: "red" }}>minimum 8 charachters Required</p>}
+                {isCapsLockOn && <p style={{color:'red'}}>Warning: Caps Lock is ON</p>}    
                 <div className="d-flex justify-content-end">
                     <NavLink style={{ textDecoration: 'none' }} onClick={forgotPassword}>forget Password?</NavLink>
                 </div>
