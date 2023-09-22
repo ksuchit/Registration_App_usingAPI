@@ -54,6 +54,7 @@ const axiosInstance = axios.create({
       document.body.classList.remove('loading-indicator');
       if (err.response.request.status === 401) {
         clearLocalStorage();
+        window.location.href('login')
         // toast.success('LogOut Due to Token Expired')
       }
       return Promise.reject(err)
